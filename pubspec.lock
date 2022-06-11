@@ -78,6 +78,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  firebase_core:
+    dependency: "direct main"
+    description:
+      name: firebase_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.17.1"
+  firebase_core_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_core_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.4.0"
+  firebase_core_web:
+    dependency: transitive
+    description:
+      name: firebase_core_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.6.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -97,13 +118,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.6"
-  flutter_signin_button:
-    dependency: "direct main"
-    description:
-      name: flutter_signin_button
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -114,13 +128,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  font_awesome_flutter:
-    dependency: transitive
-    description:
-      name: font_awesome_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "9.2.0"
   image:
     dependency: transitive
     description:
@@ -184,6 +191,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
+  plugin_platform_interface:
+    dependency: transitive
+    description:
+      name: plugin_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.2"
   sky_engine:
     dependency: transitive
     description: flutter

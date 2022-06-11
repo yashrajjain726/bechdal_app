@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/logo_named.png',
+              "assets/logo_gif.gif",
               height: 300,
               width: MediaQuery.of(context).size.width,
             ),

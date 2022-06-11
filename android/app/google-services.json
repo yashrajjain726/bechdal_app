@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "402872397877",
+    "project_id": "bechdal-app",
+    "storage_bucket": "bechdal-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402872397877:android:fd38599e70fe16992b417c",
+        "android_client_info": {
+          "package_name": "com.example.bechdal_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "402872397877-lm2m3nq8s1nulv0h8qvogres0a0qto7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB47pbGz_-gVNj9epBAm7zBxaHdhAVJXXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "402872397877-lm2m3nq8s1nulv0h8qvogres0a0qto7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

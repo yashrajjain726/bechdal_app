@@ -1,6 +1,6 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,130 +9,127 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
-      body: Column(children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 100),
-                child: Image.asset(
-                  'assets/logo_named.png',
-                  width: MediaQuery.of(context).size.width,
-                  height: 250,
-                ),
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              child: Image.asset(
+                'assets/logo.png',
+                height: 200,
+                width: 200,
               ),
-              phoneNumberLoginButton(
-                  Icons.phone_android_outlined, 'Sign in with Phone Number'),
-              SizedBox(
-                height: 10,
-              ),
-              SignInButton(
-                Buttons.Google,
-                onPressed: () {},
-                padding: EdgeInsets.symmetric(horizontal: 50),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              SignInButton(
-                Buttons.FacebookNew,
-                onPressed: () {},
-                padding: EdgeInsets.symmetric(horizontal: 50),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'OR',
-                style: TextStyle(
-                  color: blackColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Login with Email',
-                style: TextStyle(
-                  color: blackColor,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50),
-          child: Column(children: [
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: 'If you continue, you are accepting ',
-                  style: TextStyle(
-                    color: blackColor,
-                  ),
-                  children: [
-                    TextSpan(
-                        text: 'Terms & Conditions ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        )),
-                    TextSpan(
-                      text: 'and \n',
-                    ),
-                    TextSpan(
-                        text: 'Privacy Policy',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ]),
+              height: MediaQuery.of(context).size.height / 2,
             ),
+            Expanded(
+              child: Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => PhoneAuthScreen()));
+                      },
+                      child: signInButtons('assets/phone.png',
+                          'Sign in with Phone Number', whiteColor, context),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    signInButtons('assets/google.png', 'Sign in with Google',
+                        whiteColor, context),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    signInButtons('assets/facebook.png',
+                        'Sign in with Facebook', facebookBgColor, context),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Login with Email',
+                      style: TextStyle(
+                        color: blackColor,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: termsAndConditionBanner())
           ]),
-        )
+    );
+  }
+
+  Widget termsAndConditionBanner() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Column(children: [
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+              text: 'If you continue, you are accepting ',
+              style: TextStyle(
+                color: blackColor,
+                fontSize: 12,
+              ),
+              children: [
+                TextSpan(
+                    text: 'Terms & Conditions ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    )),
+                TextSpan(
+                  text: 'and \n',
+                ),
+                TextSpan(
+                    text: 'Privacy Policy',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    )),
+              ]),
+        ),
       ]),
     );
   }
 
-  Widget phoneNumberLoginButton(IconData icon, String text) {
+  Widget signInButtons(
+      String icon, String text, Color bgColor, BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 50),
-      elevation: 2,
-      child: Container(
-        height: 36,
-        color: greyColor,
-        padding: EdgeInsets.zero,
-        margin: EdgeInsets.zero,
-        child: MaterialButton(
-            elevation: 2,
-            onPressed: () {},
-            padding: EdgeInsets.zero,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.phone_android_outlined,
-                  color: whiteColor,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  text,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
+        color: bgColor,
+        margin: EdgeInsets.symmetric(horizontal: 30),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                  height: 30,
+                  margin: EdgeInsets.only(left: 20),
+                  child: Image.asset(
+                    icon,
+                  )),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      color: (bgColor == whiteColor) ? blackColor : whiteColor,
+                      fontSize: 15,
+                    ),
                   ),
-                )
-              ],
-            )),
-      ),
-    );
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
