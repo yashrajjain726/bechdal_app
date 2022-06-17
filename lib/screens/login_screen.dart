@@ -1,8 +1,11 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
+import 'package:bechdal_app/screens/location_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const String screenId = 'login_screen';
   const LoginScreen({Key? key}) : super(key: key);
 
   @override

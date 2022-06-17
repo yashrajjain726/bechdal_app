@@ -1,4 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/screens/auth/otp_screen.dart';
+import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
+import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
 import 'package:bechdal_app/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,20 +18,18 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future.delayed(Duration(
-          seconds: 5,
-        )),
-        builder: (context, snapshot) {
-          return MaterialApp(
-            theme: ThemeData(
-              primaryColor: blackColor,
-            ),
-            debugShowCheckedModeBanner: false,
-            home: (snapshot.connectionState == ConnectionState.waiting)
-                ? SplashScreen()
-                : LoginScreen(),
-          );
-        });
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: blackColor,
+      ),
+      debugShowCheckedModeBanner: false,
+      initialRoute: SplashScreen.screenId,
+      routes: {
+        SplashScreen.screenId: (context) => SplashScreen(),
+        LoginScreen.screenId: (context) => LoginScreen(),
+        PhoneAuthScreen.screenId: (context) => PhoneAuthScreen(),
+        LocationScreen.screenId: (context) => LocationScreen(),
+      },
+    );
   }
 }

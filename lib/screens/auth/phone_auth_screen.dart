@@ -1,8 +1,12 @@
+import 'package:bechdal_app/common/common_function.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/services/phone_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
+  static const String screenId = 'phone_auth_screen';
   const PhoneAuthScreen({Key? key}) : super(key: key);
 
   @override
@@ -10,12 +14,23 @@ class PhoneAuthScreen extends StatefulWidget {
 }
 
 class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
+  PhoneAuthService phoneAuthService = PhoneAuthService();
   var countryCodeController = TextEditingController(text: '+91');
   var phoneNumberController = TextEditingController();
   String counterText = '0';
   bool validate = false;
+  bool isLoading = true;
+  String verificationIdFinal = "";
+
   @override
   Widget build(BuildContext context) {
+    ProgressDialog progressDialog = ProgressDialog(
+      context: context,
+      backgroundColor: whiteColor,
+      textColor: blackColor,
+      loadingText: 'Verifying details..',
+      progressIndicatorColor: blackColor,
+    );
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
@@ -31,11 +46,11 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             ),
           )),
       body: loginViaPhoneWidget(context),
-      bottomNavigationBar: bottomNavigationBar(),
+      bottomNavigationBar: bottomNavigationBar(progressDialog),
     );
   }
 
-  Widget bottomNavigationBar() {
+  Widget bottomNavigationBar(ProgressDialog progressDialog) {
     return SafeArea(
       child: Container(
         color: whiteColor,
@@ -46,14 +61,14 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             child: ElevatedButton(
               style: ButtonStyle(
                   backgroundColor: (validate)
-                      ? MaterialStateProperty.all(
-                          Theme.of(context).primaryColor)
+                      ? MaterialStateProperty.all(primaryColor)
                       : MaterialStateProperty.all(greyColor)),
               onPressed: () {
                 String number =
                     '${countryCodeController.text}${phoneNumberController.text}';
-                alertDialogBox(context);
-                authenticateNumber(number);
+                loadingDialogBox(context);
+                print(number);
+                phoneAuthService.verifyPhoneNumber(context, number);
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -74,10 +89,11 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   Widget loginViaPhoneWidget(BuildContext context) {
     return Container(
       color: whiteColor,
+      width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               height: 40,
@@ -175,34 +191,4 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       ),
     );
   }
-
-  void alertDialogBox(BuildContext context) {
-    AlertDialog alert = AlertDialog(
-      content: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(greyColor),
-            ),
-            SizedBox(
-              width: 30,
-            ),
-            Text(
-              'Please wait',
-              style: TextStyle(
-                color: blackColor,
-              ),
-            )
-          ]),
-    );
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return alert;
-        });
-  }
-
-  void authenticateNumber(String number) {}
 }
