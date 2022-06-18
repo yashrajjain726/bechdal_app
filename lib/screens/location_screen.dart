@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bechdal_app/common/common_function.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,19 +11,19 @@ class LocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Homepage'),
-      ),
-      body: Center(
-          child: ElevatedButton(
-        onPressed: () {
-          FirebaseAuth.instance.signOut().then((value) =>
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (builder) => LoginScreen())));
-        },
-        child: Text('Sign Out'),
-      )),
-    );
+    return appBarWidget('Select Location', bodyLocationWidget(context));
+  }
+
+  Widget bodyLocationWidget(context) {
+    return Center(
+        child: ElevatedButton(
+      onPressed: () {
+        FirebaseAuth.instance.signOut().then((value) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (builder) => LoginScreen()));
+        });
+      },
+      child: const Text('Sign Out'),
+    ));
   }
 }

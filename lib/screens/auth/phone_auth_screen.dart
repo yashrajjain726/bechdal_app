@@ -31,59 +31,18 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       loadingText: 'Verifying details..',
       progressIndicatorColor: blackColor,
     );
-    return Scaffold(
-      appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          iconTheme: IconThemeData(color: blackColor),
-          backgroundColor: whiteColor,
-          title: Text(
-            'Login',
-            style: TextStyle(
-              color: blackColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          )),
-      body: loginViaPhoneWidget(context),
-      bottomNavigationBar: bottomNavigationBar(progressDialog),
-    );
+    return appBarWidget('Login', loginViaPhoneWidget(context),
+        bottomNavigation: bottomNavigationWidget(
+            validate, signInValidate, 'Next',
+            progressDialog: progressDialog));
   }
 
-  Widget bottomNavigationBar(ProgressDialog progressDialog) {
-    return SafeArea(
-      child: Container(
-        color: whiteColor,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: AbsorbPointer(
-            absorbing: !validate,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: (validate)
-                      ? MaterialStateProperty.all(primaryColor)
-                      : MaterialStateProperty.all(greyColor)),
-              onPressed: () {
-                String number =
-                    '${countryCodeController.text}${phoneNumberController.text}';
-                loadingDialogBox(context);
-                print(number);
-                phoneAuthService.verifyPhoneNumber(context, number);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Next',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  void signInValidate() {
+    String number =
+        '${countryCodeController.text}${phoneNumberController.text}';
+    loadingDialogBox(context, 'Please wait');
+    print(number);
+    phoneAuthService.verifyPhoneNumber(context, number);
   }
 
   Widget loginViaPhoneWidget(BuildContext context) {

@@ -1,7 +1,8 @@
+import 'dart:async';
+
+import 'package:bechdal_app/common/common_function.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
-import 'package:bechdal_app/screens/location_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -16,7 +17,7 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               child: Image.asset(
                 'assets/logo.png',
                 height: 200,
@@ -35,25 +36,25 @@ class LoginScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (builder) => PhoneAuthScreen()));
+                                builder: (builder) => const PhoneAuthScreen()));
                       },
                       child: signInButtons('assets/phone.png',
                           'Sign in with Phone Number', whiteColor, context),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     signInButtons('assets/google.png', 'Sign in with Google',
                         whiteColor, context),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     signInButtons('assets/facebook.png',
                         'Sign in with Facebook', facebookBgColor, context),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       'Login with Email',
                       style: TextStyle(
                         color: blackColor,
@@ -66,7 +67,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             Container(
-                margin: EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(bottom: 20),
                 child: termsAndConditionBanner())
           ]),
     );
@@ -78,7 +79,7 @@ class LoginScreen extends StatelessWidget {
       child: Column(children: [
         RichText(
           textAlign: TextAlign.center,
-          text: TextSpan(
+          text: const TextSpan(
               text: 'If you continue, you are accepting ',
               style: TextStyle(
                 color: blackColor,
@@ -108,7 +109,7 @@ class LoginScreen extends StatelessWidget {
       String icon, String text, Color bgColor, BuildContext context) {
     return Card(
         color: bgColor,
-        margin: EdgeInsets.symmetric(horizontal: 30),
+        margin: const EdgeInsets.symmetric(horizontal: 30),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
           child: Row(
@@ -116,7 +117,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               Container(
                   height: 30,
-                  margin: EdgeInsets.only(left: 20),
+                  margin: const EdgeInsets.only(left: 20),
                   child: Image.asset(
                     icon,
                   )),

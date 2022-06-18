@@ -59,7 +59,7 @@ class PhoneAuthService {
   Future<void> signInwithPhoneNumber(
       String verificationId, String smsCode, BuildContext context) async {
     try {
-      loadingDialogBox(context);
+      loadingDialogBox(context, 'Please Wait');
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
 
