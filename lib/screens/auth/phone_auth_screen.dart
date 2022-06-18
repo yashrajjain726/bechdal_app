@@ -1,5 +1,5 @@
-import 'package:bechdal_app/common/common_function.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/services/phone_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

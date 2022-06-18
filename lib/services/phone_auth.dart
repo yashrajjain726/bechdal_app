@@ -1,15 +1,14 @@
-import 'package:bechdal_app/common/common_function.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/screens/auth/otp_screen.dart';
-import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PhoneAuthService {
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final storage = FlutterSecureStorage();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final storage = const FlutterSecureStorage();
   Future<void> verifyPhoneNumber(
     BuildContext context,
     number,
@@ -96,7 +95,7 @@ class PhoneAuthService {
     AlertDialog alert = AlertDialog(
       content: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           color: blackColor,
         ),
       ),

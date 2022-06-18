@@ -1,8 +1,7 @@
 // ignore_for_file: unnecessary_const
 
-import 'package:bechdal_app/common/common_function.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
+import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/services/phone_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

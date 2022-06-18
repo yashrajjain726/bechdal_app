@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bechdal_app/common/common_function.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:flutter/material.dart';
