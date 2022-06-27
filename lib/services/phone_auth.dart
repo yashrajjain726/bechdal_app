@@ -2,6 +2,7 @@ import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/screens/auth/otp_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,6 +10,30 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class PhoneAuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final storage = const FlutterSecureStorage();
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  // User? user = FirebaseAuth.instance.currentUser;
+
+  Future<void> addUser(BuildContext context, user) async {
+    final uid = user!.uid;
+    final mobileNo = user!.phoneNumber;
+    final email = user!.email;
+
+    final QuerySnapshot userDataQuery =
+        await users.where('uid', isEqualTo: user!.uid).get();
+    List<DocumentSnapshot> wasUserPresentInDatabase = userDataQuery.docs;
+    if (wasUserPresentInDatabase.isNotEmpty) {
+      Navigator.pushReplacementNamed(context, LocationScreen.screenId);
+    } else {
+      return users.doc(uid).set({
+        'uid': uid,
+        'mobile_no': mobileNo,
+        'email': email,
+      }).then((value) {
+        Navigator.pushReplacementNamed(context, LocationScreen.screenId);
+      }).catchError((error) => print("Failed to add user: $error"));
+    }
+  }
+
   Future<void> verifyPhoneNumber(
     BuildContext context,
     number,
@@ -67,11 +92,7 @@ class PhoneAuthService {
 
       Navigator.pop(context);
       if (userCredential != null) {
-        storeTokenAndData(userCredential);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (builder) => LocationScreen()),
-        );
+        addUser(context, userCredential.user);
       } else {
         wrongDetailsAlertBox('Login Failed, Please retry again.', context);
       }
@@ -104,7 +125,7 @@ class PhoneAuthService {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text(
+            child: const Text(
               'Ok',
             )),
       ],

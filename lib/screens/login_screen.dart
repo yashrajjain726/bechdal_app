@@ -1,6 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String screenId = 'login_screen';
@@ -15,10 +16,10 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              child: Image.asset(
-                'assets/logo.png',
-                height: 200,
-                width: 200,
+              child: Lottie.asset(
+                'assets/login_lottie.json',
+                height: 300,
+                width: 300,
               ),
               height: MediaQuery.of(context).size.height / 2,
             ),

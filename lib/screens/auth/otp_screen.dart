@@ -2,7 +2,9 @@
 
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/services/phone_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_text_field.dart';
@@ -25,6 +27,7 @@ class _OTPScreenState extends State<OTPScreen> {
   String smsCode = "";
 
   PhoneAuthService phoneAuthService = PhoneAuthService();
+
   @override
   Widget build(BuildContext context) {
     return appBarWidget('Verify OTP', otpBodyWidget(context),
@@ -33,6 +36,7 @@ class _OTPScreenState extends State<OTPScreen> {
   }
 
   Future<void> validateOTP() async {
+    print('sms code is : $smsCode');
     await phoneAuthService.signInwithPhoneNumber(
         widget.verificationIdFinal, smsCode, context);
   }
