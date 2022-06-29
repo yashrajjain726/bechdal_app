@@ -3,7 +3,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
-import 'package:bechdal_app/services/phone_auth.dart';
+import 'package:bechdal_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _OTPScreenState extends State<OTPScreen> {
   bool isPinEntered = false;
   String smsCode = "";
 
-  PhoneAuthService phoneAuthService = PhoneAuthService();
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _OTPScreenState extends State<OTPScreen> {
 
   Future<void> validateOTP() async {
     print('sms code is : $smsCode');
-    await phoneAuthService.signInwithPhoneNumber(
+    await authService.signInwithPhoneNumber(
         widget.verificationIdFinal, smsCode, context);
   }
 

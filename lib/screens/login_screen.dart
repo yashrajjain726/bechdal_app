@@ -1,12 +1,20 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
+import 'package:bechdal_app/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String screenId = 'login_screen';
   const LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +50,17 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    signInButtons('assets/google.png', 'Sign in with Google',
-                        whiteColor, context),
+                    InkWell(
+                      onTap: () async {
+                        User? user = await AuthService.signInWithGoogle(
+                            context: context);
+                        if (user != null) {
+                          authService.addUser(context, user);
+                        }
+                      },
+                      child: signInButtons('assets/google.png',
+                          'Sign in with Google', whiteColor, context),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),

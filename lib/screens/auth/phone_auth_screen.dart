@@ -1,6 +1,6 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
-import 'package:bechdal_app/services/phone_auth.dart';
+import 'package:bechdal_app/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
@@ -14,7 +14,7 @@ class PhoneAuthScreen extends StatefulWidget {
 }
 
 class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
-  PhoneAuthService phoneAuthService = PhoneAuthService();
+  AuthService authService = AuthService();
   var countryCodeController = TextEditingController(text: '+91');
   var phoneNumberController = TextEditingController();
   String counterText = '0';
@@ -42,7 +42,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
         '${countryCodeController.text}${phoneNumberController.text}';
     loadingDialogBox(context, 'Please wait');
     print(number);
-    phoneAuthService.verifyPhoneNumber(context, number);
+    authService.verifyPhoneNumber(context, number);
   }
 
   Widget loginViaPhoneWidget(BuildContext context) {

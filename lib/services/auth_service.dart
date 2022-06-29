@@ -1,18 +1,18 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/screens/auth/otp_screen.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class PhoneAuthService {
+class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final storage = const FlutterSecureStorage();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  // User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> addUser(BuildContext context, user) async {
     final uid = user!.uid;
@@ -30,7 +30,9 @@ class PhoneAuthService {
         permission,
       );
     } else {
-      Navigator.pushReplacementNamed(context, LocationScreen.screenId);
+      fetchLocationAndAddress(
+          context, selectedLocation, serviceEnabled, permission,
+          navigateTo: const LocationScreen());
       return users.doc(uid).set({
         'uid': uid,
         'mobile_no': mobileNo,
@@ -145,5 +147,69 @@ class PhoneAuthService {
         builder: (BuildContext context) {
           return alert;
         });
+  }
+
+  static Future<User?> signInWithGoogle({required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+
+    if (kIsWeb) {
+      GoogleAuthProvider authProvider = GoogleAuthProvider();
+
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithPopup(authProvider);
+
+        user = userCredential.user;
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        try {
+          final UserCredential userCredential =
+              await auth.signInWithCredential(credential);
+
+          user = userCredential.user;
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'account-exists-with-different-credential') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              customSnackBar(
+                content:
+                    'The account already exists with a different credential',
+              ),
+            );
+          } else if (e.code == 'invalid-credential') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              customSnackBar(
+                content:
+                    'Error occurred while accessing credentials. Try again.',
+              ),
+            );
+          }
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            customSnackBar(
+              content: 'Error occurred using Google Sign In. Try again.',
+            ),
+          );
+        }
+      }
+    }
+
+    return user;
   }
 }

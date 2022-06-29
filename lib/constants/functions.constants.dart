@@ -120,11 +120,8 @@ Widget bottomNavigationWidget(
 }
 
 void fetchLocationAndAddress(
-  context,
-  selectedLocation,
-  serviceEnabled,
-  LocationPermission? permission,
-) async {
+    context, selectedLocation, serviceEnabled, LocationPermission? permission,
+    {Widget? navigateTo}) async {
   Position? position =
       await getCurrentLocation(context, serviceEnabled, permission);
   print('positions are $position');
@@ -133,38 +130,51 @@ void fetchLocationAndAddress(
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (builder) => HomeScreen(
+            builder: (builder) =>
+                navigateTo ??
+                HomeScreen(
                   fetchedLocation: selectedLocation,
                 )));
   }
 }
 
-Future<String?> getFetchedAddress(Position position) async {
+Future<String?> getFetchedAddress(Position? position) async {
   List<Placemark> placemarks =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+      await placemarkFromCoordinates(position!.latitude, position.longitude);
   Placemark place = placemarks[0];
   return '${place.subLocality}, ${place.postalCode}';
 }
 
-Future<Position> getCurrentLocation(context, serviceEnabled, permission) async {
+Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled!) {
     await Geolocator.openLocationSettings();
-    return loadingDialogBox(context, 'Location services are disabled.');
+    return customSnackBar(content: 'Location services are disabled.');
   }
 
   permission = await Geolocator.checkPermission();
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
-      return loadingDialogBox(context, 'Location permissions are denied');
+      return customSnackBar(content: 'Location permissions are denied');
     }
   }
 
   if (permission == LocationPermission.deniedForever) {
-    return loadingDialogBox(context,
-        'Location permissions are permanently denied, we cannot request permissions.');
+    return customSnackBar(
+        content:
+            'Location permissions are permanently denied, we cannot request permissions.');
   }
   return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
+}
+
+SnackBar customSnackBar({required String content}) {
+  return SnackBar(
+    backgroundColor: blackColor,
+    content: Text(
+      content,
+      style: TextStyle(color: whiteColor, letterSpacing: 0.5),
+    ),
+  );
 }
