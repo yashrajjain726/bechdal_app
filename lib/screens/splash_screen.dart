@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,12 +20,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () {
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    Timer(Duration(seconds: 5), () async {
+      FirebaseAuth.instance.authStateChanges().listen((User? user) async {
         if (user == null) {
           Navigator.pushReplacementNamed(context, LoginScreen.screenId);
         } else {
-          Navigator.pushReplacementNamed(context, LocationScreen.screenId);
+          fetchLocationAndAddress(
+            context,
+            selectedLocation,
+            serviceEnabled,
+            permission,
+          );
         }
       });
     });

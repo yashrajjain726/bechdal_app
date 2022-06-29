@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             SizedBox(
               child: Lottie.asset(
-                'assets/login_lottie.json',
+                "assets/lottie/login_lottie.json",
                 height: 300,
                 width: 300,
               ),

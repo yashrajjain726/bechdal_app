@@ -1,6 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/screens/auth/otp_screen.dart';
+import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,14 +23,21 @@ class PhoneAuthService {
         await users.where('uid', isEqualTo: user!.uid).get();
     List<DocumentSnapshot> wasUserPresentInDatabase = userDataQuery.docs;
     if (wasUserPresentInDatabase.isNotEmpty) {
-      Navigator.pushReplacementNamed(context, LocationScreen.screenId);
+      fetchLocationAndAddress(
+        context,
+        selectedLocation,
+        serviceEnabled,
+        permission,
+      );
     } else {
+      Navigator.pushReplacementNamed(context, LocationScreen.screenId);
       return users.doc(uid).set({
         'uid': uid,
         'mobile_no': mobileNo,
         'email': email,
+        'location': selectedLocation,
       }).then((value) {
-        Navigator.pushReplacementNamed(context, LocationScreen.screenId);
+        print('user added successfully');
       }).catchError((error) => print("Failed to add user: $error"));
     }
   }

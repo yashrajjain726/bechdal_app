@@ -31,7 +31,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       loadingText: 'Verifying details..',
       progressIndicatorColor: blackColor,
     );
-    return appBarWidget('Login', loginViaPhoneWidget(context),
+    return appBarWidget(context, 'Login', loginViaPhoneWidget(context), true,
         bottomNavigation: bottomNavigationWidget(
             validate, signInValidate, 'Next',
             progressDialog: progressDialog));
@@ -46,107 +46,103 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   }
 
   Widget loginViaPhoneWidget(BuildContext context) {
-    return Container(
-      color: whiteColor,
-      width: MediaQuery.of(context).size.width,
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 40,
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 40,
+          ),
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: whiteColor,
+            child: Icon(
+              CupertinoIcons.person_alt_circle,
+              color: primaryColor,
+              size: 60,
             ),
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: whiteColor,
-              child: Icon(
-                CupertinoIcons.person_alt_circle,
-                color: primaryColor,
-                size: 60,
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Text(
+            'Enter your Phone Number',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'We will send confitmation code to your phone number',
+            style: TextStyle(
+              color: greyColor,
+            ),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Row(
+            children: [
+              Expanded(
+                  flex: 1,
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    controller: countryCodeController,
+                    decoration: InputDecoration(
+                        labelText: 'Country',
+                        enabled: false,
+                        contentPadding: EdgeInsets.all(20),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                  )),
+              SizedBox(
+                width: 10,
               ),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-              'Enter your Phone Number',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'We will send confitmation code to your phone number',
-              style: TextStyle(
-                color: greyColor,
-              ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Row(
-              children: [
-                Expanded(
-                    flex: 1,
+              Expanded(
+                  flex: 3,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20),
                     child: TextFormField(
-                      textAlign: TextAlign.center,
-                      controller: countryCodeController,
+                      autofocus: true,
+                      maxLength: 10,
+                      onChanged: (value) {
+                        setState(() {
+                          counterText = value.length.toString();
+                        });
+                        if (value.length == 10) {
+                          setState(() {
+                            validate = true;
+                          });
+                        }
+                        if (value.length < 10) {
+                          setState(() {
+                            validate = false;
+                          });
+                        }
+                      },
+                      controller: phoneNumberController,
+                      keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                          labelText: 'Country',
-                          enabled: false,
+                          counterText: '$counterText/10',
+                          counterStyle: TextStyle(fontSize: 10),
+                          labelText: 'Phone Number',
+                          hintText: 'Enter Your Phone Number',
+                          hintStyle: TextStyle(
+                            color: greyColor,
+                            fontSize: 12,
+                          ),
                           contentPadding: EdgeInsets.all(20),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8))),
-                    )),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                    flex: 3,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: TextFormField(
-                        autofocus: true,
-                        maxLength: 10,
-                        onChanged: (value) {
-                          setState(() {
-                            counterText = value.length.toString();
-                          });
-                          if (value.length == 10) {
-                            setState(() {
-                              validate = true;
-                            });
-                          }
-                          if (value.length < 10) {
-                            setState(() {
-                              validate = false;
-                            });
-                          }
-                        },
-                        controller: phoneNumberController,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                            counterText: '$counterText/10',
-                            counterStyle: TextStyle(fontSize: 10),
-                            labelText: 'Phone Number',
-                            hintText: 'Enter Your Phone Number',
-                            hintStyle: TextStyle(
-                              color: greyColor,
-                              fontSize: 12,
-                            ),
-                            contentPadding: EdgeInsets.all(20),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8))),
-                      ),
-                    )),
-              ],
-            )
-          ],
-        ),
+                    ),
+                  )),
+            ],
+          )
+        ],
       ),
     );
   }

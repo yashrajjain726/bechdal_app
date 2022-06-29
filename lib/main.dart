@@ -1,6 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/auth/otp_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
+import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
 import 'package:bechdal_app/screens/splash_screen.dart';
@@ -29,6 +30,7 @@ class Main extends StatelessWidget {
         LoginScreen.screenId: (context) => LoginScreen(),
         PhoneAuthScreen.screenId: (context) => PhoneAuthScreen(),
         LocationScreen.screenId: (context) => LocationScreen(),
+        HomeScreen.screenId: (context) => HomeScreen(),
       },
     );
   }
