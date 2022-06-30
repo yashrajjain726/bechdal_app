@@ -31,7 +31,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       loadingText: 'Verifying details..',
       progressIndicatorColor: blackColor,
     );
-    return appBarWidget(context, 'Login', loginViaPhoneWidget(context), true,
+    return appBarWidget(
+        context, 'Login', loginViaPhoneWidget(context), true, true,
         bottomNavigation: bottomNavigationWidget(
             validate, signInValidate, 'Next',
             progressDialog: progressDialog));

@@ -1,6 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
+import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 await googleSignIn.signOut();
               }
               await FirebaseAuth.instance.signOut().then((value) {
-                Navigator.pushReplacementNamed(context, LoginScreen.screenId);
+                Navigator.pushReplacementNamed(context, WelcomeScreen.screenId);
               });
               ;
             } catch (e) {

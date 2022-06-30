@@ -30,7 +30,8 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return appBarWidget(context, 'Verify OTP', otpBodyWidget(context), true,
+    return appBarWidget(
+        context, 'Verify OTP', otpBodyWidget(context), true, true,
         bottomNavigation:
             bottomNavigationWidget(isPinEntered, validateOTP, 'Next'));
   }

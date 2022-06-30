@@ -5,6 +5,7 @@ import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
 import 'package:bechdal_app/screens/splash_screen.dart';
+import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +32,7 @@ class Main extends StatelessWidget {
         PhoneAuthScreen.screenId: (context) => PhoneAuthScreen(),
         LocationScreen.screenId: (context) => LocationScreen(),
         HomeScreen.screenId: (context) => HomeScreen(),
+        WelcomeScreen.screenId: (context) => WelcomeScreen()
       },
     );
   }

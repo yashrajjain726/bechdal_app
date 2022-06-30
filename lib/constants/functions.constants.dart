@@ -37,14 +37,14 @@ loadingDialogBox(BuildContext context, String loadingMessage) {
       });
 }
 
-Widget appBarWidget(
-    BuildContext context, String text, Widget body, bool containsAppbar,
+Widget appBarWidget(BuildContext context, String text, Widget body,
+    bool containsAppbar, bool centerTitle,
     {Widget? bottomNavigation}) {
   return Scaffold(
     appBar: containsAppbar
         ? AppBar(
             elevation: 0,
-            centerTitle: true,
+            centerTitle: centerTitle,
             iconTheme: const IconThemeData(color: blackColor),
             backgroundColor: whiteColor,
             title: Text(
@@ -94,7 +94,7 @@ Widget bottomNavigationWidget(
     child: Container(
       color: whiteColor,
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
         child: AbsorbPointer(
           absorbing: !validator,
           child: ElevatedButton(
@@ -104,11 +104,12 @@ Widget bottomNavigationWidget(
                     : MaterialStateProperty.all(greyColor)),
             onPressed: onPressed,
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(
                 buttonText,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontSize: 15,
                 ),
               ),
             ),
@@ -175,6 +176,43 @@ SnackBar customSnackBar({required String content}) {
     content: Text(
       content,
       style: TextStyle(color: whiteColor, letterSpacing: 0.5),
+    ),
+  );
+}
+
+Widget roundedButton({
+  context,
+  Color? bgColor,
+  Function()? onPressed,
+  Color? textColor,
+  String? text,
+  Color? borderColor,
+}) {
+  return Container(
+    width: double.infinity,
+    child: ElevatedButton(
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(
+                color: borderColor ?? primaryColor,
+              ),
+            ),
+          ),
+          backgroundColor: MaterialStateProperty.all(bgColor)),
+      onPressed: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: Text(
+          text!,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+            color: textColor,
+          ),
+        ),
+      ),
     ),
   );
 }

@@ -17,7 +17,7 @@ class LocationScreen extends StatefulWidget {
 class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
-    return appBarWidget(context, '', bodyLocationWidget(context), false,
+    return appBarWidget(context, '', bodyLocationWidget(context), false, true,
         bottomNavigation: Container(
           color: whiteColor,
           child: Padding(
