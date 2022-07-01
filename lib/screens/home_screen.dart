@@ -90,10 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
               });
               ;
             } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                customSnackBar(
-                  content: 'Error signing out. Try again.',
-                ),
+              customSnackBar(
+                context: context,
+                content: 'Error signing out. Try again.',
               );
             }
           },

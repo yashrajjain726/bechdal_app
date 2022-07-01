@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -143,26 +145,30 @@ Future<String?> getFetchedAddress(Position? position) async {
   List<Placemark> placemarks =
       await placemarkFromCoordinates(position!.latitude, position.longitude);
   Placemark place = placemarks[0];
-  return '${place.subLocality}, ${place.postalCode}';
+  print(place);
+  return '${place.locality}, ${place.postalCode}';
 }
 
 Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled!) {
     await Geolocator.openLocationSettings();
-    return customSnackBar(content: 'Location services are disabled.');
+    return customSnackBar(
+        context: context, content: 'Location services are disabled.');
   }
 
   permission = await Geolocator.checkPermission();
   if (permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
-      return customSnackBar(content: 'Location permissions are denied');
+      return customSnackBar(
+          context: context, content: 'Location permissions are denied');
     }
   }
 
   if (permission == LocationPermission.deniedForever) {
     return customSnackBar(
+        context: context,
         content:
             'Location permissions are permanently denied, we cannot request permissions.');
   }
@@ -170,14 +176,15 @@ Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {
       desiredAccuracy: LocationAccuracy.high);
 }
 
-SnackBar customSnackBar({required String content}) {
-  return SnackBar(
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(
+    {required BuildContext context, required String content}) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     backgroundColor: blackColor,
     content: Text(
       content,
       style: TextStyle(color: whiteColor, letterSpacing: 0.5),
     ),
-  );
+  ));
 }
 
 Widget roundedButton({
@@ -215,4 +222,73 @@ Widget roundedButton({
       ),
     ),
   );
+}
+
+Widget signInButtons(String icon, Color bgColor, BuildContext context) {
+  return Card(
+      color: bgColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Container(
+          decoration: BoxDecoration(shape: BoxShape.circle),
+          margin: const EdgeInsets.all(10),
+          height: 20,
+          child: Image.asset(
+            icon,
+          )));
+}
+
+wrongDetailsAlertBox(String text, BuildContext context) {
+  AlertDialog alert = AlertDialog(
+    content: Text(
+      text,
+      style: const TextStyle(
+        color: blackColor,
+      ),
+    ),
+    actions: [
+      TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text(
+            'Ok',
+          )),
+    ],
+  );
+
+  showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      });
+}
+
+String? validateEmail(value, isValid) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter your email';
+  }
+  if (value.isNotEmpty && isValid == false) {
+    return 'Please, enter a valide email';
+  }
+  return null;
+}
+
+String? validatePassword(value, email) {
+  if (email.isNotEmpty) {
+    if (value.length < 3) {
+      return 'Please enter a valid password';
+    }
+  }
+  return null;
+}
+
+String? validateName(value, nameType) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter your $nameType name';
+  }
+
+  return null;
 }

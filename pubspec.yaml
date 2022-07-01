@@ -44,6 +44,7 @@ dependencies:
   geolocator: ^8.2.1
   geocoding: ^2.0.4
   google_sign_in: ^5.3.3
+  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_test:

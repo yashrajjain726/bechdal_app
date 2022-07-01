@@ -14,34 +14,37 @@ class AuthService {
   final storage = const FlutterSecureStorage();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-  Future<void> addUser(BuildContext context, user) async {
-    final uid = user!.uid;
-    final mobileNo = user!.phoneNumber;
-    final email = user!.email;
-
+  Future<void> getAdminCredentialPhoneNumber(BuildContext context, user) async {
     final QuerySnapshot userDataQuery =
         await users.where('uid', isEqualTo: user!.uid).get();
     List<DocumentSnapshot> wasUserPresentInDatabase = userDataQuery.docs;
     if (wasUserPresentInDatabase.isNotEmpty) {
       fetchLocationAndAddress(
-        context,
-        selectedLocation,
-        serviceEnabled,
-        permission,
-      );
+          context, selectedLocation, serviceEnabled, permission);
     } else {
-      fetchLocationAndAddress(
-          context, selectedLocation, serviceEnabled, permission,
-          navigateTo: const LocationScreen());
-      return users.doc(uid).set({
-        'uid': uid,
-        'mobile_no': mobileNo,
-        'email': email,
-        'location': selectedLocation,
-      }).then((value) {
-        print('user added successfully');
-      }).catchError((error) => print("Failed to add user: $error"));
+      signUpWithPhoneNumber(user, context);
     }
+  }
+
+  Future<void> signUpWithPhoneNumber(user, context) {
+    final uid = user!.uid;
+    final mobileNo = user!.phoneNumber;
+    final email = user!.email;
+    fetchLocationAndAddress(
+      context,
+      selectedLocation,
+      serviceEnabled,
+      permission,
+      navigateTo: const LocationScreen(),
+    );
+    return users.doc(uid).set({
+      'uid': uid,
+      'mobile_no': mobileNo,
+      'email': email,
+      'location': selectedLocation,
+    }).then((value) {
+      print('user added successfully');
+    }).catchError((error) => print("Failed to add user: $error"));
   }
 
   Future<void> verifyPhoneNumber(
@@ -102,7 +105,7 @@ class AuthService {
 
       Navigator.pop(context);
       if (userCredential != null) {
-        addUser(context, userCredential.user);
+        getAdminCredentialPhoneNumber(context, userCredential.user);
       } else {
         wrongDetailsAlertBox('Login Failed, Please retry again.', context);
       }
@@ -112,41 +115,6 @@ class AuthService {
           'The details you entered is not matching with our database. Please validate details again, before proceeding. ',
           context);
     }
-  }
-
-  void storeTokenAndData(UserCredential userCredential) async {
-    print("storing token and data");
-    await storage.write(
-        key: "token", value: userCredential.credential!.token.toString());
-    await storage.write(
-        key: "usercredential", value: userCredential.toString());
-  }
-
-  wrongDetailsAlertBox(String text, BuildContext context) {
-    AlertDialog alert = AlertDialog(
-      content: Text(
-        text,
-        style: const TextStyle(
-          color: blackColor,
-        ),
-      ),
-      actions: [
-        TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-              'Ok',
-            )),
-      ],
-    );
-
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return alert;
-        });
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
@@ -186,30 +154,87 @@ class AuthService {
           user = userCredential.user;
         } on FirebaseAuthException catch (e) {
           if (e.code == 'account-exists-with-different-credential') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              customSnackBar(
-                content:
-                    'The account already exists with a different credential',
-              ),
+            customSnackBar(
+              context: context,
+              content: 'The account already exists with a different credential',
             );
           } else if (e.code == 'invalid-credential') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              customSnackBar(
-                content:
-                    'Error occurred while accessing credentials. Try again.',
-              ),
+            customSnackBar(
+              context: context,
+              content: 'Error occurred while accessing credentials. Try again.',
             );
           }
         } catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            customSnackBar(
-              content: 'Error occurred using Google Sign In. Try again.',
-            ),
+          customSnackBar(
+            context: context,
+            content: 'Error occurred using Google Sign In. Try again.',
           );
         }
       }
     }
 
     return user;
+  }
+
+  Future<DocumentSnapshot> getAdminCredentialEmailAndPassword({
+    required BuildContext context,
+    required String email,
+    String? firstName,
+    String? lastName,
+    required String password,
+    required bool isLoginUser,
+  }) async {
+    DocumentSnapshot _result = await users.doc(email).get();
+    if (isLoginUser) {
+      signInWithEmail(context, email, password);
+    } else {
+      if (_result.exists) {
+        customSnackBar(
+            context: context,
+            content: 'An account already exists with this email');
+      } else {
+        registerWithEmail(context, email, password, firstName!, lastName!);
+      }
+    }
+    return _result;
+  }
+
+  void signInWithEmail(
+      BuildContext context, String email, String password) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        customSnackBar(
+            context: context, content: 'No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        customSnackBar(
+            context: context,
+            content: 'Wrong password provided for that user.');
+      }
+    }
+  }
+
+  void registerWithEmail(BuildContext context, String email, String password,
+      String firstName, String lastName) async {
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        customSnackBar(
+            context: context, content: 'The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        customSnackBar(
+            context: context,
+            content: 'The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
