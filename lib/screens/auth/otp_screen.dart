@@ -51,10 +51,10 @@ class _OTPScreenState extends State<OTPScreen> {
           const SizedBox(
             height: 40,
           ),
-          const CircleAvatar(
+          CircleAvatar(
             radius: 30,
             backgroundColor: whiteColor,
-            child: const Icon(
+            child: Icon(
               CupertinoIcons.person_alt_circle,
               color: primaryColor,
               size: 60,
@@ -63,9 +63,9 @@ class _OTPScreenState extends State<OTPScreen> {
           const SizedBox(
             height: 20,
           ),
-          const Text(
+          Text(
             'We have sent a 6-digit confirmation code to',
-            style: const TextStyle(
+            style: TextStyle(
               color: blackColor,
               fontSize: 15,
             ),
@@ -76,7 +76,7 @@ class _OTPScreenState extends State<OTPScreen> {
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
               widget.phoneNumber,
-              style: const TextStyle(
+              style: TextStyle(
                 color: blackColor,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -128,9 +128,9 @@ class _OTPScreenState extends State<OTPScreen> {
           const SizedBox(
             height: 0,
           ),
-          const Text(
+          Text(
             "Enter 6-digit code",
-            style: const TextStyle(
+            style: TextStyle(
               color: greyColor,
               fontSize: 12,
             ),

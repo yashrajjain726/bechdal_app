@@ -1,4 +1,3 @@
-import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/screens/auth/otp_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
@@ -22,11 +21,11 @@ class AuthService {
       fetchLocationAndAddress(
           context, selectedLocation, serviceEnabled, permission);
     } else {
-      signUpWithPhoneNumber(user, context);
+      registerWithPhoneNumber(user, context);
     }
   }
 
-  Future<void> signUpWithPhoneNumber(user, context) {
+  Future<void> registerWithPhoneNumber(user, context) {
     final uid = user!.uid;
     final mobileNo = user!.phoneNumber;
     final email = user!.email;
@@ -185,6 +184,7 @@ class AuthService {
     required bool isLoginUser,
   }) async {
     DocumentSnapshot _result = await users.doc(email).get();
+
     if (isLoginUser) {
       signInWithEmail(context, email, password);
     } else {
@@ -202,8 +202,17 @@ class AuthService {
   void signInWithEmail(
       BuildContext context, String email, String password) async {
     try {
+      loadingDialogBox(context, 'Checking details');
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      Navigator.pop(context);
+      if (credential.user!.uid != null) {
+        fetchLocationAndAddress(
+            context, selectedLocation, serviceEnabled, permission);
+      } else {
+        customSnackBar(
+            context: context, content: 'Please check with your credentials');
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         customSnackBar(
@@ -219,11 +228,30 @@ class AuthService {
   void registerWithEmail(BuildContext context, String email, String password,
       String firstName, String lastName) async {
     try {
+      loadingDialogBox(context, 'Validating details');
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      Navigator.pop(context);
+
+      if (credential.user!.uid != null) {
+        fetchLocationAndAddress(
+            context, selectedLocation, serviceEnabled, permission,
+            navigateTo: const LocationScreen());
+        return users.doc(credential.user!.uid).set({
+          'uid': credential.user!.uid,
+          'mobile_no': credential.user!.phoneNumber,
+          'email': credential.user!.email,
+        }).then((value) {
+          customSnackBar(context: context, content: 'Registered successfully');
+        }).catchError((onError) {
+          customSnackBar(
+              context: context,
+              content: 'Failed to add user to database, please try again');
+        });
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         customSnackBar(
@@ -235,6 +263,8 @@ class AuthService {
       }
     } catch (e) {
       print(e);
+      customSnackBar(
+          context: context, content: 'Error occured: ${e.toString()}');
     }
   }
 }

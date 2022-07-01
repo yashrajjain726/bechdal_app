@@ -16,15 +16,15 @@ loadingDialogBox(BuildContext context, String loadingMessage) {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(greyColor),
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(greyColor!),
           ),
           const SizedBox(
             width: 30,
           ),
           Text(
             loadingMessage,
-            style: const TextStyle(
+            style: TextStyle(
               color: blackColor,
             ),
           )
@@ -47,11 +47,11 @@ Widget appBarWidget(BuildContext context, String text, Widget body,
         ? AppBar(
             elevation: 0,
             centerTitle: centerTitle,
-            iconTheme: const IconThemeData(color: blackColor),
+            iconTheme: IconThemeData(color: blackColor),
             backgroundColor: whiteColor,
             title: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 color: blackColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -75,7 +75,7 @@ Widget appBarWidgetWithLocationBar(BuildContext context, Widget locationWidget,
         ? AppBar(
             elevation: 0,
             centerTitle: false,
-            iconTheme: const IconThemeData(color: blackColor),
+            iconTheme: IconThemeData(color: blackColor),
             backgroundColor: whiteColor,
             title: locationWidget,
           )
@@ -103,7 +103,7 @@ Widget bottomNavigationWidget(
             style: ButtonStyle(
                 backgroundColor: validator
                     ? MaterialStateProperty.all(primaryColor)
-                    : MaterialStateProperty.all(greyColor)),
+                    : MaterialStateProperty.all(disabledColor)),
             onPressed: onPressed,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
@@ -224,26 +224,52 @@ Widget roundedButton({
   );
 }
 
-Widget signInButtons(String icon, Color bgColor, BuildContext context) {
+Widget signInButtons(
+  String text,
+  String icon,
+  Color bgColor,
+  BuildContext context,
+) {
   return Card(
       color: bgColor,
+      elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Container(
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          margin: const EdgeInsets.all(10),
-          height: 20,
-          child: Image.asset(
-            icon,
-          )));
+          side: BorderSide(
+              color: bgColor == whiteColor ? blackColor : bgColor, width: 0.5),
+          borderRadius: BorderRadius.circular(15)),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+                height: 35,
+                margin: const EdgeInsets.only(left: 20),
+                child: Image.asset(
+                  icon,
+                )),
+            Expanded(
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: (bgColor == whiteColor) ? blackColor : whiteColor,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ));
 }
 
 wrongDetailsAlertBox(String text, BuildContext context) {
   AlertDialog alert = AlertDialog(
     content: Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         color: blackColor,
       ),
     ),

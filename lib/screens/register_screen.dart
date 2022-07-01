@@ -24,13 +24,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
+          SizedBox(
               width: double.infinity,
               height: 250,
               child: Padding(
@@ -38,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(left: 30),
                       child: Text(
                         'Create Account',
@@ -57,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         text: TextSpan(
                             text:
                                 'Enter your Name, Email and Password for sign up.',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: greyColor,
                               fontSize: 17,
                             ),
@@ -69,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         context, LoginScreen.screenId);
                                   },
                                 text: ' Already have account ?',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: primaryColor,
                                   fontSize: 17,
                                 ),
@@ -80,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               )),
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height - 250,
             child: Column(
               children: [
@@ -99,10 +110,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _firstNameController,
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                              filled: true,
                               labelText: 'First Name',
                               hintText: 'Enter your First Name',
-                              hintStyle: const TextStyle(
+                              hintStyle: TextStyle(
                                 color: greyColor,
                                 fontSize: 12,
                               ),
@@ -120,10 +130,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _lastNameController,
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                              filled: true,
                               labelText: 'Last Name',
                               hintText: 'Enter your Last Name',
-                              hintStyle: const TextStyle(
+                              hintStyle: TextStyle(
                                 color: greyColor,
                                 fontSize: 12,
                               ),
@@ -142,10 +151,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                              filled: true,
                               labelText: 'Email',
                               hintText: 'Enter your Email',
-                              hintStyle: const TextStyle(
+                              hintStyle: TextStyle(
                                 color: greyColor,
                                 fontSize: 12,
                               ),
@@ -174,10 +182,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       obsecure = !obsecure;
                                     });
                                   }),
-                              filled: true,
                               labelText: 'Password',
                               hintText: 'Enter Your Password',
-                              hintStyle: const TextStyle(
+                              hintStyle: TextStyle(
                                 color: greyColor,
                                 fontSize: 12,
                               ),
@@ -195,24 +202,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textColor: whiteColor,
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                loadingDialogBox(
-                                    context, 'Validating Details..');
-                                authService
-                                    .getAdminCredentialEmailAndPassword(
-                                        context: context,
-                                        firstName: _firstNameController.text,
-                                        lastName: _lastNameController.text,
-                                        email: _emailController.text,
-                                        password: _passwordController.text,
-                                        isLoginUser: false)
-                                    .then((value) {
-                                  Navigator.pop(context);
-                                  customSnackBar(
-                                      context: context,
-                                      content: 'Registered successfully');
-                                  Navigator.pushReplacementNamed(
-                                      context, LoginScreen.screenId);
-                                });
+                                authService.getAdminCredentialEmailAndPassword(
+                                    context: context,
+                                    firstName: _firstNameController.text,
+                                    lastName: _lastNameController.text,
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    isLoginUser: false);
                               }
                             }),
                       ],
@@ -220,12 +216,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   alignment: Alignment.center,
-                  child: const Text(
+                  child: Text(
                     'By Signing up you agree to our Terms and Conditions, and Privacy Policy',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -237,7 +233,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-                const Text(
+                Text(
                   'Or',
                   style: TextStyle(
                     fontSize: 18,
@@ -247,19 +243,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                Column(
                   children: [
                     InkWell(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (builder) => const PhoneAuthScreen()));
+                                builder: (builder) => PhoneAuthScreen(
+                                      isFromLogin: false,
+                                    )));
                       },
-                      child: signInButtons(
+                      child: signInButtons('SIGN UP WITH PHONE',
                           'assets/phone.png', whiteColor, context),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     InkWell(
                       onTap: () async {
@@ -270,7 +269,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               context, user);
                         }
                       },
-                      child: signInButtons(
+                      child: signInButtons('SIGN UP WITH GOOGLE',
                           'assets/google.png', whiteColor, context),
                     ),
                     const SizedBox(

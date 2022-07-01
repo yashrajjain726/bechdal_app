@@ -7,7 +7,11 @@ import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
   static const String screenId = 'phone_auth_screen';
-  const PhoneAuthScreen({Key? key}) : super(key: key);
+  final bool isFromLogin;
+  const PhoneAuthScreen({
+    Key? key,
+    this.isFromLogin = true,
+  }) : super(key: key);
 
   @override
   State<PhoneAuthScreen> createState() => _PhoneAuthScreenState();
@@ -31,8 +35,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       loadingText: 'Verifying details..',
       progressIndicatorColor: blackColor,
     );
-    return appBarWidget(
-        context, 'Login', loginViaPhoneWidget(context), true, true,
+    return appBarWidget(context, widget.isFromLogin ? 'Login' : 'Signup',
+        loginViaPhoneWidget(context), true, true,
         bottomNavigation: bottomNavigationWidget(
             validate, signInValidate, 'Next',
             progressDialog: progressDialog));
