@@ -1,28 +1,24 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
-import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 
-class OTPScreen extends StatefulWidget {
-  static const String screenId = 'otp_screen';
+class PhoneOTPScreen extends StatefulWidget {
+  static const String screenId = 'phone_otp_screen';
   final phoneNumber;
   final verificationIdFinal;
-  const OTPScreen(
+  const PhoneOTPScreen(
       {Key? key, required this.phoneNumber, required this.verificationIdFinal})
       : super(key: key);
 
   @override
-  State<OTPScreen> createState() => _OTPScreenState();
+  State<PhoneOTPScreen> createState() => _PhoneOTPScreenState();
 }
 
-class _OTPScreenState extends State<OTPScreen> {
+class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
   bool isPinEntered = false;
   String smsCode = "";
 

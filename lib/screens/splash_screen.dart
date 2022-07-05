@@ -2,10 +2,14 @@ import 'dart:async';
 
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/screens/home_screen.dart';
+import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String screenId = 'splash_screen';
@@ -18,18 +22,17 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    permissionBasedNavigationFunc();
     super.initState();
+  }
+
+  permissionBasedNavigationFunc() {
     Timer(Duration(seconds: 4), () async {
       FirebaseAuth.instance.authStateChanges().listen((User? user) async {
         if (user == null) {
           Navigator.pushReplacementNamed(context, WelcomeScreen.screenId);
         } else {
-          fetchLocationAndAddress(
-            context,
-            selectedLocation,
-            serviceEnabled,
-            permission,
-          );
+          checkLocationStatus(context);
         }
       });
     });

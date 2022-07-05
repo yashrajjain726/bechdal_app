@@ -1,5 +1,8 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
+import 'package:bechdal_app/screens/auth/reset_password_screen.dart';
+import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
 import 'package:bechdal_app/screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,9 +31,12 @@ class WelcomeScreen extends StatelessWidget {
                   bgColor: whiteColor,
                   borderColor: blackColor,
                   textColor: blackColor,
-                  text: 'LOG IN',
+                  text: 'Log In',
                   onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.screenId);
+                    Navigator.pushNamed(
+                      context,
+                      LoginScreen.screenId,
+                    );
                   }),
             ),
             SizedBox(
@@ -41,7 +47,7 @@ class WelcomeScreen extends StatelessWidget {
               child: roundedButton(
                   context: context,
                   bgColor: primaryColor,
-                  text: 'SIGN UP',
+                  text: 'Sign Up',
                   textColor: whiteColor,
                   onPressed: () {
                     Navigator.pushNamed(context, RegisterScreen.screenId);

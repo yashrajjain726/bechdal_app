@@ -1,5 +1,6 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,13 +20,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  var myMenuItems = <String>[
+    'Signout',
+  ];
   @override
   Widget build(BuildContext context) {
     return appBarWidgetWithLocationBar(
         context, locationBarWidget(context), homeBodyWidget(), true);
   }
 
-  Widget locationBarWidget(BuildContext context) {
+  dynamic locationBarWidget(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,30 +37,33 @@ class _HomeScreenState extends State<HomeScreen> {
         FittedBox(
           fit: BoxFit.cover,
           child: Container(
+            width: MediaQuery.of(context).size.width / 2,
             child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                 child: InkWell(
                   onTap: () {},
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         CupertinoIcons.location_solid,
                         size: 12,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 2,
                       ),
                       Text(
-                        widget.fetchedLocation!,
+                        widget.fetchedLocation ?? '',
                         style: TextStyle(
                           color: blackColor,
-                          fontSize: 12,
+                          fontSize: 15,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 2,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.keyboard_arrow_down_outlined,
                         size: 12,
                       )
@@ -67,45 +74,50 @@ class _HomeScreenState extends State<HomeScreen> {
               border: Border.all(
                 color: blackColor,
               ),
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(12.0),
               ),
             ),
           ),
         ),
-        Text(
-          'Bechdal',
-          style: TextStyle(color: blackColor, fontSize: 20),
-        ),
-        InkWell(
-          onTap: () async {
-            try {
-              loadingDialogBox(context, 'Signing Out');
-              if (!kIsWeb) {
-                Navigator.pop(context);
-                await googleSignIn.signOut();
-              }
-              await FirebaseAuth.instance.signOut().then((value) {
-                Navigator.pushReplacementNamed(context, WelcomeScreen.screenId);
-              });
-              ;
-            } catch (e) {
-              customSnackBar(
-                context: context,
-                content: 'Error signing out. Try again.',
-              );
-            }
-          },
-          child: Text(
-            'Sign Out',
-            style: TextStyle(color: blackColor, fontSize: 15),
-          ),
-        ),
+        PopupMenuButton<String>(
+            onSelected: menuItemSelect,
+            itemBuilder: (BuildContext context) {
+              return myMenuItems.map((String choice) {
+                return PopupMenuItem<String>(
+                  child: Text(choice),
+                  value: choice,
+                );
+              }).toList();
+            })
       ],
     );
   }
 
   Widget homeBodyWidget() {
     return Container();
+  }
+
+  void menuItemSelect(item) async {
+    switch (item) {
+      case 'Signout':
+        try {
+          loadingDialogBox(context, 'Signing Out');
+          if (!kIsWeb) {
+            Navigator.pop(context);
+            await googleSignIn.signOut();
+          }
+          await FirebaseAuth.instance.signOut().then((value) {
+            Navigator.pushReplacementNamed(context, LoginScreen.screenId);
+          });
+        } catch (e) {
+          Navigator.pop(context);
+          customSnackBar(
+            context: context,
+            content: 'Error signing out. Try again.',
+          );
+        }
+        break;
+    }
   }
 }

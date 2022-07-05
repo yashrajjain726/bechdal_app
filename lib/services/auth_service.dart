@@ -1,5 +1,9 @@
+// ignore_for_file: prefer_function_declarations_over_variables
+
 import 'package:bechdal_app/constants/functions.constants.dart';
-import 'package:bechdal_app/screens/auth/otp_screen.dart';
+import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
+import 'package:bechdal_app/screens/auth/phone_otp_screen.dart';
+import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -18,29 +23,22 @@ class AuthService {
         await users.where('uid', isEqualTo: user!.uid).get();
     List<DocumentSnapshot> wasUserPresentInDatabase = userDataQuery.docs;
     if (wasUserPresentInDatabase.isNotEmpty) {
-      fetchLocationAndAddress(
-          context, selectedLocation, serviceEnabled, permission);
+      checkLocationStatus(context);
     } else {
-      registerWithPhoneNumber(user, context);
+      await registerWithPhoneNumber(user, context);
     }
   }
 
-  Future<void> registerWithPhoneNumber(user, context) {
+  Future<void> registerWithPhoneNumber(user, context) async {
     final uid = user!.uid;
     final mobileNo = user!.phoneNumber;
     final email = user!.email;
-    fetchLocationAndAddress(
-      context,
-      selectedLocation,
-      serviceEnabled,
-      permission,
-      navigateTo: const LocationScreen(),
-    );
+    ServiceStatus status = await Permission.locationWhenInUse.serviceStatus;
+    checkLocationStatus(context);
     return users.doc(uid).set({
       'uid': uid,
       'mobile_no': mobileNo,
       'email': email,
-      'location': selectedLocation,
     }).then((value) {
       print('user added successfully');
     }).catchError((error) => print("Failed to add user: $error"));
@@ -50,10 +48,12 @@ class AuthService {
     BuildContext context,
     number,
   ) async {
+    loadingDialogBox(context, 'Please wait');
     final PhoneVerificationCompleted verificationCompleted =
         (phoneAuthCredential) async {
       await _firebaseAuth.signInWithCredential(phoneAuthCredential);
     };
+
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException e) {
       if (e.code == 'invalid-phone-number') {
@@ -72,7 +72,7 @@ class AuthService {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (builder) => OTPScreen(
+              builder: (builder) => PhoneOTPScreen(
                     phoneNumber: number,
                     verificationIdFinal: verificationId,
                   )));
@@ -186,6 +186,7 @@ class AuthService {
     DocumentSnapshot _result = await users.doc(email).get();
 
     if (isLoginUser) {
+      print('loggin user');
       signInWithEmail(context, email, password);
     } else {
       if (_result.exists) {
@@ -202,18 +203,19 @@ class AuthService {
   void signInWithEmail(
       BuildContext context, String email, String password) async {
     try {
-      loadingDialogBox(context, 'Checking details');
+      loadingDialogBox(context, 'Validating details');
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      print(credential);
       Navigator.pop(context);
       if (credential.user!.uid != null) {
-        fetchLocationAndAddress(
-            context, selectedLocation, serviceEnabled, permission);
+        Navigator.pushReplacementNamed(context, LocationScreen.screenId);
       } else {
         customSnackBar(
             context: context, content: 'Please check with your credentials');
       }
     } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
       if (e.code == 'user-not-found') {
         customSnackBar(
             context: context, content: 'No user found for that email.');
@@ -234,25 +236,29 @@ class AuthService {
         email: email,
         password: password,
       );
-      Navigator.pop(context);
 
       if (credential.user!.uid != null) {
-        fetchLocationAndAddress(
-            context, selectedLocation, serviceEnabled, permission,
-            navigateTo: const LocationScreen());
         return users.doc(credential.user!.uid).set({
           'uid': credential.user!.uid,
-          'mobile_no': credential.user!.phoneNumber,
-          'email': credential.user!.email,
-        }).then((value) {
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+        }).then((value) async {
+          await credential.user!.sendEmailVerification().then((value) {
+            Navigator.pushReplacementNamed(context, EmailVerifyScreen.screenId);
+          });
+
           customSnackBar(context: context, content: 'Registered successfully');
         }).catchError((onError) {
+          print(onError);
           customSnackBar(
               context: context,
-              content: 'Failed to add user to database, please try again');
+              content:
+                  'Failed to add user to database, please try again $onError');
         });
       }
     } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
       if (e.code == 'weak-password') {
         customSnackBar(
             context: context, content: 'The password provided is too weak.');
@@ -266,5 +272,17 @@ class AuthService {
       customSnackBar(
           context: context, content: 'Error occured: ${e.toString()}');
     }
+  }
+
+  Future<void> updateFirebaseUser(
+      BuildContext context, Map<String, dynamic> data) {
+    User? user = FirebaseAuth.instance.currentUser;
+    return users.doc(user!.uid).update(data).then((value) {
+      customSnackBar(context: context, content: 'Location updated on database');
+    }).catchError((error) {
+      customSnackBar(
+          context: context,
+          content: 'location cannot be updated in database due to $error');
+    });
   }
 }

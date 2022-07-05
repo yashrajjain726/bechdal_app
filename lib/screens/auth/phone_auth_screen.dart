@@ -32,7 +32,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       context: context,
       backgroundColor: whiteColor,
       textColor: blackColor,
-      loadingText: 'Verifying details..',
+      loadingText: 'Verifying details',
       progressIndicatorColor: blackColor,
     );
     return appBarWidget(context, widget.isFromLogin ? 'Login' : 'Signup',
@@ -45,7 +45,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   void signInValidate() {
     String number =
         '${countryCodeController.text}${phoneNumberController.text}';
-    loadingDialogBox(context, 'Please wait');
+
     print(number);
     authService.verifyPhoneNumber(context, number);
   }

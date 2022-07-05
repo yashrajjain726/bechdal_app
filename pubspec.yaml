@@ -45,6 +45,9 @@ dependencies:
   geocoding: ^2.0.4
   google_sign_in: ^5.3.3
   email_validator: ^2.0.1
+  open_mail_app: ^0.4.5
+  csc_picker: ^0.2.6
+  permission_handler: 9.2.0
 
 dev_dependencies:
   flutter_test:

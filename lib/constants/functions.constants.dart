@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/home_screen.dart';
+import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
+import 'package:permission_handler/permission_handler.dart'
+    as PermissionHandler;
 
-String? selectedLocation = '';
-bool? serviceEnabled;
-LocationPermission? permission;
 loadingDialogBox(BuildContext context, String loadingMessage) {
   AlertDialog alert = AlertDialog(
     content: Row(
@@ -63,7 +63,9 @@ Widget appBarWidget(BuildContext context, String text, Widget body,
       child: body,
       width: MediaQuery.of(context).size.width,
     ),
-    bottomNavigationBar: (bottomNavigation != null) ? bottomNavigation : null,
+    bottomNavigationBar: (bottomNavigation != null)
+        ? Container(color: whiteColor, child: bottomNavigation)
+        : null,
   );
 }
 
@@ -74,6 +76,7 @@ Widget appBarWidgetWithLocationBar(BuildContext context, Widget locationWidget,
     appBar: containsAppbar
         ? AppBar(
             elevation: 0,
+            automaticallyImplyLeading: false,
             centerTitle: false,
             iconTheme: IconThemeData(color: blackColor),
             backgroundColor: whiteColor,
@@ -109,7 +112,7 @@ Widget bottomNavigationWidget(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(
                 buttonText,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
@@ -122,23 +125,18 @@ Widget bottomNavigationWidget(
   );
 }
 
-void fetchLocationAndAddress(
-    context, selectedLocation, serviceEnabled, LocationPermission? permission,
-    {Widget? navigateTo}) async {
+Future<String?> fetchLocationAndAddress(context) async {
+  String? selectedLocation = '';
+  bool? serviceEnabled;
+  LocationPermission? permission;
   Position? position =
       await getCurrentLocation(context, serviceEnabled, permission);
   print('positions are $position');
   selectedLocation = await getFetchedAddress(position);
   if (selectedLocation != null) {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (builder) =>
-                navigateTo ??
-                HomeScreen(
-                  fetchedLocation: selectedLocation,
-                )));
+    return selectedLocation;
   }
+  return null;
 }
 
 Future<String?> getFetchedAddress(Position? position) async {
@@ -162,22 +160,19 @@ Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
       return customSnackBar(
-          context: context, content: 'Location permissions are denied');
+          context: context,
+          content: 'Please Enable Location Service to continue');
     }
   }
 
   if (permission == LocationPermission.deniedForever) {
-    return customSnackBar(
-        context: context,
-        content:
-            'Location permissions are permanently denied, we cannot request permissions.');
+    return PermissionHandler.openAppSettings();
   }
   return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
 }
 
-ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(
-    {required BuildContext context, required String content}) {
+customSnackBar({required BuildContext context, required String content}) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     backgroundColor: blackColor,
     content: Text(
@@ -224,42 +219,65 @@ Widget roundedButton({
   );
 }
 
-Widget signInButtons(
-  String text,
-  String icon,
-  Color bgColor,
-  BuildContext context,
-) {
+Widget customizableIconButton({
+  String? text,
+  String? imageIcon,
+  IconData? icon,
+  Color? imageOrIconColor,
+  double? imageOrIconRadius,
+  Color? bgColor,
+  required BuildContext context,
+  EdgeInsets? padding,
+}) {
   return Card(
       color: bgColor,
       elevation: 2,
-      shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: bgColor == whiteColor ? blackColor : bgColor, width: 0.5),
-          borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       margin: const EdgeInsets.symmetric(horizontal: 30),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        padding:
+            padding ?? const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-                height: 35,
-                margin: const EdgeInsets.only(left: 20),
-                child: Image.asset(
-                  icon,
-                )),
-            Expanded(
-              child: Center(
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: (bgColor == whiteColor) ? blackColor : whiteColor,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            )
+            imageIcon != null
+                ? Container(
+                    height: 25,
+                    margin: const EdgeInsets.only(left: 20),
+                    child: Image.asset(
+                      imageIcon,
+                      color: imageOrIconColor,
+                      height: imageOrIconRadius,
+                      width: imageOrIconRadius,
+                    ))
+                : Container(),
+            icon != null
+                ? Container(
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      icon,
+                      size: imageOrIconRadius,
+                      color: imageOrIconColor ?? whiteColor,
+                    ),
+                  )
+                : Container(),
+            SizedBox(
+              width: 10,
+            ),
+            text != null
+                ? Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        color:
+                            (bgColor == whiteColor) ? blackColor : whiteColor,
+                        fontSize: 15,
+                      ),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ));
@@ -304,6 +322,9 @@ String? validateEmail(value, isValid) {
 
 String? validatePassword(value, email) {
   if (email.isNotEmpty) {
+    if (value.isEmpty || value == null) {
+      return 'Please enter password';
+    }
     if (value.length < 3) {
       return 'Please enter a valid password';
     }
@@ -317,4 +338,28 @@ String? validateName(value, nameType) {
   }
 
   return null;
+}
+
+String? validateSamePassword(value, password) {
+  if (value != password) {
+    return 'Confirm password must be same as password';
+  } else if (value.isEmpty && password.isEmpty) {
+    return null;
+  } else if (value == null || value.isEmpty) {
+    return 'Please enter confirm password';
+  }
+
+  return null;
+}
+
+checkLocationStatus(context) async {
+  bool? serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  PermissionHandler.ServiceStatus status =
+      await PermissionHandler.Permission.locationWhenInUse.serviceStatus;
+  LocationPermission permission = await Geolocator.checkPermission();
+  if (status == PermissionHandler.PermissionStatus.granted) {
+    return Navigator.pushReplacementNamed(context, HomeScreen.screenId);
+  } else {
+    return Navigator.pushReplacementNamed(context, LocationScreen.screenId);
+  }
 }
