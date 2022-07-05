@@ -1,6 +1,7 @@
 import 'package:bechdal_app/components/larget_heading_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/constants/functions/functions.fetcher.dart';
+import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -84,7 +85,7 @@ class _BottomLocationPermissionWidgetState
     String cityValue = '';
     String _address = '';
     String manualAddress = '';
-    fetchLocationAndAddress(context).then((location) {
+    getLocationAndAddress(context).then((location) {
       if (location != null) {
         setState(() {
           _address = location;

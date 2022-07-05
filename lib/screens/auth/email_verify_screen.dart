@@ -1,7 +1,8 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:open_mail_app/open_mail_app.dart';
@@ -32,14 +33,16 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   }
 
   Future<void> validateEmailOtp() async {
-    print('sms code is : $smsCode');
+    if (kDebugMode) {
+      print('sms code is : $smsCode');
+    }
   }
 
   Widget otpBodyWidget(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: double.infinity,
           height: 250,
           child: Padding(
@@ -69,7 +72,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
         Expanded(
           child: Column(children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
               child: Lottie.asset(
                 'assets/lottie/verify_lottie.json',
                 width: double.infinity,

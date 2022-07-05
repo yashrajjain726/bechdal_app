@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_function_declarations_over_variables
 
-import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/constants/functions/functions.fetcher.dart';
+import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_otp_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';

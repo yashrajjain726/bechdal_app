@@ -1,5 +1,5 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions.constants.dart';
+import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,11 +52,11 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
 
   Widget loginViaPhoneWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           CircleAvatar(
@@ -68,17 +68,17 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
               size: 60,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
-          Text(
+          const Text(
             'Enter your Phone Number',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
@@ -87,7 +87,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
               color: greyColor,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Row(
@@ -100,17 +100,17 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                     decoration: InputDecoration(
                         labelText: 'Country',
                         enabled: false,
-                        contentPadding: EdgeInsets.all(20),
+                        contentPadding: const EdgeInsets.all(20),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
                   flex: 3,
                   child: Container(
-                    margin: EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: 20),
                     child: TextFormField(
                       autofocus: true,
                       maxLength: 10,
@@ -133,14 +133,14 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                           counterText: '$counterText/10',
-                          counterStyle: TextStyle(fontSize: 10),
+                          counterStyle: const TextStyle(fontSize: 10),
                           labelText: 'Phone Number',
                           hintText: 'Enter Your Phone Number',
                           hintStyle: TextStyle(
                             color: greyColor,
                             fontSize: 12,
                           ),
-                          contentPadding: EdgeInsets.all(20),
+                          contentPadding: const EdgeInsets.all(20),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8))),
                     ),

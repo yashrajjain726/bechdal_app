@@ -1,14 +1,6 @@
-import 'dart:async';
-
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
-import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
-import 'package:permission_handler/permission_handler.dart'
-    as permission_handler;
 
 loadingDialogBox(BuildContext context, String loadingMessage) {
   AlertDialog alert = AlertDialog(
@@ -123,53 +115,6 @@ Widget bottomNavigationWidget(
       ),
     ),
   );
-}
-
-Future<String?> fetchLocationAndAddress(context) async {
-  String? selectedLocation = '';
-  bool? serviceEnabled;
-  LocationPermission? permission;
-  Position? position =
-      await getCurrentLocation(context, serviceEnabled, permission);
-  print('positions are $position');
-  selectedLocation = await getFetchedAddress(position);
-  if (selectedLocation != null) {
-    return selectedLocation;
-  }
-  return null;
-}
-
-Future<String?> getFetchedAddress(Position? position) async {
-  List<Placemark> placemarks =
-      await placemarkFromCoordinates(position!.latitude, position.longitude);
-  Placemark place = placemarks[0];
-  print(place);
-  return '${place.locality}, ${place.postalCode}';
-}
-
-Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled!) {
-    await Geolocator.openLocationSettings();
-    return customSnackBar(
-        context: context, content: 'Location services are disabled.');
-  }
-
-  permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      return customSnackBar(
-          context: context,
-          content: 'Please Enable Location Service to continue');
-    }
-  }
-
-  if (permission == LocationPermission.deniedForever) {
-    return permission_handler.openAppSettings();
-  }
-  return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high);
 }
 
 customSnackBar({required BuildContext context, required String content}) {
@@ -308,58 +253,4 @@ wrongDetailsAlertBox(String text, BuildContext context) {
       builder: (BuildContext context) {
         return alert;
       });
-}
-
-String? validateEmail(value, isValid) {
-  if (value == null || value.isEmpty) {
-    return 'Please enter your email';
-  }
-  if (value.isNotEmpty && isValid == false) {
-    return 'Please, enter a valide email';
-  }
-  return null;
-}
-
-String? validatePassword(value, email) {
-  if (email.isNotEmpty) {
-    if (value.isEmpty || value == null) {
-      return 'Please enter password';
-    }
-    if (value.length < 3) {
-      return 'Please enter a valid password';
-    }
-  }
-  return null;
-}
-
-String? validateName(value, nameType) {
-  if (value == null || value.isEmpty) {
-    return 'Please enter your $nameType name';
-  }
-
-  return null;
-}
-
-String? validateSamePassword(value, password) {
-  if (value != password) {
-    return 'Confirm password must be same as password';
-  } else if (value.isEmpty && password.isEmpty) {
-    return null;
-  } else if (value == null || value.isEmpty) {
-    return 'Please enter confirm password';
-  }
-
-  return null;
-}
-
-checkLocationStatus(context) async {
-  bool? serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  permission_handler.ServiceStatus status =
-      await permission_handler.Permission.locationWhenInUse.serviceStatus;
-  LocationPermission permission = await Geolocator.checkPermission();
-  if (status == permission_handler.PermissionStatus.granted) {
-    return Navigator.pushReplacementNamed(context, HomeScreen.screenId);
-  } else {
-    return Navigator.pushReplacementNamed(context, LocationScreen.screenId);
-  }
 }
