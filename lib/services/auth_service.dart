@@ -3,7 +3,6 @@
 import 'package:bechdal_app/constants/functions.constants.dart';
 import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_otp_screen.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

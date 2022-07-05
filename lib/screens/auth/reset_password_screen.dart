@@ -1,7 +1,6 @@
 import 'package:bechdal_app/components/larget_heading_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
-import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:email_validator/email_validator.dart';

@@ -2,14 +2,10 @@ import 'dart:async';
 
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
-import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String screenId = 'splash_screen';

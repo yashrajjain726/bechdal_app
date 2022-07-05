@@ -1,6 +1,5 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions.constants.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:flutter/material.dart';

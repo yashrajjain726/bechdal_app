@@ -8,7 +8,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
 import 'package:permission_handler/permission_handler.dart'
-    as PermissionHandler;
+    as permission_handler;
 
 loadingDialogBox(BuildContext context, String loadingMessage) {
   AlertDialog alert = AlertDialog(
@@ -166,7 +166,7 @@ Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {
   }
 
   if (permission == LocationPermission.deniedForever) {
-    return PermissionHandler.openAppSettings();
+    return permission_handler.openAppSettings();
   }
   return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
@@ -354,10 +354,10 @@ String? validateSamePassword(value, password) {
 
 checkLocationStatus(context) async {
   bool? serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  PermissionHandler.ServiceStatus status =
-      await PermissionHandler.Permission.locationWhenInUse.serviceStatus;
+  permission_handler.ServiceStatus status =
+      await permission_handler.Permission.locationWhenInUse.serviceStatus;
   LocationPermission permission = await Geolocator.checkPermission();
-  if (status == PermissionHandler.PermissionStatus.granted) {
+  if (status == permission_handler.PermissionStatus.granted) {
     return Navigator.pushReplacementNamed(context, HomeScreen.screenId);
   } else {
     return Navigator.pushReplacementNamed(context, LocationScreen.screenId);

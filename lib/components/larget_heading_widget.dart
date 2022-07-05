@@ -63,7 +63,7 @@ class _LargeHeadingWidgetState extends State<LargeHeadingWidget> {
                     children: [
                       widget.anotherTaglineText != null
                           ? TextSpan(
-                              recognizer: new TapGestureRecognizer()
+                              recognizer: TapGestureRecognizer()
                                 ..onTap = widget.taglineNavigation != null
                                     ? () {
                                         Navigator.pushReplacementNamed(
@@ -76,7 +76,7 @@ class _LargeHeadingWidgetState extends State<LargeHeadingWidget> {
                                 fontSize: widget.subheadingTextSize ?? 25,
                               ),
                             )
-                          : TextSpan(),
+                          : const TextSpan(),
                     ]),
               ),
             )
