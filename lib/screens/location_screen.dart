@@ -150,7 +150,7 @@ class _BottomLocationPermissionWidgetState
                           'location': _address,
                         }).then((value) {
                           print(manualAddress + 'inside auto selection');
-                          return Navigator.pushReplacement(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (builder) =>
@@ -226,7 +226,7 @@ class _BottomLocationPermissionWidgetState
                               'country': countryValue
                             }).then((value) {
                               print(manualAddress + 'inside manual selection');
-                              return Navigator.pushReplacement(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (builder) => HomeScreen(

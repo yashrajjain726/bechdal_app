@@ -54,12 +54,4 @@ Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {
       desiredAccuracy: LocationAccuracy.high);
 }
 
-checkLocationStatus(context) async {
-  permission_handler.ServiceStatus status =
-      await permission_handler.Permission.locationWhenInUse.serviceStatus;
-  if (status == permission_handler.PermissionStatus.granted) {
-    return Navigator.pushReplacementNamed(context, HomeScreen.screenId);
-  } else {
-    return Navigator.pushReplacementNamed(context, LocationScreen.screenId);
-  }
-}
+checkIfLocationExistsInFirebase() {}

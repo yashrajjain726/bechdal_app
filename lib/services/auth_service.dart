@@ -23,7 +23,7 @@ class AuthService {
         await users.where('uid', isEqualTo: user!.uid).get();
     List<DocumentSnapshot> wasUserPresentInDatabase = userDataQuery.docs;
     if (wasUserPresentInDatabase.isNotEmpty) {
-      checkLocationStatus(context);
+      Navigator.pushReplacementNamed(context, LocationScreen.screenId);
     } else {
       await registerWithPhoneNumber(user, context);
     }
@@ -33,8 +33,7 @@ class AuthService {
     final uid = user!.uid;
     final mobileNo = user!.phoneNumber;
     final email = user!.email;
-    ServiceStatus status = await Permission.locationWhenInUse.serviceStatus;
-    checkLocationStatus(context);
+    Navigator.pushReplacementNamed(context, LocationScreen.screenId);
     return users.doc(uid).set({
       'uid': uid,
       'mobile_no': mobileNo,
@@ -200,8 +199,7 @@ class AuthService {
     return _result;
   }
 
-  void signInWithEmail(
-      BuildContext context, String email, String password) async {
+  signInWithEmail(BuildContext context, String email, String password) async {
     try {
       loadingDialogBox(context, 'Validating details');
       final credential = await FirebaseAuth.instance
