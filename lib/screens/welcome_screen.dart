@@ -30,10 +30,7 @@ class WelcomeScreen extends StatelessWidget {
                   textColor: blackColor,
                   text: 'Log In',
                   onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      LoginScreen.screenId,
-                    );
+                    Navigator.pushNamed(context, LoginScreen.screenId);
                   }),
             ),
             SizedBox(

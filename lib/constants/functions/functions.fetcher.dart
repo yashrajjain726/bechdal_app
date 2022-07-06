@@ -1,7 +1,4 @@
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
-import 'package:bechdal_app/screens/location_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart'
@@ -53,5 +50,3 @@ Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {
   return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
 }
-
-checkIfLocationExistsInFirebase() {}

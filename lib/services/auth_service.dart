@@ -1,6 +1,3 @@
-// ignore_for_file: prefer_function_declarations_over_variables
-
-import 'package:bechdal_app/constants/functions/functions.fetcher.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_otp_screen.dart';
@@ -11,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -43,10 +39,7 @@ class AuthService {
     }).catchError((error) => print("Failed to add user: $error"));
   }
 
-  Future<void> verifyPhoneNumber(
-    BuildContext context,
-    number,
-  ) async {
+  Future<void> verifyPhoneNumber(BuildContext context, number) async {
     loadingDialogBox(context, 'Please wait');
     final PhoneVerificationCompleted verificationCompleted =
         (phoneAuthCredential) async {
@@ -174,14 +167,13 @@ class AuthService {
     return user;
   }
 
-  Future<DocumentSnapshot> getAdminCredentialEmailAndPassword({
-    required BuildContext context,
-    required String email,
-    String? firstName,
-    String? lastName,
-    required String password,
-    required bool isLoginUser,
-  }) async {
+  Future<DocumentSnapshot> getAdminCredentialEmailAndPassword(
+      {required BuildContext context,
+      required String email,
+      String? firstName,
+      String? lastName,
+      required String password,
+      required bool isLoginUser}) async {
     DocumentSnapshot _result = await users.doc(email).get();
 
     if (isLoginUser) {

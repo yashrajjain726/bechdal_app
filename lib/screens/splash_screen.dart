@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   permissionBasedNavigationFunc() {
-    Timer(Duration(seconds: 4), () async {
+    Timer(const Duration(seconds: 4), () async {
       FirebaseAuth.instance.authStateChanges().listen((User? user) async {
         if (user == null) {
           Navigator.pushReplacementNamed(context, WelcomeScreen.screenId);
