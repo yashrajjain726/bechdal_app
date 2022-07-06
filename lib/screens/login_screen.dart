@@ -49,10 +49,27 @@ class SignInFormWidget extends StatefulWidget {
 class _SignInFormWidgetState extends State<SignInFormWidget> {
   AuthService authService = AuthService();
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
   final _formKey = GlobalKey<FormState>();
   bool obsecure = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

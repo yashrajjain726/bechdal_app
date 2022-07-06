@@ -49,8 +49,15 @@ class ResetFormWidget extends StatefulWidget {
 
 class _ResetFormWidgetState extends State<ResetFormWidget> {
   AuthService authService = AuthService();
-  final TextEditingController _emailController = TextEditingController();
+  late final TextEditingController _emailController;
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    _emailController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

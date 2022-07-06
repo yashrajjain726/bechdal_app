@@ -19,12 +19,27 @@ class PhoneAuthScreen extends StatefulWidget {
 
 class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   AuthService authService = AuthService();
-  var countryCodeController = TextEditingController(text: '+91');
-  var phoneNumberController = TextEditingController();
+  late final TextEditingController _countryCodeController;
+  late final TextEditingController _phoneNumberController;
   String counterText = '0';
   bool validate = false;
   bool isLoading = true;
   String verificationIdFinal = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    _countryCodeController = TextEditingController(text: '+91');
+    _phoneNumberController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _countryCodeController.dispose();
+    _phoneNumberController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +59,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
 
   void signInValidate() {
     String number =
-        '${countryCodeController.text}${phoneNumberController.text}';
+        '${_countryCodeController.text}${_phoneNumberController.text}';
 
     print(number);
     authService.verifyPhoneNumber(context, number);
@@ -96,7 +111,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                   flex: 1,
                   child: TextFormField(
                     textAlign: TextAlign.center,
-                    controller: countryCodeController,
+                    controller: _countryCodeController,
                     decoration: InputDecoration(
                         labelText: 'Country',
                         enabled: false,
@@ -129,7 +144,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                           });
                         }
                       },
-                      controller: phoneNumberController,
+                      controller: _phoneNumberController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                           counterText: '$counterText/10',
