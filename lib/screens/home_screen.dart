@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String screenId = 'home_screen';
-  final String? fetchedLocation;
-  final double? appBarHeight;
-  const HomeScreen({Key? key, this.fetchedLocation, this.appBarHeight})
-      : super(key: key);
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -17,9 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(widget.appBarHeight ?? 50),
-          child: LocationCustomBar()),
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(50), child: LocationCustomBar()),
       body: homeBodyWidget(),
     );
   }

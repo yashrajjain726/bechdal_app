@@ -7,6 +7,7 @@ import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
@@ -32,27 +33,25 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   Widget bodyLocationWidget(context) {
-    return Container(
-      child: Column(
-        children: [
-          const LargeHeadingWidget(
-              heading: 'Location Permission',
-              subheadingTextSize: 16,
-              headingTextSize: 30,
-              subHeading:
-                  'To continue, we need to know your sell/buy location so that we can further assist you'),
-          const SizedBox(
-            height: 20,
+    return Column(
+      children: [
+        const LargeHeadingWidget(
+            heading: 'Choose Location',
+            subheadingTextSize: 16,
+            headingTextSize: 30,
+            subHeading:
+                'To continue, we need to know your sell/buy location so that we can further assist you'),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          child: Lottie.asset(
+            'assets/lottie/location_lottie.json',
           ),
-          SizedBox(
-            child: Lottie.asset(
-              'assets/lottie/location_lottie.json',
-            ),
-            height: 300,
-            width: 300,
-          ),
-        ],
-      ),
+          height: 300,
+          width: 300,
+        ),
+      ],
     );
   }
 }
@@ -80,7 +79,6 @@ class _BottomLocationPermissionWidgetState
           text: 'Choose Location',
           bgColor: primaryColor,
           onPressed: () {
-            loadingDialogBox(context, 'Fetching details..');
             openLocationBottomsheet(context);
           }),
     );
@@ -92,6 +90,7 @@ class _BottomLocationPermissionWidgetState
     String cityValue = '';
     String _address = '';
     String manualAddress = '';
+    loadingDialogBox(context, 'Fetching details..');
     getLocationAndAddress(context).then((location) {
       if (location != null) {
         Navigator.pop(context);
@@ -152,7 +151,7 @@ class _BottomLocationPermissionWidgetState
                     ),
                     ListTile(
                       onTap: () async {
-                        loadingDialogBox(context, 'Updating location');
+                        loadingDialogBox(context, 'Updating location..');
                         await getCurrentLocation(
                                 context, serviceEnabled, permission)
                             .then((value) {
@@ -163,11 +162,10 @@ class _BottomLocationPermissionWidgetState
                               'address': _address
                             }).then((value) {
                               Navigator.pop(context);
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (builder) => HomeScreen(
-                                          fetchedLocation: _address)));
+                              Navigator.pushReplacementNamed(
+                                context,
+                                HomeScreen.screenId,
+                              );
                             });
                           }
                         });
@@ -211,6 +209,7 @@ class _BottomLocationPermissionWidgetState
                       child: CSCPicker(
                         layout: Layout.vertical,
                         defaultCountry: DefaultCountry.India,
+                        flagState: CountryFlag.DISABLE,
                         dropdownDecoration:
                             const BoxDecoration(shape: BoxShape.rectangle),
                         onCountryChanged: (value) async {
@@ -241,11 +240,10 @@ class _BottomLocationPermissionWidgetState
                               'country': countryValue
                             }).then((value) {
                               print(manualAddress + 'inside manual selection');
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (builder) => HomeScreen(
-                                          fetchedLocation: manualAddress)));
+                              Navigator.pushReplacementNamed(
+                                context,
+                                HomeScreen.screenId,
+                              );
                             });
                           }
                         },

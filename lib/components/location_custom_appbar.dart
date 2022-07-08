@@ -45,22 +45,15 @@ class _LocationCustomBarState extends State<LocationCustomBar> {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
           if (data['address'] == null) {
-            if (data['state'] == null) {
-              Position? position = data['location'];
-              print('location from 51 is $position ');
-              getFetchedAddress(context, position).then((location) {
-                print('location from 52 is $location');
-                return locationBarWidget(context, location);
-              });
-            }
+            Position? position = data['location'];
+            getFetchedAddress(context, position).then((location) {
+              return locationBarWidget(context, location);
+            });
           } else {
-            print('location from 57 is ${data['address']}');
             return locationBarWidget(context, data['address']);
           }
-          print('location from 60');
           return locationBarWidget(context, 'Update Location');
         }
-        print('location from end');
         return locationBarWidget(context, 'Fetching location');
       },
     );
