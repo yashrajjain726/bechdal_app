@@ -1,3 +1,4 @@
+import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/login_screen.dart';
@@ -11,8 +12,13 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return appBarWidget(context, '', welcomeBodyWidget(context), false, false,
-        bottomNavigation: welcomeBottomNavigationWidget(context));
+    return CommonPageWidget(
+      text: '',
+      body: welcomeBodyWidget(context),
+      containsAppbar: false,
+      centerTitle: false,
+      bottomNavigation: welcomeBottomNavigationWidget(context),
+    );
   }
 
   Widget welcomeBottomNavigationWidget(context) {

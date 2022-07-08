@@ -1,5 +1,6 @@
+import 'package:bechdal_app/components/bottom_nav_widget.dart';
+import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,11 +51,18 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       loadingText: 'Verifying details',
       progressIndicatorColor: blackColor,
     );
-    return appBarWidget(context, widget.isFromLogin ? 'Login' : 'Signup',
-        loginViaPhoneWidget(context), true, true,
-        bottomNavigation: bottomNavigationWidget(
-            validate, signInValidate, 'Next',
-            progressDialog: progressDialog));
+    return CommonPageWidget(
+      text: widget.isFromLogin ? 'Login' : 'Signup',
+      body: loginViaPhoneWidget(context),
+      containsAppbar: true,
+      centerTitle: true,
+      bottomNavigation: BottomNavigationWidget(
+        validator: validate,
+        buttonText: 'Next',
+        progressDialog: progressDialog,
+        onPressed: signInValidate,
+      ),
+    );
   }
 
   void signInValidate() {

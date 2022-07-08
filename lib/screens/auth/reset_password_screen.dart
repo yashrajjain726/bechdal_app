@@ -1,4 +1,4 @@
-import 'package:bechdal_app/components/larget_heading_widget.dart';
+import 'package:bechdal_app/components/large_heading_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';

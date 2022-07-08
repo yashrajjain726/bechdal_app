@@ -1,3 +1,5 @@
+import 'package:bechdal_app/components/bottom_nav_widget.dart';
+import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/services/auth_service.dart';
@@ -26,10 +28,17 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return appBarWidget(
-        context, 'Verify OTP', otpBodyWidget(context), true, true,
-        bottomNavigation:
-            bottomNavigationWidget(isPinEntered, validateOTP, 'Next'));
+    return CommonPageWidget(
+      text: 'Verify Otp',
+      body: otpBodyWidget(context),
+      containsAppbar: true,
+      centerTitle: true,
+      bottomNavigation: BottomNavigationWidget(
+        buttonText: 'Next',
+        onPressed: validateOTP,
+        validator: isPinEntered,
+      ),
+    );
   }
 
   Future<void> validateOTP() async {

@@ -1,29 +1,38 @@
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart'
     as permission_handler;
 
+String? selectedLocation = '';
+bool? serviceEnabled;
+LocationPermission? permission;
 Future<String?> getLocationAndAddress(context) async {
-  String? selectedLocation = '';
-  bool? serviceEnabled;
-  LocationPermission? permission;
   Position? position =
       await getCurrentLocation(context, serviceEnabled, permission);
   print('positions are $position');
-  selectedLocation = await getFetchedAddress(position);
+  selectedLocation = await getFetchedAddress(context, position);
   if (selectedLocation != null) {
     return selectedLocation;
   }
   return null;
 }
 
-Future<String?> getFetchedAddress(Position? position) async {
-  List<Placemark> placemarks =
-      await placemarkFromCoordinates(position!.latitude, position.longitude);
-  Placemark place = placemarks[0];
-  print(place);
-  return '${place.locality}, ${place.postalCode}';
+Future<String?> getFetchedAddress(
+    BuildContext context, Position? position) async {
+  try {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position!.latitude, position.longitude);
+    Placemark place = placemarks[0];
+    print(place);
+    return '${place.locality}, ${place.postalCode}';
+  } catch (e) {
+    return customSnackBar(
+        context: context,
+        content: 'Fetching address issue due to ${e.toString()}');
+  }
+  return null;
 }
 
 Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {

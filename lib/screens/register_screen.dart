@@ -1,4 +1,5 @@
-import 'package:bechdal_app/components/larget_heading_widget.dart';
+import 'package:bechdal_app/components/custom_icon_button.dart';
+import 'package:bechdal_app/components/large_heading_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
@@ -317,11 +318,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           isFromLogin: false,
                         )));
           },
-          child: customizableIconButton(
+          child: CustomIconButton(
             text: 'Signup with Phone',
             imageIcon: 'assets/phone.png',
             bgColor: greyColor,
-            context: context,
             imageOrIconColor: whiteColor,
             imageOrIconRadius: 20,
           ),
@@ -336,11 +336,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               authService.getAdminCredentialPhoneNumber(context, user);
             }
           },
-          child: customizableIconButton(
-              text: 'Signup with Google',
-              imageIcon: 'assets/google.png',
-              bgColor: whiteColor,
-              context: context),
+          child: CustomIconButton(
+            text: 'Signup with Google',
+            imageIcon: 'assets/google.png',
+            bgColor: whiteColor,
+          ),
         ),
         const SizedBox(
           height: 10,
