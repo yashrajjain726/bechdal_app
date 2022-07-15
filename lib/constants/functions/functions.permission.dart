@@ -21,18 +21,11 @@ Future<String?> getLocationAndAddress(context) async {
 
 Future<String?> getFetchedAddress(
     BuildContext context, Position? position) async {
-  try {
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position!.latitude, position.longitude);
-    Placemark place = placemarks[0];
-    print(place);
-    return '${place.locality}, ${place.postalCode}';
-  } catch (e) {
-    return customSnackBar(
-        context: context,
-        content: 'Fetching address issue due to ${e.toString()}');
-  }
-  return null;
+  List<Placemark> placemarks =
+      await placemarkFromCoordinates(position!.latitude, position.longitude);
+  Placemark place = placemarks[0];
+  print(place);
+  return '${place.locality}, ${place.postalCode}';
 }
 
 Future<dynamic> getCurrentLocation(context, serviceEnabled, permission) async {

@@ -66,56 +66,54 @@ class _LocationCustomBarState extends State<LocationCustomBar> {
       iconTheme: IconThemeData(color: blackColor),
       automaticallyImplyLeading: false,
       centerTitle: false,
-      title: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, LocationScreen.screenId);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      CupertinoIcons.location_solid,
-                      size: 12,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, LocationScreen.screenId);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Icon(
+                    CupertinoIcons.location_solid,
+                    size: 12,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    location ?? '',
+                    style: TextStyle(
+                      color: blackColor,
+                      fontSize: 15,
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      location ?? '',
-                      style: TextStyle(
-                        color: blackColor,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Icon(
-                      Icons.keyboard_arrow_down_outlined,
-                      size: 12,
-                    )
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Icon(
+                    Icons.keyboard_arrow_down_outlined,
+                    size: 12,
+                  )
+                ],
               ),
             ),
-            PopupMenuButton<String>(
-                onSelected: menuItemSelect,
-                itemBuilder: (BuildContext context) {
-                  return myMenuItems.map((String choice) {
-                    return PopupMenuItem<String>(
-                      child: Text(choice),
-                      value: choice,
-                    );
-                  }).toList();
-                })
-          ],
-        ),
+          ),
+          PopupMenuButton<String>(
+              onSelected: menuItemSelect,
+              itemBuilder: (BuildContext context) {
+                return myMenuItems.map((String choice) {
+                  return PopupMenuItem<String>(
+                    child: Text(choice),
+                    value: choice,
+                  );
+                }).toList();
+              })
+        ],
       ),
     );
   }
