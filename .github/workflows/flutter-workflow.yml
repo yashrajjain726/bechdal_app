@@ -1,0 +1,48 @@
+name: Flutter Workflow
+
+# This workflow is triggered on pushes to the repository.
+
+on:
+  push:
+    branches:
+    - master
+    
+# on: push    # Default will running for every branch.
+    
+jobs:
+  build:
+    # This job will run on ubuntu virtual machine
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    - run: flutter --version
+    
+    # Setup Java environment in order to build the Android app.
+    - uses: actions/checkout@v1
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    
+    # Get flutter dependencies.
+    - run: flutter pub get
+    
+    # Check for any formatting issues in the code.
+    - run: flutter format --set-exit-if-changed .
+    
+    # Statically analyze the Dart code for any errors.
+    - run: flutter analyze .
+    
+    # Run widget tests for our flutter project.
+    - run: flutter test
+    
+    # Build apk.
+    - run: flutter build apk
+    
+    # Upload generated apk to the artifacts.
+    - uses: actions/upload-artifact@v1
+      with:
+        name: release-apk
+        path: build/app/outputs/apk/release/app-release.apk
