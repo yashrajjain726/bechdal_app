@@ -47,7 +47,7 @@ dependencies:
   email_validator: ^2.0.1
   open_mail_app: ^0.4.5
   csc_picker: ^0.2.6
-  permission_handler: 9.2.0
+  permission_handler: 10.0.0
   animated_text_kit: ^4.2.2
   carousel_slider: ^4.1.1
 
