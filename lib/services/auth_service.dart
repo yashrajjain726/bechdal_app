@@ -13,6 +13,8 @@ class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final storage = const FlutterSecureStorage();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference categories =
+      FirebaseFirestore.instance.collection('categories');
 
   Future<void> getAdminCredentialPhoneNumber(BuildContext context, user) async {
     final QuerySnapshot userDataQuery =

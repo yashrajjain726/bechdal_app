@@ -1,5 +1,5 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/screens/login_screen.dart';
+import 'package:bechdal_app/screens/auth/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

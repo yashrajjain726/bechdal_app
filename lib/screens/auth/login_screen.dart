@@ -5,7 +5,7 @@ import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:bechdal_app/screens/auth/reset_password_screen.dart';
-import 'package:bechdal_app/screens/register_screen.dart';
+import 'package:bechdal_app/screens/auth/register_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';

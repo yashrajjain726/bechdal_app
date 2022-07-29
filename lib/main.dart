@@ -2,14 +2,17 @@ import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:bechdal_app/screens/auth/reset_password_screen.dart';
+import 'package:bechdal_app/screens/category/subcategory_screen.dart';
 import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
-import 'package:bechdal_app/screens/login_screen.dart';
-import 'package:bechdal_app/screens/register_screen.dart';
+import 'package:bechdal_app/screens/auth/login_screen.dart';
+import 'package:bechdal_app/screens/auth/register_screen.dart';
 import 'package:bechdal_app/screens/splash_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'screens/category/category_list_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +42,9 @@ class Main extends StatelessWidget {
           EmailVerifyScreen.screenId: (context) => const EmailVerifyScreen(),
           ResetPasswordScreen.screenId: (context) =>
               const ResetPasswordScreen(),
+          CategoryListScreen.screenId:(context)=>const CategoryListScreen(),
+          SubCategoryScreen.screenId:(context)=>const SubCategoryScreen()
+
         });
   }
 }

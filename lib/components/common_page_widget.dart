@@ -24,14 +24,14 @@ class CommonPageWidget extends StatelessWidget {
     return Scaffold(
       appBar: containsAppbar
           ? PreferredSize(
-              child: const CommonAppBar(),
               preferredSize: Size.fromHeight(appBarHeight ?? 50),
+              child:  CommonAppBar(bodyText: text),
             )
           : null,
       body: Container(
         color: whiteColor,
-        child: body,
         width: MediaQuery.of(context).size.width,
+        child: body,
       ),
       bottomNavigationBar: (bottomNavigation != null)
           ? Container(color: whiteColor, child: bottomNavigation)

@@ -1,8 +1,8 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
-import 'package:bechdal_app/screens/login_screen.dart';
-import 'package:bechdal_app/screens/register_screen.dart';
+import 'package:bechdal_app/screens/auth/login_screen.dart';
+import 'package:bechdal_app/screens/auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
