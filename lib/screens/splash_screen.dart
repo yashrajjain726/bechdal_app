@@ -1,7 +1,6 @@
 import 'dart:async';
-
+import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (user == null) {
           Navigator.pushReplacementNamed(context, WelcomeScreen.screenId);
         } else {
-          Navigator.pushReplacementNamed(context, HomeScreen.screenId);
+          Navigator.pushReplacementNamed(context, MainNavigationScreen.screenId);
         }
       });
     });

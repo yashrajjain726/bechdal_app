@@ -58,7 +58,7 @@ class CategoryListScreen extends StatelessWidget {
                           fontSize: 15,
                         ),
                       ),
-                      trailing: Icon(
+                      trailing: const Icon(
                         Icons.arrow_forward_ios,
                         size: 12,
                       ),

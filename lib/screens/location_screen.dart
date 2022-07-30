@@ -1,15 +1,13 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/components/large_heading_widget.dart';
+import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.permission.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:lottie/lottie.dart';
 
 class LocationScreen extends StatefulWidget {
@@ -164,7 +162,7 @@ class _BottomLocationPermissionWidgetState
                               Navigator.pop(context);
                               Navigator.pushReplacementNamed(
                                 context,
-                                HomeScreen.screenId,
+                                MainNavigationScreen.screenId,
                               );
                             });
                           }
@@ -242,7 +240,7 @@ class _BottomLocationPermissionWidgetState
                               print(manualAddress + 'inside manual selection');
                               Navigator.pushReplacementNamed(
                                 context,
-                                HomeScreen.screenId,
+                                MainNavigationScreen.screenId,
                               );
                             });
                           }

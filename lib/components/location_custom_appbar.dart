@@ -73,7 +73,7 @@ class _LocationCustomBarState extends State<LocationCustomBar> {
           Expanded(
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, LocationScreen.screenId);
+                Navigator.of(context).pushNamed(LocationScreen.screenId);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -124,12 +124,11 @@ class _LocationCustomBarState extends State<LocationCustomBar> {
         try {
           loadingDialogBox(context, 'Signing Out');
           if (!kIsWeb) {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
             await googleSignIn.signOut();
           }
           await FirebaseAuth.instance.signOut().then((value) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, WelcomeScreen.screenId, (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil(WelcomeScreen.screenId, (route) => false);
           });
         } catch (e) {
           Navigator.pop(context);

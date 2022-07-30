@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
               buttonTextTwo: 'Sell Cars',
               heading: 'Cars',
             ),
-            CategoryWidget()
+            const CategoryWidget()
           ],
         )
       ]),
