@@ -20,7 +20,7 @@ class CommonAppBar extends StatelessWidget {
           bodyText ?? '',
           style: TextStyle(
             color: blackColor,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
             fontSize: 20,
           ),
         ));

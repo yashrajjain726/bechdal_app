@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
+  static const screenId = 'chat_screen';
   const ChatScreen({Key? key}) : super(key: key);
 
   @override

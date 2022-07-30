@@ -44,7 +44,6 @@ class SubCategoryScreen extends StatelessWidget {
                       title: Text(
                         data[index],
                         style: const TextStyle(
-                          fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
                       ),

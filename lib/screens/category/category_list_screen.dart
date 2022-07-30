@@ -1,4 +1,5 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
+import 'package:bechdal_app/forms/sell_car_form.dart';
 import 'package:bechdal_app/screens/category/subcategory_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -45,23 +46,24 @@ class CategoryListScreen extends StatelessWidget {
                     child: ListTile(
                       onTap: () {
                         if(doc!['subcategory']==null){
-                          return print('No SubCategories');
+                           Navigator.of(context).pushNamed(SellCarForm.screenId);
                         }
-                        Navigator.pushNamed(context, SubCategoryScreen.screenId,
-                            arguments: doc);
+                        else{
+                          Navigator.pushNamed(context, SubCategoryScreen.screenId,
+                              arguments: doc);
+                        }
                       },
                       leading: Image.network(doc!['img']),
                       title: Text(
                         doc['category_name'],
                         style: const TextStyle(
-                          fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
                       ),
-                      trailing: const Icon(
+                      trailing: doc['subcategory']!=null ?const Icon(
                         Icons.arrow_forward_ios,
                         size: 12,
-                      ),
+                      ):null,
                     ));
               }));
         });
