@@ -6,6 +6,7 @@ on:
   push:
     branches:
     - master
+    - bugfix
     
 # on: push    # Default will running for every branch.
     
