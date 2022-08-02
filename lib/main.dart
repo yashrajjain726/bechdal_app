@@ -1,4 +1,5 @@
 import 'package:bechdal_app/forms/sell_car_form.dart';
+import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/chat_screen.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
@@ -17,12 +18,17 @@ import 'package:bechdal_app/screens/splash_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/category/category_list_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const Main());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (_) => CategoryProvider(),
+    ),
+  ], child: Main()));
 }
 
 class Main extends StatelessWidget {
@@ -31,10 +37,7 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          primaryColor: blackColor,
-          backgroundColor: whiteColor
-        ),
+        theme: ThemeData(primaryColor: blackColor, backgroundColor: whiteColor),
         debugShowCheckedModeBanner: false,
         initialRoute: SplashScreen.screenId,
         routes: {
@@ -48,16 +51,15 @@ class Main extends StatelessWidget {
           EmailVerifyScreen.screenId: (context) => const EmailVerifyScreen(),
           ResetPasswordScreen.screenId: (context) =>
               const ResetPasswordScreen(),
-          CategoryListScreen.screenId:(context)=>const CategoryListScreen(),
-          SubCategoryScreen.screenId:(context)=>const SubCategoryScreen(),
-          MainNavigationScreen.screenId:(context)=>const MainNavigationScreen(),
-          ChatScreen.screenId:(context)=>const ChatScreen(),
-          AddPostScreen.screenId:(context) =>const AddPostScreen(),
-          MyPostScreen.screenId:(context)=>const MyPostScreen(),
-          ProfileScreen.screenId:(context)=>const ProfileScreen(),
-          SellCarForm.screenId:(context)=> SellCarForm(),
-
-
+          CategoryListScreen.screenId: (context) => const CategoryListScreen(),
+          SubCategoryScreen.screenId: (context) => const SubCategoryScreen(),
+          MainNavigationScreen.screenId: (context) =>
+              const MainNavigationScreen(),
+          ChatScreen.screenId: (context) => const ChatScreen(),
+          AddPostScreen.screenId: (context) => const AddPostScreen(),
+          MyPostScreen.screenId: (context) => const MyPostScreen(),
+          ProfileScreen.screenId: (context) => const ProfileScreen(),
+          SellCarForm.screenId: (context) => SellCarForm(),
         });
   }
 }

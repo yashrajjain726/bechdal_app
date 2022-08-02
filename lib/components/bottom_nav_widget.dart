@@ -35,7 +35,8 @@ class BottomNavigationWidget extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   buttonText,
-                  style: const TextStyle(
+                  style:  TextStyle(
+                    color: whiteColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),

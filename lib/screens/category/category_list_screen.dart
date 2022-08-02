@@ -1,8 +1,10 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/forms/sell_car_form.dart';
+import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/category/subcategory_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/colors.constants.dart';
 import '../../services/auth_service.dart';
@@ -13,15 +15,18 @@ class CategoryListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var categoryProvider = Provider.of<CategoryProvider>(context);
     return CommonPageWidget(
-        text: 'Categories',
-        body: categoryListWidget(),
-        containsAppbar: true,
-        centerTitle: false);
+      text: 'Categories',
+      body: categoryListWidget(categoryProvider),
+      containsAppbar: true,
+      centerTitle: false,
+    );
   }
 
-  categoryListWidget() {
+  categoryListWidget(categoryProvider) {
     AuthService authService = AuthService();
+
     return FutureBuilder<QuerySnapshot>(
         future: authService.categories.get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -45,11 +50,13 @@ class CategoryListScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: ListTile(
                       onTap: () {
-                        if(doc!['subcategory']==null){
-                           Navigator.of(context).pushNamed(SellCarForm.screenId);
-                        }
-                        else{
-                          Navigator.pushNamed(context, SubCategoryScreen.screenId,
+                        categoryProvider.getCategory(doc!['category_name']);
+                        categoryProvider.getCategorySnapshot(doc);
+                        if (doc!['subcategory'] == null) {
+                          Navigator.of(context).pushNamed(SellCarForm.screenId);
+                        } else {
+                          Navigator.pushNamed(
+                              context, SubCategoryScreen.screenId,
                               arguments: doc);
                         }
                       },
@@ -60,10 +67,12 @@ class CategoryListScreen extends StatelessWidget {
                           fontSize: 15,
                         ),
                       ),
-                      trailing: doc['subcategory']!=null ?const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 12,
-                      ):null,
+                      trailing: doc['subcategory'] != null
+                          ? const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 12,
+                            )
+                          : null,
                     ));
               }));
         });

@@ -39,3 +39,20 @@ String? validateSamePassword(value, password) {
 
   return null;
 }
+
+String? validateCarModel(value) {
+  if (value ==null || value.isEmpty) {
+    print('value is $value');
+    return "Please choose your car's model";
+  }
+  return null;
+}
+String? validateYear(value){
+  if(value==null || value.length==0){
+    return ' Please enter car purchase year';
+  }
+  else if((value.length==4) &&(value[0]=='1' || value[0]=='2')){
+    return null;
+  }
+  return 'Please enter a valid year';
+}
