@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
+import 'package:bechdal_app/services/auth_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -15,12 +17,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  AuthService authService = AuthService();
   @override
   void initState() {
     permissionBasedNavigationFunc();
     super.initState();
   }
-
   permissionBasedNavigationFunc() {
     Timer(const Duration(seconds: 4), () async {
       FirebaseAuth.instance.authStateChanges().listen((User? user) async {

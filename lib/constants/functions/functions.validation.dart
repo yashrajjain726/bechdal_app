@@ -51,8 +51,23 @@ String? validateYear(value){
   if(value==null || value.length==0){
     return ' Please enter car purchase year';
   }
-  else if((value.length==4) &&(value[0]=='1' || value[0]=='2')){
-    return null;
+  else if((value.length!=4) || (value[0]!='1' || value[0]!='2')){
+    return 'Please enter a valid year';
   }
-  return 'Please enter a valid year';
+  return null;
+}
+String? validateCarPrice(value){
+  if(value==null || value.isEmpty){
+    return 'Please enter your car price value';
+  }
+  else if(int.parse(value)<1 || int.parse(value)>99){
+    return 'Please enter a valid value between 0 and 99 lakhs';
+  }
+  return null;
+}
+String? validateFuelType(value){
+  if (value ==null || value.isEmpty) {
+    return "Please choose your car's fuel type";
+  }
+  return null;
 }

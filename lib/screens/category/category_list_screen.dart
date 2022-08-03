@@ -52,7 +52,7 @@ class CategoryListScreen extends StatelessWidget {
                       onTap: () {
                         categoryProvider.getCategory(doc!['category_name']);
                         categoryProvider.getCategorySnapshot(doc);
-                        if (doc!['subcategory'] == null) {
+                        if (doc['subcategory'] == null) {
                           Navigator.of(context).pushNamed(SellCarForm.screenId);
                         } else {
                           Navigator.pushNamed(
