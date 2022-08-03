@@ -103,3 +103,58 @@ wrongDetailsAlertBox(String text, BuildContext context) {
         return alert;
       });
 }
+
+openBottomSheet({required BuildContext context,required double height, required Widget child}) {
+  return showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      enableDrag: false,
+      isDismissible: false,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(20),
+                            primary: Colors.white,
+                          ),
+                          child: Icon(Icons.close, color: blackColor),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: height,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: whiteColor,
+                    ),
+                    child: child,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      });
+}

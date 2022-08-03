@@ -1,8 +1,12 @@
+import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../forms/sell_car_form.dart';
 import '../screens/category/category_list_screen.dart';
+import '../screens/category/subcategory_screen.dart';
 
 class CategoryWidget extends StatefulWidget {
   const CategoryWidget({Key? key}) : super(key: key);
@@ -16,6 +20,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var categoryProvider = Provider.of<CategoryProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: FutureBuilder<QuerySnapshot>(
@@ -64,31 +69,44 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: ((context, index) {
                           var doc = snapshot.data?.docs[index];
-                          return Container(
-                            padding: const EdgeInsets.all(0),
-                            margin: EdgeInsets.symmetric(horizontal: 5),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.network(
-                                  doc!['img'],
-                                  height: 50,
-                                  width: 50,
-                                ),
-                                const SizedBox(height: 5,),
-                                Flexible(
-                                  child: Text(
-                                    doc['category_name'],
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
+                          return InkWell(
+                            onTap: (){
+                              categoryProvider.getCategory(doc!['category_name']);
+                              categoryProvider.getCategorySnapshot(doc);
+                              if (doc['subcategory'] == null) {
+                                Navigator.of(context).pushNamed(SellCarForm.screenId);
+                              } else {
+                                Navigator.pushNamed(
+                                    context, SubCategoryScreen.screenId,
+                                    arguments: doc);
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(0),
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.network(
+                                    doc!['img'],
+                                    height: 50,
+                                    width: 50,
+                                  ),
+                                  const SizedBox(height: 5,),
+                                  Flexible(
+                                    child: Text(
+                                      doc['category_name'],
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         })),

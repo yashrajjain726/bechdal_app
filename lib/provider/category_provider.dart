@@ -10,7 +10,7 @@ class CategoryProvider with ChangeNotifier{
       notifyListeners();
   }
   getCategorySnapshot(snapshot){
-    this.doc = snapshot;
+    doc = snapshot;
     notifyListeners();
   }
 }
