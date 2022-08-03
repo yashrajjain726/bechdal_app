@@ -62,7 +62,6 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    // TODO: implement initState
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
     _emailController = TextEditingController();
@@ -74,7 +73,6 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _firstNameController.dispose();
     _lastNameController.dispose();
     _emailController.dispose();

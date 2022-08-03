@@ -57,7 +57,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     super.initState();
@@ -65,7 +64,6 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();

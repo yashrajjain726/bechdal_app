@@ -53,9 +53,13 @@ class _ResetFormWidgetState extends State<ResetFormWidget> {
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    // TODO: implement initState
     _emailController = TextEditingController();
     super.initState();
+  }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
   }
 
   @override

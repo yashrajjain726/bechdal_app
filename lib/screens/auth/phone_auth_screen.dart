@@ -28,7 +28,6 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   String verificationIdFinal = "";
   @override
   void initState() {
-    // TODO: implement initState
     _countryCodeController = TextEditingController(text: '+91');
     _phoneNumberController = TextEditingController();
     super.initState();
@@ -36,7 +35,6 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _countryCodeController.dispose();
     _phoneNumberController.dispose();
     super.dispose();
