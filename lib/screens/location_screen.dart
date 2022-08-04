@@ -4,7 +4,7 @@ import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.permission.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
-import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,7 @@ class BottomLocationPermissionWidget extends StatefulWidget {
 
 class _BottomLocationPermissionWidgetState
     extends State<BottomLocationPermissionWidget> {
-  AuthService authService = AuthService();
+  FirebaseUser firebaseUser = FirebaseUser();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -154,7 +154,7 @@ class _BottomLocationPermissionWidgetState
                                 context, serviceEnabled, permission)
                             .then((value) {
                           if (value != null) {
-                            authService.updateFirebaseUser(context, {
+                            firebaseUser.updateFirebaseUser(context, {
                               'location':
                                   GeoPoint(value.latitude, value.longitude),
                               'address': _address
@@ -231,7 +231,7 @@ class _BottomLocationPermissionWidgetState
                             }
                           });
                           if (value != null) {
-                            authService.updateFirebaseUser(context, {
+                            firebaseUser.updateFirebaseUser(context, {
                               'address': manualAddress,
                               'state': stateValue,
                               'city': cityValue,

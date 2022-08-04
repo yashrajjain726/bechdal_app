@@ -104,7 +104,10 @@ wrongDetailsAlertBox(String text, BuildContext context) {
       });
 }
 
-openBottomSheet({required BuildContext context,required double height, required Widget child}) {
+openBottomSheet(
+    {required BuildContext context,
+    required Widget child,
+    required String appBarTitle}) {
   return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       enableDrag: false,
@@ -117,36 +120,20 @@ openBottomSheet({required BuildContext context,required double height, required 
             children: [
               Container(
                 color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(20),
-                            primary: Colors.white,
-                          ),
-                          child: Icon(Icons.close, color: blackColor),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: AppBar(
+                  backgroundColor: primaryColor,
+                  title: Text(
+                    appBarTitle,
+                    style: TextStyle(color: whiteColor, fontSize: 18),
+                  ),
                 ),
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: height,
+                    height: MediaQuery.of(context).size.height/2,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
                       color: whiteColor,
                     ),
                     child: child,

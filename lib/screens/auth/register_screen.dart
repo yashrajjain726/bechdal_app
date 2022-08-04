@@ -102,7 +102,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                       Expanded(
                         child: TextFormField(
                           validator: (value) {
-                            return validateName(value, 'first');
+                            return checkNullEmptyValidation(value, 'first name');
                           },
                           controller: _firstNameController,
                           keyboardType: TextInputType.name,
@@ -128,7 +128,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                       Expanded(
                         child: TextFormField(
                           validator: (value) {
-                            return validateName(value, 'last');
+                            return checkNullEmptyValidation(value, 'last name');
                           },
                           controller: _lastNameController,
                           keyboardType: TextInputType.name,

@@ -266,15 +266,5 @@ class AuthService {
     }
   }
 
-  Future<void> updateFirebaseUser(
-      BuildContext context, Map<String, dynamic> data) {
-    User? user = FirebaseAuth.instance.currentUser;
-    return users.doc(user!.uid).update(data).then((value) {
-      customSnackBar(context: context, content: 'Location updated on database');
-    }).catchError((error) {
-      customSnackBar(
-          context: context,
-          content: 'location cannot be updated in database due to $error');
-    });
-  }
+
 }
