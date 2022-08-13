@@ -42,14 +42,16 @@ customSnackBar({required BuildContext context, required String content}) {
 
 Widget roundedButton({
   context,
-  Color? bgColor,
-  Function()? onPressed,
+  required Color? bgColor,
+  required Function()? onPressed,
   Color? textColor,
-  String? text,
+  double? width,
+  double? heightPadding,
+  required String? text,
   Color? borderColor,
 }) {
   return SizedBox(
-    width: double.infinity,
+    width: width ?? double.infinity,
     child: ElevatedButton(
       style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -63,7 +65,7 @@ Widget roundedButton({
           backgroundColor: MaterialStateProperty.all(bgColor)),
       onPressed: onPressed,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15),
+        padding: EdgeInsets.symmetric(vertical: heightPadding ?? 15),
         child: Text(
           text!,
           style: TextStyle(
@@ -107,7 +109,7 @@ wrongDetailsAlertBox(String text, BuildContext context) {
 openBottomSheet(
     {required BuildContext context,
     required Widget child,
-    required String appBarTitle}) {
+    String? appBarTitle}) {
   return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       enableDrag: false,
@@ -118,25 +120,50 @@ openBottomSheet(
         return SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                color: Colors.transparent,
-                child: AppBar(
-                  backgroundColor: primaryColor,
-                  title: Text(
-                    appBarTitle,
-                    style: TextStyle(color: whiteColor, fontSize: 18),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10, bottom: 15),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(10),
+                        primary: Colors.white,
+                      ),
+                      child: Icon(Icons.close, color: blackColor),
+                    ),
                   ),
-                ),
+                ],
               ),
+              appBarTitle != null
+                  ? Container(
+                      color: Colors.transparent,
+                      child: AppBar(
+                        automaticallyImplyLeading: false,
+                        backgroundColor: primaryColor,
+                        title: Text(
+                          appBarTitle,
+                          style: TextStyle(color: whiteColor, fontSize: 18),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height/2,
-                    decoration: BoxDecoration(
-                      color: whiteColor,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height / 2),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                      ),
+                      child: child,
                     ),
-                    child: child,
                   ),
                 ],
               ),

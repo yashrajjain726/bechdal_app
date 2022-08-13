@@ -7,6 +7,7 @@ import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/image_picker_widget.dart';
 import '../constants/functions/functions.validation.dart';
 
 class SellCarForm extends StatefulWidget {
@@ -19,7 +20,7 @@ class SellCarForm extends StatefulWidget {
 }
 
 class _SellCarFormState extends State<SellCarForm> {
-  FirebaseUser _firebaseUser =  FirebaseUser();
+  final FirebaseUser _firebaseUser = FirebaseUser();
   late TextEditingController _carModelNameController;
   late TextEditingController _yearController;
   late TextEditingController _priceController;
@@ -44,7 +45,7 @@ class _SellCarFormState extends State<SellCarForm> {
     _titleController = TextEditingController();
     _descController = TextEditingController();
     _sellerAddressController = TextEditingController();
-    _firebaseUser.getUserData().then((value){
+    _firebaseUser.getUserData().then((value) {
       setState(() {
         _sellerAddressController.text = value['address'];
       });
@@ -53,8 +54,9 @@ class _SellCarFormState extends State<SellCarForm> {
   }
 
   final List<String> _fuelType = ['Diesel', 'Petrol', 'Electric', 'LPG'];
-  final List<String> _transmissionType =['Automatic','Manual'];
-  final List<String> _noOfOwner =['1','2','3','4','4+'];
+  final List<String> _transmissionType = ['Automatic', 'Manual'];
+  final List<String> _noOfOwner = ['1', '2', '3', '4', '4+'];
+
   @override
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
@@ -69,6 +71,10 @@ class _SellCarFormState extends State<SellCarForm> {
         onPressed: () async {
           if (_formKey.currentState!.validate()) {
             print('validated');
+          } else {
+            customSnackBar(
+                context: context,
+                content: 'Please complete the required details');
           }
         },
       ),
@@ -90,15 +96,12 @@ class _SellCarFormState extends State<SellCarForm> {
                   });
                   Navigator.pop(context);
                 },
-                title: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(_fuelType[index]),
-                ),
+                title: Text(_fuelType[index]),
               );
             }));
   }
 
-  _transmissionTypeListView(BuildContext context){
+  _transmissionTypeListView(BuildContext context) {
     return openBottomSheet(
         context: context,
         appBarTitle: 'Select Transmission Type',
@@ -113,13 +116,11 @@ class _SellCarFormState extends State<SellCarForm> {
                   });
                   Navigator.pop(context);
                 },
-                title: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(_transmissionType[index]),
-                ),
+                title: Text(_transmissionType[index]),
               );
             }));
   }
+
   _ownerListView(BuildContext context) {
     return openBottomSheet(
         context: context,
@@ -135,10 +136,7 @@ class _SellCarFormState extends State<SellCarForm> {
                   });
                   Navigator.pop(context);
                 },
-                title: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(_noOfOwner[index]),
-                ),
+                title: Text(_noOfOwner[index]),
               );
             }));
   }
@@ -159,10 +157,7 @@ class _SellCarFormState extends State<SellCarForm> {
                 });
                 Navigator.pop(context);
               },
-              title: Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Text(categoryProvider.doc['models'][index]),
-              ),
+              title: Text(categoryProvider.doc['models'][index]),
             );
           }),
     );
@@ -203,7 +198,8 @@ class _SellCarFormState extends State<SellCarForm> {
                     enabled: false,
                     decoration: InputDecoration(
                         labelText: 'Model Name',
-                        errorStyle: const TextStyle(color: Colors.red, fontSize: 10),
+                        errorStyle:
+                            const TextStyle(color: Colors.red, fontSize: 10),
                         labelStyle: TextStyle(
                           color: greyColor,
                           fontSize: 14,
@@ -241,7 +237,8 @@ class _SellCarFormState extends State<SellCarForm> {
                         color: greyColor,
                         fontSize: 14,
                       ),
-                      errorStyle: TextStyle(color: Colors.red, fontSize: 10),
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       hintText: 'Enter your car purchase year',
                       hintStyle: TextStyle(
                         color: greyColor,
@@ -270,7 +267,8 @@ class _SellCarFormState extends State<SellCarForm> {
                         color: greyColor,
                         fontSize: 14,
                       ),
-                      errorStyle: const TextStyle(color: Colors.red, fontSize: 10),
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -289,7 +287,7 @@ class _SellCarFormState extends State<SellCarForm> {
                   controller: _fuelController,
                   enabled: false,
                   validator: (value) {
-                    return checkNullEmptyValidation(value,'fuel type');
+                    return checkNullEmptyValidation(value, 'fuel type');
                   },
                   decoration: InputDecoration(
                       suffixIcon: Icon(
@@ -299,7 +297,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'Fuel Type',
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -313,17 +311,19 @@ class _SellCarFormState extends State<SellCarForm> {
                           borderSide: BorderSide(color: disabledColor))),
                 ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               InkWell(
                 onTap: () {
                   _transmissionTypeListView(context);
                 },
                 child: TextFormField(
-
                   controller: _transmissionController,
                   enabled: false,
                   validator: (value) {
-                    return checkNullEmptyValidation(value,'transmission type ');
+                    return checkNullEmptyValidation(
+                        value, 'transmission type ');
                   },
                   decoration: InputDecoration(
                       suffixIcon: Icon(
@@ -333,7 +333,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'Transmission Type',
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -353,7 +353,7 @@ class _SellCarFormState extends State<SellCarForm> {
               TextFormField(
                   controller: _kmDrivenController,
                   validator: (value) {
-                    return checkNullEmptyValidation(value,'Kilometer driven');
+                    return checkNullEmptyValidation(value, 'Kilometer driven');
                   },
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -362,7 +362,8 @@ class _SellCarFormState extends State<SellCarForm> {
                         color: greyColor,
                         fontSize: 14,
                       ),
-                      errorStyle: const TextStyle(color: Colors.red, fontSize: 10),
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -370,7 +371,9 @@ class _SellCarFormState extends State<SellCarForm> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: disabledColor)))),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               InkWell(
                 onTap: () {
                   _ownerListView(context);
@@ -379,7 +382,7 @@ class _SellCarFormState extends State<SellCarForm> {
                   controller: _ownerController,
                   enabled: false,
                   validator: (value) {
-                    return checkNullEmptyValidation(value,'no. of owners ');
+                    return checkNullEmptyValidation(value, 'no. of owners ');
                   },
                   decoration: InputDecoration(
                       suffixIcon: Icon(
@@ -389,7 +392,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'No. Of Owners',
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -410,17 +413,19 @@ class _SellCarFormState extends State<SellCarForm> {
                   controller: _titleController,
                   maxLength: 50,
                   validator: (value) {
-                    return checkNullEmptyValidation(value,'title');
+                    return checkNullEmptyValidation(value, 'title');
                   },
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       labelText: 'Title',
-                      counterText: 'Mention the key features, i.e Brand, Model, Type',
+                      counterText:
+                          'Mention the key features, i.e Brand, Model, Type',
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
                       ),
-                      errorStyle: const TextStyle(color: Colors.red, fontSize: 10),
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -428,12 +433,15 @@ class _SellCarFormState extends State<SellCarForm> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: disabledColor)))),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               TextFormField(
                   controller: _descController,
                   maxLength: 50,
                   validator: (value) {
-                    return checkNullEmptyValidation(value,'car\'s description');
+                    return checkNullEmptyValidation(
+                        value, 'car\'s description');
                   },
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -443,7 +451,8 @@ class _SellCarFormState extends State<SellCarForm> {
                         color: greyColor,
                         fontSize: 14,
                       ),
-                      errorStyle: const TextStyle(color: Colors.red, fontSize: 10),
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -451,11 +460,13 @@ class _SellCarFormState extends State<SellCarForm> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: disabledColor)))),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               TextFormField(
                   controller: _sellerAddressController,
                   validator: (value) {
-                    return checkNullEmptyValidation(value,'your address');
+                    return checkNullEmptyValidation(value, 'your address');
                   },
                   minLines: 2,
                   maxLines: 4,
@@ -466,7 +477,8 @@ class _SellCarFormState extends State<SellCarForm> {
                         color: greyColor,
                         fontSize: 14,
                       ),
-                      errorStyle: const TextStyle(color: Colors.red, fontSize: 10),
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -474,15 +486,24 @@ class _SellCarFormState extends State<SellCarForm> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: disabledColor)))),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               InkWell(
-                onTap: (){},
+                onTap: () => openBottomSheet(
+                    context: context, child: const ImagePickerWidget()),
                 child: Container(
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 20),
-
-                  child: Text('Upload Image',style: TextStyle(color: blackColor,fontWeight: FontWeight.bold),),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),color: Colors.grey[300],),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    color: Colors.grey[300],
+                  ),
+                  child: Text(
+                    'Upload Image',
+                    style: TextStyle(
+                        color: blackColor, fontWeight: FontWeight.bold),
+                  ),
                 ),
               )
             ],

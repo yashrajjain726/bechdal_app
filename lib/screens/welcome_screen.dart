@@ -17,44 +17,43 @@ class WelcomeScreen extends StatelessWidget {
       body: welcomeBodyWidget(context),
       containsAppbar: false,
       centerTitle: false,
-      bottomNavigation: welcomeBottomNavigationWidget(context),
     );
   }
 
   Widget welcomeBottomNavigationWidget(context) {
-    return SafeArea(
-      child: Container(
-        height: 150,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: roundedButton(
-                  context: context,
-                  bgColor: whiteColor,
-                  borderColor: blackColor,
-                  textColor: blackColor,
-                  text: 'Log In',
-                  onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.screenId);
-                  }),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: roundedButton(
-                  context: context,
-                  bgColor: primaryColor,
-                  text: 'Sign Up',
-                  textColor: whiteColor,
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegisterScreen.screenId);
-                  }),
-            ),
-          ],
-        ),
+    return Container(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: roundedButton(
+                context: context,
+                bgColor: whiteColor,
+                borderColor: blackColor,
+                textColor: blackColor,
+                text: 'Log In',
+                onPressed: () {
+                  Navigator.pushNamed(context, LoginScreen.screenId);
+                }),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: roundedButton(
+                context: context,
+                bgColor: primaryColor,
+                text: 'Sign Up',
+                textColor: whiteColor,
+                onPressed: () {
+                  Navigator.pushNamed(context, RegisterScreen.screenId);
+                }),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
       ),
     );
   }
@@ -65,7 +64,7 @@ class WelcomeScreen extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          height: 250,
+          height: 200,
           child: Padding(
             padding: EdgeInsets.only(top: 80, left: 25),
             child: Column(
@@ -102,6 +101,7 @@ class WelcomeScreen extends StatelessWidget {
             )
           ]),
         ),
+        welcomeBottomNavigationWidget(context),
       ],
     );
   }
