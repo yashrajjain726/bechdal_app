@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+
+import 'constants/functions/functions.widgets.dart';
 
 Future<String> uploadFile(BuildContext context, String filePath) async {
   String imageName = 'product_images/${DateTime.now().microsecondsSinceEpoch}';
