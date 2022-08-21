@@ -109,7 +109,8 @@ wrongDetailsAlertBox(String text, BuildContext context) {
 openBottomSheet(
     {required BuildContext context,
     required Widget child,
-    String? appBarTitle}) {
+    String? appBarTitle,
+    double? height}) {
   return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       enableDrag: false,
@@ -157,7 +158,8 @@ openBottomSheet(
                 children: [
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height / 2),
+                        maxHeight:
+                            height ?? MediaQuery.of(context).size.height / 2),
                     child: Container(
                       decoration: BoxDecoration(
                         color: whiteColor,

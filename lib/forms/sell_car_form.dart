@@ -5,6 +5,7 @@ import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:flutter/material.dart';
+import 'package:galleryimage/galleryimage.dart';
 import 'package:provider/provider.dart';
 
 import '../components/image_picker_widget.dart';
@@ -490,8 +491,11 @@ class _SellCarFormState extends State<SellCarForm> {
                 height: 20,
               ),
               InkWell(
-                onTap: () => openBottomSheet(
-                    context: context, child: const ImagePickerWidget()),
+                onTap: () {
+                  print(categoryProvider.downloadUrlList.length);
+                  openBottomSheet(
+                      context: context, child: const ImagePickerWidget());
+                },
                 child: Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 20),
@@ -505,7 +509,16 @@ class _SellCarFormState extends State<SellCarForm> {
                         color: blackColor, fontWeight: FontWeight.bold),
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              categoryProvider.downloadUrlList.isNotEmpty
+                  ? GalleryImage(
+                      titleGallery: 'Uploaded Images',
+                      numOfShowImages: categoryProvider.downloadUrlList.length,
+                      imageUrls: categoryProvider.downloadUrlList)
+                  : SizedBox(),
             ],
           ),
         ),
