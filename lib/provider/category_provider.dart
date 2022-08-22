@@ -5,7 +5,8 @@ class CategoryProvider with ChangeNotifier {
   DocumentSnapshot? doc;
 
   String? selectedCategory;
-  List<String> downloadUrlList = [];
+  List<String> imageUploadedUrls = [];
+  Map<String, dynamic> form_data = {};
 
   getCategory(selectedCategory) {
     this.selectedCategory = selectedCategory;
@@ -18,8 +19,13 @@ class CategoryProvider with ChangeNotifier {
   }
 
   getImageList(url) {
-    downloadUrlList.add(url);
-    print(downloadUrlList.length);
+    imageUploadedUrls.add(url);
+    print(imageUploadedUrls.length);
+    notifyListeners();
+  }
+
+  getFormData(data) {
+    form_data = data;
     notifyListeners();
   }
 }

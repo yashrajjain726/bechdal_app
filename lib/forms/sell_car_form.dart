@@ -21,6 +21,7 @@ class SellCarForm extends StatefulWidget {
 }
 
 class _SellCarFormState extends State<SellCarForm> {
+  FirebaseUser firebaseUser = FirebaseUser();
   final FirebaseUser _firebaseUser = FirebaseUser();
   late TextEditingController _carModelNameController;
   late TextEditingController _yearController;
@@ -71,11 +72,27 @@ class _SellCarFormState extends State<SellCarForm> {
         validator: true,
         onPressed: () async {
           if (_formKey.currentState!.validate()) {
-            print('validated');
-          } else {
-            customSnackBar(
-                context: context,
-                content: 'Please complete the required details');
+            if (categoryProvider.imageUploadedUrls.isNotEmpty) {
+              categoryProvider.form_data.addAll({
+                'seller_uid': firebaseUser.user!.uid,
+                'category': categoryProvider.selectedCategory,
+                'brand': _carModelNameController.text,
+                'year': _yearController.text,
+                'fuel_type': _fuelController.text,
+                'transmission_type': _transmissionController.text,
+                'km_driven': _kmDrivenController.text,
+                'owners': _ownerController.text,
+                'title': _titleController.text,
+                'description': _descController.text,
+                'address': _sellerAddressController.text,
+                'images': [categoryProvider.imageUploadedUrls]
+              });
+              print(categoryProvider.form_data);
+            } else {
+              customSnackBar(
+                  context: context,
+                  content: 'Please upload images to the database');
+            }
           }
         },
       ),
@@ -154,7 +171,7 @@ class _SellCarFormState extends State<SellCarForm> {
               onTap: () {
                 setState(() {
                   _carModelNameController.text =
-                      categoryProvider.doc['models'][index];
+                  categoryProvider.doc['models'][index];
                 });
                 Navigator.pop(context);
               },
@@ -200,7 +217,7 @@ class _SellCarFormState extends State<SellCarForm> {
                     decoration: InputDecoration(
                         labelText: 'Model Name',
                         errorStyle:
-                            const TextStyle(color: Colors.red, fontSize: 10),
+                        const TextStyle(color: Colors.red, fontSize: 10),
                         labelStyle: TextStyle(
                           color: greyColor,
                           fontSize: 14,
@@ -239,7 +256,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       hintText: 'Enter your car purchase year',
                       hintStyle: TextStyle(
                         color: greyColor,
@@ -269,7 +286,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -298,7 +315,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'Fuel Type',
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -334,7 +351,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'Transmission Type',
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -364,7 +381,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -393,7 +410,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'No. Of Owners',
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -420,13 +437,13 @@ class _SellCarFormState extends State<SellCarForm> {
                   decoration: InputDecoration(
                       labelText: 'Title',
                       counterText:
-                          'Mention the key features, i.e Brand, Model, Type',
+                      'Mention the key features, i.e Brand, Model, Type',
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
                       ),
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -453,7 +470,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -479,7 +496,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                          const TextStyle(color: Colors.red, fontSize: 10),
+                      const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -492,7 +509,7 @@ class _SellCarFormState extends State<SellCarForm> {
               ),
               InkWell(
                 onTap: () {
-                  print(categoryProvider.downloadUrlList.length);
+                  print(categoryProvider.imageUploadedUrls.length);
                   openBottomSheet(
                       context: context, child: const ImagePickerWidget());
                 },
@@ -504,7 +521,9 @@ class _SellCarFormState extends State<SellCarForm> {
                     color: Colors.grey[300],
                   ),
                   child: Text(
-                    'Upload Image',
+                    categoryProvider.imageUploadedUrls.isNotEmpty
+                        ? 'Upload More Images'
+                        : 'Upload Image',
                     style: TextStyle(
                         color: blackColor, fontWeight: FontWeight.bold),
                   ),
@@ -513,11 +532,12 @@ class _SellCarFormState extends State<SellCarForm> {
               SizedBox(
                 height: 10,
               ),
-              categoryProvider.downloadUrlList.isNotEmpty
+              categoryProvider.imageUploadedUrls.isNotEmpty
                   ? GalleryImage(
                       titleGallery: 'Uploaded Images',
-                      numOfShowImages: categoryProvider.downloadUrlList.length,
-                      imageUrls: categoryProvider.downloadUrlList)
+                      numOfShowImages:
+                          categoryProvider.imageUploadedUrls.length,
+                      imageUrls: categoryProvider.imageUploadedUrls)
                   : SizedBox(),
             ],
           ),
