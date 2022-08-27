@@ -2,6 +2,7 @@ import 'package:bechdal_app/components/bottom_nav_widget.dart';
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/forms/user_form_review.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,6 @@ class SellCarForm extends StatefulWidget {
 
 class _SellCarFormState extends State<SellCarForm> {
   FirebaseUser firebaseUser = FirebaseUser();
-  final FirebaseUser _firebaseUser = FirebaseUser();
   late TextEditingController _carModelNameController;
   late TextEditingController _yearController;
   late TextEditingController _priceController;
@@ -32,7 +32,6 @@ class _SellCarFormState extends State<SellCarForm> {
   late TextEditingController _ownerController;
   late TextEditingController _titleController;
   late TextEditingController _descController;
-  late TextEditingController _sellerAddressController;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -46,18 +45,48 @@ class _SellCarFormState extends State<SellCarForm> {
     _ownerController = TextEditingController();
     _titleController = TextEditingController();
     _descController = TextEditingController();
-    _sellerAddressController = TextEditingController();
-    _firebaseUser.getUserData().then((value) {
-      setState(() {
-        _sellerAddressController.text = value['address'];
-      });
-    });
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // it is used to get context
+    var categoryProvider = Provider.of<CategoryProvider>(context);
+    setState(() {
+      _carModelNameController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['brand'];
+      _yearController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['year'];
+      _priceController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['price'];
+      _fuelController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['fuel_type'];
+      _transmissionController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['transmission_type'];
+      _kmDrivenController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['km_driven'];
+      _ownerController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['owners'];
+      _titleController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['title'];
+      _descController.text = categoryProvider.formData.isEmpty
+          ? ""
+          : categoryProvider.formData['description'];
+    });
+    super.didChangeDependencies();
   }
 
   final List<String> _fuelType = ['Diesel', 'Petrol', 'Electric', 'LPG'];
   final List<String> _transmissionType = ['Automatic', 'Manual'];
-  final List<String> _noOfOwner = ['1', '2', '3', '4', '4+'];
+  final List<String> _noOfOwner = ['1st', '2nd', '3rd', '4th', '4th+'];
 
   @override
   Widget build(BuildContext context) {
@@ -73,21 +102,22 @@ class _SellCarFormState extends State<SellCarForm> {
         onPressed: () async {
           if (_formKey.currentState!.validate()) {
             if (categoryProvider.imageUploadedUrls.isNotEmpty) {
-              categoryProvider.form_data.addAll({
+              categoryProvider.formData.addAll({
                 'seller_uid': firebaseUser.user!.uid,
                 'category': categoryProvider.selectedCategory,
                 'brand': _carModelNameController.text,
                 'year': _yearController.text,
+                'price': _priceController.text,
                 'fuel_type': _fuelController.text,
                 'transmission_type': _transmissionController.text,
                 'km_driven': _kmDrivenController.text,
                 'owners': _ownerController.text,
                 'title': _titleController.text,
                 'description': _descController.text,
-                'address': _sellerAddressController.text,
                 'images': [categoryProvider.imageUploadedUrls]
               });
-              print(categoryProvider.form_data);
+              print(categoryProvider.formData);
+              Navigator.pushNamed(context, UserFormReview.screenId);
             } else {
               customSnackBar(
                   context: context,
@@ -171,7 +201,7 @@ class _SellCarFormState extends State<SellCarForm> {
               onTap: () {
                 setState(() {
                   _carModelNameController.text =
-                  categoryProvider.doc['models'][index];
+                      categoryProvider.doc['models'][index];
                 });
                 Navigator.pop(context);
               },
@@ -217,7 +247,7 @@ class _SellCarFormState extends State<SellCarForm> {
                     decoration: InputDecoration(
                         labelText: 'Model Name',
                         errorStyle:
-                        const TextStyle(color: Colors.red, fontSize: 10),
+                            const TextStyle(color: Colors.red, fontSize: 10),
                         labelStyle: TextStyle(
                           color: greyColor,
                           fontSize: 14,
@@ -256,7 +286,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       hintText: 'Enter your car purchase year',
                       hintStyle: TextStyle(
                         color: greyColor,
@@ -286,7 +316,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -315,7 +345,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'Fuel Type',
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -351,7 +381,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'Transmission Type',
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -381,7 +411,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -410,7 +440,7 @@ class _SellCarFormState extends State<SellCarForm> {
                       ),
                       labelText: 'No. Of Owners',
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -437,13 +467,13 @@ class _SellCarFormState extends State<SellCarForm> {
                   decoration: InputDecoration(
                       labelText: 'Title',
                       counterText:
-                      'Mention the key features, i.e Brand, Model, Type',
+                          'Mention the key features, i.e Brand, Model, Type',
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
                       ),
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -470,33 +500,7 @@ class _SellCarFormState extends State<SellCarForm> {
                         fontSize: 14,
                       ),
                       errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
-                      contentPadding: const EdgeInsets.all(15),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: disabledColor)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: disabledColor)))),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  controller: _sellerAddressController,
-                  validator: (value) {
-                    return checkNullEmptyValidation(value, 'your address');
-                  },
-                  minLines: 2,
-                  maxLines: 4,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                      labelText: 'Address',
-                      labelStyle: TextStyle(
-                        color: greyColor,
-                        fontSize: 14,
-                      ),
-                      errorStyle:
-                      const TextStyle(color: Colors.red, fontSize: 10),
+                          const TextStyle(color: Colors.red, fontSize: 10),
                       contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),

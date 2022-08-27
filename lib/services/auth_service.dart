@@ -34,8 +34,10 @@ class AuthService {
     Navigator.pushReplacementNamed(context, LocationScreen.screenId);
     return users.doc(uid).set({
       'uid': uid,
-      'mobile_no': mobileNo,
+      'mobile': mobileNo,
       'email': email,
+      'name': null,
+      'address': null
     }).then((value) {
       print('user added successfully');
     }).catchError((error) => print("Failed to add user: $error"));
@@ -232,9 +234,10 @@ class AuthService {
       if (credential.user!.uid != null) {
         return users.doc(credential.user!.uid).set({
           'uid': credential.user!.uid,
-          'first_name': firstName,
-          'last_name': lastName,
+          'name': "$firstName $lastName",
           'email': email,
+          'mobile': null,
+          'address': null
         }).then((value) async {
           await credential.user!.sendEmailVerification().then((value) {
             Navigator.pushReplacementNamed(context, EmailVerifyScreen.screenId);

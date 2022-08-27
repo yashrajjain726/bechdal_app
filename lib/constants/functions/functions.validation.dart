@@ -44,13 +44,23 @@ String? validateYear(value){
   }
 
 }
-String? validateCarPrice(value){
+String? validateCarPrice(value) {
   String? checkNullEmpty = checkNullEmptyValidation(value, 'car price value');
-  if (checkNullEmpty!=null){
+  if (checkNullEmpty != null) {
+    return checkNullEmpty;
+  } else if (int.parse(value) < 1 || int.parse(value) > 99) {
+    return 'Please enter a valid value between 0 and 99 lakhs';
+  }
+  return null;
+}
+
+String? validateMobile(value) {
+  String? checkNullEmpty = checkNullEmptyValidation(value, "phone number");
+  if (checkNullEmpty != null) {
     return checkNullEmpty;
   }
-  else if(int.parse(value)<1 || int.parse(value)>99){
-    return 'Please enter a valid value between 0 and 99 lakhs';
+  if (value.length < 10 || value.substring(0, 1) <= 5) {
+    return 'Please enter a valid mobile number';
   }
   return null;
 }
