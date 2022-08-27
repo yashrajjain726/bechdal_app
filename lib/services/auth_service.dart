@@ -15,6 +15,8 @@ class AuthService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference categories =
       FirebaseFirestore.instance.collection('categories');
+  CollectionReference products =
+      FirebaseFirestore.instance.collection('products');
 
   Future<void> getAdminCredentialPhoneNumber(BuildContext context, user) async {
     final QuerySnapshot userDataQuery =
@@ -36,8 +38,8 @@ class AuthService {
       'uid': uid,
       'mobile': mobileNo,
       'email': email,
-      'name': null,
-      'address': null
+      'name': '',
+      'address': ''
     }).then((value) {
       print('user added successfully');
     }).catchError((error) => print("Failed to add user: $error"));
@@ -236,8 +238,8 @@ class AuthService {
           'uid': credential.user!.uid,
           'name': "$firstName $lastName",
           'email': email,
-          'mobile': null,
-          'address': null
+          'mobile': '',
+          'address': ''
         }).then((value) async {
           await credential.user!.sendEmailVerification().then((value) {
             Navigator.pushReplacementNamed(context, EmailVerifyScreen.screenId);

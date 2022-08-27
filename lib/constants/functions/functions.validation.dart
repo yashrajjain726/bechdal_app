@@ -59,7 +59,7 @@ String? validateMobile(value) {
   if (checkNullEmpty != null) {
     return checkNullEmpty;
   }
-  if (value.length < 10 || value.substring(0, 1) <= 5) {
+  if (value.length != 10) {
     return 'Please enter a valid mobile number';
   }
   return null;

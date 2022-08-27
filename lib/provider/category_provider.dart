@@ -8,11 +8,17 @@ class CategoryProvider with ChangeNotifier {
   DocumentSnapshot<Map<String, dynamic>>? userDetails;
 
   String? selectedCategory;
+  String? selectedSubCategory;
   List<String> imageUploadedUrls = [];
   Map<String, dynamic> formData = {};
 
   getCategory(selectedCategory) {
     this.selectedCategory = selectedCategory;
+    notifyListeners();
+  }
+
+  getSubCategory(selectedSubCategory) {
+    this.selectedSubCategory = selectedCategory;
     notifyListeners();
   }
 
@@ -35,9 +41,7 @@ class CategoryProvider with ChangeNotifier {
   getUserDetail() {
     // here we get all user data including the form part
     _firebaseUser.getUserData().then((value) {
-      userDetails = value as DocumentSnapshot<Map<String, dynamic>>?;
-      print("printing data ${userDetails!.data()}");
-
+      userDetails = value as DocumentSnapshot<Map<String, dynamic>>;
       notifyListeners();
     });
   }
