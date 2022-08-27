@@ -1,14 +1,24 @@
+import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CategoryProvider with ChangeNotifier {
+  final FirebaseUser _firebaseUser = FirebaseUser();
   DocumentSnapshot? doc;
+  DocumentSnapshot<Map<String, dynamic>>? userDetails;
 
   String? selectedCategory;
-  List<String> downloadUrlList = [];
+  String? selectedSubCategory;
+  List<String> imageUploadedUrls = [];
+  Map<String, dynamic> formData = {};
 
   getCategory(selectedCategory) {
     this.selectedCategory = selectedCategory;
+    notifyListeners();
+  }
+
+  getSubCategory(selectedSubCategory) {
+    this.selectedSubCategory = selectedCategory;
     notifyListeners();
   }
 
@@ -18,8 +28,21 @@ class CategoryProvider with ChangeNotifier {
   }
 
   getImageList(url) {
-    downloadUrlList.add(url);
-    print(downloadUrlList.length);
+    imageUploadedUrls.add(url);
+    print(imageUploadedUrls.length);
     notifyListeners();
+  }
+
+  getFormData(data) {
+    formData = data;
+    notifyListeners();
+  }
+
+  getUserDetail() {
+    // here we get all user data including the form part
+    _firebaseUser.getUserData().then((value) {
+      userDetails = value as DocumentSnapshot<Map<String, dynamic>>;
+      notifyListeners();
+    });
   }
 }

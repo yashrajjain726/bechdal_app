@@ -40,7 +40,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
           ? isUploading
               ? 150
               : 420
-          : _provider.downloadUrlList.isNotEmpty
+          : _provider.imageUploadedUrls.isNotEmpty
               ? 320
               : 320,
       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -67,12 +67,12 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                         )
                       : Image.file(_image!),
                 )
-              : (_provider.downloadUrlList.isNotEmpty)
+              : (_provider.imageUploadedUrls.isNotEmpty)
                   ? Expanded(
                       child: GalleryImage(
                           titleGallery: 'Uploaded Images',
-                          numOfShowImages: _provider.downloadUrlList.length,
-                          imageUrls: _provider.downloadUrlList),
+                          numOfShowImages: _provider.imageUploadedUrls.length,
+                          imageUrls: _provider.imageUploadedUrls),
                     )
                   : Icon(
                       CupertinoIcons.photo_on_rectangle,

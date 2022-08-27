@@ -1,5 +1,6 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/forms/sell_car_form.dart';
+import 'package:bechdal_app/forms/user_form_review.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/login_screen.dart';
@@ -55,16 +56,17 @@ class Main extends StatelessWidget {
           RegisterScreen.screenId: (context) => const RegisterScreen(),
           EmailVerifyScreen.screenId: (context) => const EmailVerifyScreen(),
           ResetPasswordScreen.screenId: (context) =>
-          const ResetPasswordScreen(),
+              const ResetPasswordScreen(),
           CategoryListScreen.screenId: (context) => const CategoryListScreen(),
           SubCategoryScreen.screenId: (context) => const SubCategoryScreen(),
           MainNavigationScreen.screenId: (context) =>
-          const MainNavigationScreen(),
+              const MainNavigationScreen(),
           ChatScreen.screenId: (context) => const ChatScreen(),
           AddPostScreen.screenId: (context) => const AddPostScreen(),
           MyPostScreen.screenId: (context) => const MyPostScreen(),
           ProfileScreen.screenId: (context) => const ProfileScreen(),
           SellCarForm.screenId: (context) => SellCarForm(),
+          UserFormReview.screenId: (context) => UserFormReview()
         });
   }
 }
