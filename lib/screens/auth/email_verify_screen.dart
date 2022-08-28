@@ -101,7 +101,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
               },
               child: CustomIconButton(
                   text: 'Verify Email',
-                  bgColor: primaryColor,
+                  bgColor: secondaryColor,
                   icon: Icons.verified_user,
                   padding:
                       const EdgeInsets.symmetric(vertical: 15, horizontal: 15)),

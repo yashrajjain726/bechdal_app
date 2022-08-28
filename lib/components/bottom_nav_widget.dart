@@ -28,14 +28,14 @@ class BottomNavigationWidget extends StatelessWidget {
             child: ElevatedButton(
               style: ButtonStyle(
                   backgroundColor: validator
-                      ? MaterialStateProperty.all(primaryColor)
+                      ? MaterialStateProperty.all(secondaryColor)
                       : MaterialStateProperty.all(disabledColor)),
               onPressed: onPressed,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   buttonText,
-                  style:  TextStyle(
+                  style: TextStyle(
                     color: whiteColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 15,

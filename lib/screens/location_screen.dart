@@ -75,7 +75,7 @@ class _BottomLocationPermissionWidgetState
       child: roundedButton(
           context: context,
           text: 'Choose Location',
-          bgColor: primaryColor,
+          bgColor: secondaryColor,
           onPressed: () {
             openLocationBottomsheet(context);
           }),
@@ -171,12 +171,12 @@ class _BottomLocationPermissionWidgetState
                       horizontalTitleGap: 0,
                       leading: Icon(
                         Icons.my_location,
-                        color: primaryColor,
+                        color: secondaryColor,
                       ),
                       title: Text(
                         'Use current Location',
                         style: TextStyle(
-                          color: primaryColor,
+                          color: secondaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

@@ -58,7 +58,7 @@ Widget roundedButton({
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
               side: BorderSide(
-                color: borderColor ?? primaryColor,
+                color: borderColor ?? secondaryColor,
               ),
             ),
           ),
@@ -145,7 +145,7 @@ openBottomSheet(
                       color: Colors.transparent,
                       child: AppBar(
                         automaticallyImplyLeading: false,
-                        backgroundColor: primaryColor,
+                        backgroundColor: secondaryColor,
                         title: Text(
                           appBarTitle,
                           style: TextStyle(color: whiteColor, fontSize: 18),

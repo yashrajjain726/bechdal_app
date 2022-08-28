@@ -30,7 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               heading: 'Create Account',
               subHeading: 'Enter your Name, Email and Password for sign up.',
               anotherTaglineText: ' Already have an account ?',
-              anotherTaglineColor: primaryColor,
+              anotherTaglineColor: secondaryColor,
               subheadingTextSize: 16,
               taglineNavigation: true,
             ),
@@ -102,7 +102,8 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                       Expanded(
                         child: TextFormField(
                           validator: (value) {
-                            return checkNullEmptyValidation(value, 'first name');
+                            return checkNullEmptyValidation(
+                                value, 'first name');
                           },
                           controller: _firstNameController,
                           keyboardType: TextInputType.name,
@@ -239,7 +240,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                   ),
                   roundedButton(
                       context: context,
-                      bgColor: primaryColor,
+                      bgColor: secondaryColor,
                       text: 'Sign Up',
                       textColor: whiteColor,
                       onPressed: () async {

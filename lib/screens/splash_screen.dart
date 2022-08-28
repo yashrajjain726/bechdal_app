@@ -23,13 +23,15 @@ class _SplashScreenState extends State<SplashScreen> {
     permissionBasedNavigationFunc();
     super.initState();
   }
+
   permissionBasedNavigationFunc() {
     Timer(const Duration(seconds: 4), () async {
       FirebaseAuth.instance.authStateChanges().listen((User? user) async {
         if (user == null) {
           Navigator.pushReplacementNamed(context, WelcomeScreen.screenId);
         } else {
-          Navigator.pushReplacementNamed(context, MainNavigationScreen.screenId);
+          Navigator.pushReplacementNamed(
+              context, MainNavigationScreen.screenId);
         }
       });
     });
@@ -50,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Text(
                   'Bechdal',
                   style: TextStyle(
-                      color: primaryColor,
+                      color: secondaryColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 30),
                 ),

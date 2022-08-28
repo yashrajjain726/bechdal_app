@@ -1,7 +1,8 @@
-import 'package:bechdal_app/components/banner_widget.dart';
 import 'package:bechdal_app/components/category_widget.dart';
 import 'package:bechdal_app/components/location_custom_appbar.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +16,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Future<List<String>> downloadBannerImageUrlList() async {
+    List<String> bannerUrlList = [];
+    final ListResult storageRef =
+        await FirebaseStorage.instance.ref().child('banner').listAll();
+    List<Reference> bannerRef = storageRef.items;
+    await Future.forEach<Reference>(bannerRef, (image) async {
+      final String fileUrl = await image.getDownloadURL();
+      bannerUrlList.add(fileUrl);
+    });
+    return bannerUrlList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,18 +78,39 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Column(
           children: [
-            BannerWidget(
-              tagLines: const [
-                'Buy your needs in seconds\nBy showing interests ',
-                'Sell your un-needs in seconds.',
-                'Connect with your buy/sell customer in seconds via\nchat and calls '
-              ],
-              bannerImage:
-                  'https://firebasestorage.googleapis.com/v0/b/bechdal-app.appspot.com/o/banner%2Fcar_banner_logo.png?alt=media&token=a5dcf75e-b3e6-4c0d-b538-c05592a2acb2',
-              bannerColor: bannerPastleOne,
-              buttonTextOne: 'Buy Cars',
-              buttonTextTwo: 'Sell Cars',
-              heading: 'Cars',
+            FutureBuilder(
+              future: downloadBannerImageUrlList(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else {
+                  if (snapshot.hasError) {
+                    return const Text(
+                        'Currently facing issue in banner loading');
+                  } else {
+                    return CarouselSlider.builder(
+                      itemCount: snapshot.data!.length,
+                      options: CarouselOptions(
+                        viewportFraction: 1,
+                        autoPlay: true,
+                        enlargeCenterPage: true,
+                      ),
+                      itemBuilder: (context, index, realIdx) {
+                        return Center(
+                          child: Container(
+                            color: primaryColor,
+                            child: Image.network(
+                              snapshot.data![index],
+                              width: double.infinity,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                }
+              },
             ),
             const CategoryWidget()
           ],

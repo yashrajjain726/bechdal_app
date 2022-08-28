@@ -94,7 +94,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                                     EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 20)),
                                 backgroundColor:
-                                    MaterialStateProperty.all(primaryColor)),
+                                    MaterialStateProperty.all(secondaryColor)),
                             child: const Text('Select Image')),
                       ),
                       SizedBox(

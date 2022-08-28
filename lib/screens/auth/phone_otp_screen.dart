@@ -61,7 +61,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
             backgroundColor: whiteColor,
             child: Icon(
               CupertinoIcons.person_alt_circle,
-              color: primaryColor,
+              color: secondaryColor,
               size: 60,
             ),
           ),

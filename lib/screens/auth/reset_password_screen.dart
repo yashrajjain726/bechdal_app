@@ -56,6 +56,7 @@ class _ResetFormWidgetState extends State<ResetFormWidget> {
     _emailController = TextEditingController();
     super.initState();
   }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -97,7 +98,7 @@ class _ResetFormWidgetState extends State<ResetFormWidget> {
                 ),
                 roundedButton(
                     context: context,
-                    bgColor: primaryColor,
+                    bgColor: secondaryColor,
                     text: 'Send Reset Link',
                     textColor: whiteColor,
                     onPressed: () async {

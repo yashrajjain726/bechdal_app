@@ -43,7 +43,7 @@ class WelcomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: roundedButton(
                 context: context,
-                bgColor: primaryColor,
+                bgColor: secondaryColor,
                 text: 'Sign Up',
                 textColor: whiteColor,
                 onPressed: () {

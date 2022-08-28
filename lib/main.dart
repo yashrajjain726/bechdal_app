@@ -34,7 +34,7 @@ void main() async {
     ChangeNotifierProvider(
       create: (_) => CategoryProvider(),
     ),
-  ], child: Main()));
+  ], child: const Main()));
 }
 
 class Main extends StatelessWidget {

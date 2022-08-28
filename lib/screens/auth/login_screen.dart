@@ -155,7 +155,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
                 ),
                 roundedButton(
                     context: context,
-                    bgColor: primaryColor,
+                    bgColor: secondaryColor,
                     text: 'Sign In',
                     textColor: whiteColor,
                     onPressed: () async {
@@ -186,7 +186,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
                 text: 'Create new account',
                 style: TextStyle(
                   fontSize: 14,
-                  color: primaryColor,
+                  color: secondaryColor,
                 ),
               )
             ],

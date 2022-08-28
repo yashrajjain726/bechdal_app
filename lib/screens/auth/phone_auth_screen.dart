@@ -85,7 +85,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             backgroundColor: whiteColor,
             child: Icon(
               CupertinoIcons.person_alt_circle,
-              color: primaryColor,
+              color: secondaryColor,
               size: 60,
             ),
           ),
