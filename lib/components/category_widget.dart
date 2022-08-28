@@ -1,3 +1,4 @@
+import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,9 +23,11 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
       child: FutureBuilder<QuerySnapshot>(
-        future: authService.categories.orderBy('category_name',descending: false).get(),
+        future: authService.categories
+            .orderBy('category_name', descending: false)
+            .get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Container();
@@ -34,7 +37,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             return Container();
           }
 
-          return SizedBox(
+          return Container(
               height: 200,
               child: Column(
                 children: [
@@ -47,7 +50,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                       )),
                       TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context,CategoryListScreen.screenId);
+                            Navigator.pushNamed(
+                                context, CategoryListScreen.screenId);
                           },
                           child: Row(
                             children: const [
@@ -70,11 +74,13 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                         itemBuilder: ((context, index) {
                           var doc = snapshot.data?.docs[index];
                           return InkWell(
-                            onTap: (){
-                              categoryProvider.getCategory(doc!['category_name']);
-                              categoryProvider.getCategorySnapshot(doc);
+                            onTap: () {
+                              categoryProvider
+                                  .setCategory(doc!['category_name']);
+                              categoryProvider.setCategorySnapshot(doc);
                               if (doc['subcategory'] == null) {
-                                Navigator.of(context).pushNamed(SellCarForm.screenId);
+                                Navigator.of(context)
+                                    .pushNamed(SellCarForm.screenId);
                               } else {
                                 Navigator.pushNamed(
                                     context, SubCategoryScreen.screenId,
@@ -93,7 +99,9 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                                     height: 50,
                                     width: 50,
                                   ),
-                                  const SizedBox(height: 5,),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
                                   Flexible(
                                     child: Text(
                                       doc['category_name'],
@@ -117,6 +125,4 @@ class _CategoryWidgetState extends State<CategoryWidget> {
       ),
     );
   }
-
-
 }

@@ -81,12 +81,16 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             height: 40,
           ),
           CircleAvatar(
-            radius: 30,
-            backgroundColor: whiteColor,
-            child: Icon(
-              CupertinoIcons.person_alt_circle,
-              color: secondaryColor,
-              size: 60,
+            backgroundColor: primaryColor,
+            radius: 40,
+            child: CircleAvatar(
+              backgroundColor: secondaryColor,
+              radius: 37,
+              child: Icon(
+                CupertinoIcons.person,
+                color: whiteColor,
+                size: 40,
+              ),
             ),
           ),
           const SizedBox(

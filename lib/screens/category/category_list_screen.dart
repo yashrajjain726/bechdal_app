@@ -50,8 +50,8 @@ class CategoryListScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: ListTile(
                       onTap: () {
-                        categoryProvider.getCategory(doc!['category_name']);
-                        categoryProvider.getCategorySnapshot(doc);
+                        categoryProvider.setCategory(doc!['category_name']);
+                        categoryProvider.setCategorySnapshot(doc);
                         if (doc['subcategory'] == null) {
                           Navigator.of(context).pushNamed(SellCarForm.screenId);
                         } else {

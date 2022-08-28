@@ -506,9 +506,9 @@ class _SellCarFormState extends State<SellCarForm> {
                   height: 20,
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     print(categoryProvider.imageUploadedUrls.length);
-                    openBottomSheet(
+                    return openBottomSheet(
                         context: context, child: const ImagePickerWidget());
                   },
                   child: Container(

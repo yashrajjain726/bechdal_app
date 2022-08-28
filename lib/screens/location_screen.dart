@@ -11,8 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class LocationScreen extends StatefulWidget {
+  final String? changingLocation;
+  final bool? onlyPopScreen;
   static const String screenId = 'location_screen';
-  const LocationScreen({Key? key}) : super(key: key);
+  const LocationScreen({
+    Key? key,
+    this.changingLocation,
+    this.onlyPopScreen,
+  }) : super(key: key);
 
   @override
   State<LocationScreen> createState() => _LocationScreenState();
@@ -26,7 +32,10 @@ class _LocationScreenState extends State<LocationScreen> {
       body: bodyLocationWidget(context),
       containsAppbar: false,
       centerTitle: true,
-      bottomNavigation: const BottomLocationPermissionWidget(),
+      bottomNavigation: BottomLocationPermissionWidget(
+        changingLocation: widget.changingLocation,
+        onlyPopScreen: widget.onlyPopScreen,
+      ),
     );
   }
 
@@ -55,9 +64,11 @@ class _LocationScreenState extends State<LocationScreen> {
 }
 
 class BottomLocationPermissionWidget extends StatefulWidget {
-  const BottomLocationPermissionWidget({
-    Key? key,
-  }) : super(key: key);
+  String? changingLocation;
+  bool? onlyPopScreen;
+  BottomLocationPermissionWidget(
+      {this.changingLocation, Key? key, this.onlyPopScreen})
+      : super(key: key);
 
   @override
   State<BottomLocationPermissionWidget> createState() =>
@@ -160,10 +171,13 @@ class _BottomLocationPermissionWidgetState
                               'address': _address
                             }).then((value) {
                               Navigator.pop(context);
-                              Navigator.pushReplacementNamed(
-                                context,
-                                MainNavigationScreen.screenId,
-                              );
+                              return (widget.onlyPopScreen == true)
+                                  ? Navigator.pop(context)
+                                  : Navigator.pushReplacementNamed(
+                                      context,
+                                      (widget.changingLocation) ??
+                                          MainNavigationScreen.screenId,
+                                    );
                             });
                           }
                         });
@@ -238,10 +252,14 @@ class _BottomLocationPermissionWidgetState
                               'country': countryValue
                             }).then((value) {
                               print(manualAddress + 'inside manual selection');
-                              Navigator.pushReplacementNamed(
-                                context,
-                                MainNavigationScreen.screenId,
-                              );
+
+                              return (widget.onlyPopScreen == true)
+                                  ? Navigator.pop(context)
+                                  : Navigator.pushReplacementNamed(
+                                      context,
+                                      (widget.changingLocation) ??
+                                          MainNavigationScreen.screenId,
+                                    );
                             });
                           }
                         },

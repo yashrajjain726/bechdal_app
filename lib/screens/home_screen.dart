@@ -25,6 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
       final String fileUrl = await image.getDownloadURL();
       bannerUrlList.add(fileUrl);
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      for (var imageUrl in bannerUrlList) {
+        precacheImage(NetworkImage(imageUrl), context);
+      }
+    });
     return bannerUrlList;
   }
 
@@ -83,7 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
               builder:
                   (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return Container(
+                    height: 200,
+                  );
                 } else {
                   if (snapshot.hasError) {
                     return const Text(
@@ -97,14 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         enlargeCenterPage: true,
                       ),
                       itemBuilder: (context, index, realIdx) {
-                        return Center(
-                          child: Container(
-                            color: primaryColor,
-                            child: Image.network(
-                              snapshot.data![index],
-                              width: double.infinity,
-                            ),
-                          ),
+                        return Image.network(
+                          snapshot.data![index],
+                          width: double.infinity,
+                          fit: BoxFit.contain,
                         );
                       },
                     );

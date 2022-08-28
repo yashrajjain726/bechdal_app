@@ -12,28 +12,28 @@ class CategoryProvider with ChangeNotifier {
   List<String> imageUploadedUrls = [];
   Map<String, dynamic> formData = {};
 
-  getCategory(selectedCategory) {
+  setCategory(selectedCategory) {
     this.selectedCategory = selectedCategory;
     notifyListeners();
   }
 
-  getSubCategory(selectedSubCategory) {
+  setSubCategory(selectedSubCategory) {
     this.selectedSubCategory = selectedCategory;
     notifyListeners();
   }
 
-  getCategorySnapshot(snapshot) {
+  setCategorySnapshot(snapshot) {
     doc = snapshot;
     notifyListeners();
   }
 
-  getImageList(url) {
+  setImageList(url) {
     imageUploadedUrls.add(url);
     print(imageUploadedUrls.length);
     notifyListeners();
   }
 
-  getFormData(data) {
+  setFormData(data) {
     formData = data;
     notifyListeners();
   }
