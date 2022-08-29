@@ -52,6 +52,8 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
 
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  late final FocusNode _emailNode;
+  late final FocusNode _passwordNode;
   final _formKey = GlobalKey<FormState>();
   bool obsecure = true;
 
@@ -59,6 +61,8 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _emailNode = FocusNode();
+    _passwordNode = FocusNode();
     super.initState();
   }
 
@@ -66,6 +70,8 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _emailNode.dispose();
+    _passwordNode.dispose();
     super.dispose();
   }
 
@@ -82,6 +88,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
             child: Column(
               children: [
                 TextFormField(
+                  focusNode: _emailNode,
                   controller: _emailController,
                   validator: (value) {
                     return validateEmail(
@@ -103,6 +110,7 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
                   height: 15,
                 ),
                 TextFormField(
+                  focusNode: _passwordNode,
                   controller: _passwordController,
                   validator: (value) {
                     return validatePassword(value, _passwordController.text);

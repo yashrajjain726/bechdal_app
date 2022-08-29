@@ -59,6 +59,11 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
+  late final FocusNode _firstNameNode;
+  late final FocusNode _lastNameNode;
+  late final FocusNode _emailNode;
+  late final FocusNode _passwordNode;
+  late final FocusNode _confirmPasswordNode;
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -67,6 +72,11 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
+    _firstNameNode = FocusNode();
+    _lastNameNode = FocusNode();
+    _emailNode = FocusNode();
+    _passwordNode = FocusNode();
+    _confirmPasswordNode = FocusNode();
 
     super.initState();
   }
@@ -78,6 +88,11 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _firstNameNode.dispose();
+    _lastNameNode.dispose();
+    _emailNode.dispose();
+    _passwordNode.dispose();
+    _confirmPasswordNode.dispose();
     super.dispose();
   }
 
@@ -101,6 +116,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          focusNode: _firstNameNode,
                           validator: (value) {
                             return checkNullEmptyValidation(
                                 value, 'first name');
@@ -128,6 +144,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                       ),
                       Expanded(
                         child: TextFormField(
+                          focusNode: _lastNameNode,
                           validator: (value) {
                             return checkNullEmptyValidation(value, 'last name');
                           },
@@ -155,6 +172,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     height: 15,
                   ),
                   TextFormField(
+                    focusNode: _emailNode,
                     controller: _emailController,
                     validator: (value) {
                       return validateEmail(value,
@@ -180,6 +198,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     height: 15,
                   ),
                   TextFormField(
+                    focusNode: _passwordNode,
                     obscureText: obsecure,
                     controller: _passwordController,
                     validator: (value) {
@@ -214,6 +233,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                     height: 15,
                   ),
                   TextFormField(
+                    focusNode: _confirmPasswordNode,
                     obscureText: true,
                     controller: _confirmPasswordController,
                     validator: (value) {

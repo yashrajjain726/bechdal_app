@@ -50,16 +50,19 @@ class ResetFormWidget extends StatefulWidget {
 class _ResetFormWidgetState extends State<ResetFormWidget> {
   AuthService authService = AuthService();
   late final TextEditingController _emailController;
+  late final FocusNode _emailNode;
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     _emailController = TextEditingController();
+    _emailNode = FocusNode();
     super.initState();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
+    _emailNode.dispose();
     super.dispose();
   }
 
@@ -76,6 +79,7 @@ class _ResetFormWidgetState extends State<ResetFormWidget> {
             child: Column(
               children: [
                 TextFormField(
+                  focusNode: _emailNode,
                   controller: _emailController,
                   validator: (value) {
                     return validateEmail(

@@ -2,7 +2,6 @@ import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
-import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
@@ -37,6 +36,25 @@ class _UserFormReviewState extends State<UserFormReview> {
   late TextEditingController _phoneNumberController;
   late TextEditingController _emailController;
   late TextEditingController _addressController;
+  late FocusNode _nameNode;
+  late FocusNode _countryCodeNode;
+  late FocusNode _phoneNumberNode;
+  late FocusNode _emailNode;
+  late FocusNode _addressNode;
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _countryCodeController.dispose();
+    _phoneNumberController.dispose();
+    _emailController.dispose();
+    _addressController.dispose();
+    _nameNode.dispose();
+    _countryCodeNode.dispose();
+    _phoneNumberNode.dispose();
+    _emailNode.dispose();
+    _addressNode.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -254,8 +272,9 @@ class _UserFormReviewState extends State<UserFormReview> {
             return const Center(child: CircularProgressIndicator());
           }
           _nameController.text = snapshot.data!['name'] ?? '';
-          _phoneNumberController.text =
-              snapshot.data!['mobile'].substring(3) ?? '';
+          _phoneNumberController.text = snapshot.data!['mobile'] != null
+              ? snapshot.data!['mobile'].substring(3)
+              : '';
           _emailController.text = snapshot.data!['email'] ?? '';
           _addressController.text = snapshot.data!['address'] ?? '';
           return SingleChildScrollView(
@@ -286,6 +305,7 @@ class _UserFormReviewState extends State<UserFormReview> {
                       ),
                       Expanded(
                         child: TextFormField(
+                            focusNode: _nameNode,
                             controller: _nameController,
                             validator: (value) =>
                                 checkNullEmptyValidation(value, "name"),
@@ -324,6 +344,7 @@ class _UserFormReviewState extends State<UserFormReview> {
                       Expanded(
                         flex: 1,
                         child: TextFormField(
+                            focusNode: _countryCodeNode,
                             enabled: false,
                             controller: _countryCodeController,
                             decoration: InputDecoration(
@@ -339,6 +360,7 @@ class _UserFormReviewState extends State<UserFormReview> {
                       Expanded(
                         flex: 3,
                         child: TextFormField(
+                            focusNode: _phoneNumberNode,
                             controller: _phoneNumberController,
                             maxLength: 10,
                             maxLengthEnforcement: MaxLengthEnforcement.enforced,
@@ -365,6 +387,7 @@ class _UserFormReviewState extends State<UserFormReview> {
                     height: 20,
                   ),
                   TextFormField(
+                      focusNode: _emailNode,
                       controller: _emailController,
                       validator: (value) => validateEmail(
                             value,
@@ -398,6 +421,7 @@ class _UserFormReviewState extends State<UserFormReview> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                              focusNode: _addressNode,
                               enabled: false,
                               controller: _addressController,
                               validator: (value) {

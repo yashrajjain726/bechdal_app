@@ -85,6 +85,7 @@ class _SellCarFormState extends State<SellCarForm> {
     _kmDrivenNode.dispose();
     _ownerNode.dispose();
     _titleNode.dispose();
+    _descNode.dispose();
     super.dispose();
   }
 

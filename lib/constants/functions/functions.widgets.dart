@@ -118,7 +118,6 @@ customHomeAppBar(
         child: TextFormField(
           controller: controller,
           focusNode: focusNode,
-          autofocus: false,
           decoration: InputDecoration(
               filled: true,
               fillColor: whiteColor,

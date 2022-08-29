@@ -22,6 +22,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   AuthService authService = AuthService();
   late final TextEditingController _countryCodeController;
   late final TextEditingController _phoneNumberController;
+  late final FocusNode _countryCodeNode;
+  late final FocusNode _phoneNumberNode;
   String counterText = '0';
   bool validate = false;
   bool isLoading = true;
@@ -30,6 +32,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   void initState() {
     _countryCodeController = TextEditingController(text: '+91');
     _phoneNumberController = TextEditingController();
+    _countryCodeNode = FocusNode();
+    _phoneNumberNode = FocusNode();
     super.initState();
   }
 
@@ -37,6 +41,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   void dispose() {
     _countryCodeController.dispose();
     _phoneNumberController.dispose();
+    _countryCodeNode.dispose();
+    _phoneNumberNode.dispose();
     super.dispose();
   }
 
@@ -120,6 +126,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
               Expanded(
                   flex: 1,
                   child: TextFormField(
+                    focusNode: _countryCodeNode,
                     textAlign: TextAlign.center,
                     controller: _countryCodeController,
                     decoration: InputDecoration(
@@ -137,7 +144,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                   child: Container(
                     margin: const EdgeInsets.only(top: 20),
                     child: TextFormField(
-                      autofocus: true,
+                      focusNode: _phoneNumberNode,
                       maxLength: 10,
                       onChanged: (value) {
                         setState(() {
