@@ -181,18 +181,22 @@ class AuthService {
       required String password,
       required bool isLoginUser}) async {
     DocumentSnapshot _result = await users.doc(email).get();
-
-    if (isLoginUser) {
-      print('loggin user');
-      signInWithEmail(context, email, password);
-    } else {
-      if (_result.exists) {
-        customSnackBar(
-            context: context,
-            content: 'An account already exists with this email');
+    print(_result);
+    try {
+      if (isLoginUser) {
+        print('loggin user');
+        signInWithEmail(context, email, password);
       } else {
-        registerWithEmail(context, email, password, firstName!, lastName!);
+        if (_result.exists) {
+          customSnackBar(
+              context: context,
+              content: 'An account already exists with this email');
+        } else {
+          registerWithEmail(context, email, password, firstName!, lastName!);
+        }
       }
+    } catch (e) {
+      customSnackBar(context: context, content: e.toString());
     }
     return _result;
   }
@@ -270,6 +274,4 @@ class AuthService {
           context: context, content: 'Error occured: ${e.toString()}');
     }
   }
-
-
 }

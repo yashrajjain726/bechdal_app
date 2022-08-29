@@ -1,6 +1,6 @@
 import 'package:bechdal_app/components/category_widget.dart';
-import 'package:bechdal_app/components/location_custom_appbar.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late TextEditingController searchController;
+  late FocusNode searchNode;
   Future<List<String>> downloadBannerImageUrlList() async {
     List<String> bannerUrlList = [];
     final ListResult storageRef =
@@ -34,10 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    searchController = TextEditingController();
+    searchNode = FocusNode();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(50), child: LocationCustomBar()),
+      appBar:
+          customHomeAppBar(controller: searchController, focusNode: searchNode),
       body: homeBodyWidget(),
     );
   }
@@ -45,42 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget homeBodyWidget() {
     return Container(
       color: whiteColor,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.zero,
       child: Column(children: [
-        Container(
-          color: whiteColor,
-          child: Row(children: [
-            Expanded(
-              child: SizedBox(
-                height: 50,
-                child: TextFormField(
-                  autofocus: false,
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
-                      labelText:
-                          'Search mobile, cars equipments and many more..',
-                      labelStyle: const TextStyle(
-                        fontSize: 14,
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 10),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6))),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            const Icon(Icons.notifications_none),
-            const SizedBox(
-              width: 10,
-            ),
-          ]),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
         Column(
           children: [
             FutureBuilder(
@@ -96,20 +72,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     return const Text(
                         'Currently facing issue in banner loading');
                   } else {
-                    return CarouselSlider.builder(
-                      itemCount: snapshot.data!.length,
-                      options: CarouselOptions(
-                        viewportFraction: 1,
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                      ),
-                      itemBuilder: (context, index, realIdx) {
-                        return Image.network(
-                          snapshot.data![index],
-                          width: double.infinity,
-                          fit: BoxFit.contain,
-                        );
-                      },
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        CarouselSlider.builder(
+                          itemCount: snapshot.data!.length,
+                          options: CarouselOptions(
+                            viewportFraction: 1,
+                            autoPlay: true,
+                            enlargeCenterPage: true,
+                          ),
+                          itemBuilder: (context, index, realIdx) {
+                            return Image.network(
+                              snapshot.data![index],
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                            );
+                          },
+                        )
+                      ],
                     );
                   }
                 }

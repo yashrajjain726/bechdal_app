@@ -106,6 +106,52 @@ wrongDetailsAlertBox(String text, BuildContext context) {
       });
 }
 
+customHomeAppBar(
+    {required TextEditingController controller, required FocusNode focusNode}) {
+  return AppBar(
+    backgroundColor: blackColor,
+    automaticallyImplyLeading: false,
+    bottom: PreferredSize(
+      preferredSize: const Size.square(65),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: TextFormField(
+          controller: controller,
+          focusNode: focusNode,
+          autofocus: false,
+          decoration: InputDecoration(
+              filled: true,
+              fillColor: whiteColor,
+              prefixIcon: const Icon(Icons.search),
+              labelText: 'Search mobile, cars equipments and many more..',
+              labelStyle: const TextStyle(
+                fontSize: 14,
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(6))),
+        ),
+      ),
+    ),
+    title: Text("Bechdal"),
+    actions: <Widget>[
+      IconButton(
+        onPressed: () {},
+        icon: Icon(
+          Icons.notifications,
+          color: whiteColor,
+        ),
+      ),
+      IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.shopping_cart,
+            color: whiteColor,
+          ))
+    ],
+  );
+}
+
 openBottomSheet(
     {required BuildContext context,
     required Widget child,

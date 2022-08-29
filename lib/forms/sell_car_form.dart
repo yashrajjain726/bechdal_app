@@ -32,6 +32,15 @@ class _SellCarFormState extends State<SellCarForm> {
   late TextEditingController _ownerController;
   late TextEditingController _titleController;
   late TextEditingController _descController;
+  late FocusNode _carModelNameNode;
+  late FocusNode _yearNode;
+  late FocusNode _priceNode;
+  late FocusNode _fuelNode;
+  late FocusNode _transmissionNode;
+  late FocusNode _kmDrivenNode;
+  late FocusNode _ownerNode;
+  late FocusNode _titleNode;
+  late FocusNode _descNode;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -45,7 +54,38 @@ class _SellCarFormState extends State<SellCarForm> {
     _ownerController = TextEditingController();
     _titleController = TextEditingController();
     _descController = TextEditingController();
+    _carModelNameNode = FocusNode();
+    _yearNode = FocusNode();
+    _priceNode = FocusNode();
+    _fuelNode = FocusNode();
+    _transmissionNode = FocusNode();
+    _kmDrivenNode = FocusNode();
+    _ownerNode = FocusNode();
+    _titleNode = FocusNode();
+    _descNode = FocusNode();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _carModelNameController.dispose();
+    _yearController.dispose();
+    _priceController.dispose();
+    _fuelController.dispose();
+    _transmissionController.dispose();
+    _kmDrivenController.dispose();
+    _ownerController.dispose();
+    _titleController.dispose();
+    _descController.dispose();
+    _carModelNameNode.dispose();
+    _yearNode.dispose();
+    _priceNode.dispose();
+    _fuelNode.dispose();
+    _transmissionNode.dispose();
+    _kmDrivenNode.dispose();
+    _ownerNode.dispose();
+    _titleNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -239,6 +279,7 @@ class _SellCarFormState extends State<SellCarForm> {
                 InkWell(
                   onTap: () => _getCarModelList(context, categoryProvider),
                   child: TextFormField(
+                      focusNode: _carModelNameNode,
                       controller: _carModelNameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -279,6 +320,7 @@ class _SellCarFormState extends State<SellCarForm> {
                 ),
                 TextFormField(
                     controller: _yearController,
+                    focusNode: _yearNode,
                     validator: (value) {
                       return validateYear(value);
                     },
@@ -305,6 +347,7 @@ class _SellCarFormState extends State<SellCarForm> {
                 ),
                 TextFormField(
                     controller: _priceController,
+                    focusNode: _priceNode,
                     validator: (value) {
                       return validateCarPrice(value);
                     },
@@ -332,6 +375,7 @@ class _SellCarFormState extends State<SellCarForm> {
                   },
                   child: TextFormField(
                     controller: _fuelController,
+                    focusNode: _fuelNode,
                     enabled: false,
                     validator: (value) {
                       return checkNullEmptyValidation(value, 'fuel type');
@@ -367,6 +411,7 @@ class _SellCarFormState extends State<SellCarForm> {
                   },
                   child: TextFormField(
                     controller: _transmissionController,
+                    focusNode: _transmissionNode,
                     enabled: false,
                     validator: (value) {
                       return checkNullEmptyValidation(
@@ -399,6 +444,7 @@ class _SellCarFormState extends State<SellCarForm> {
                 ),
                 TextFormField(
                     controller: _kmDrivenController,
+                    focusNode: _kmDrivenNode,
                     validator: (value) {
                       return checkNullEmptyValidation(
                           value, 'Kilometer driven');
@@ -426,6 +472,7 @@ class _SellCarFormState extends State<SellCarForm> {
                   },
                   child: TextFormField(
                     controller: _ownerController,
+                    focusNode: _ownerNode,
                     enabled: false,
                     validator: (value) {
                       return checkNullEmptyValidation(value, 'no. of owners ');
@@ -457,6 +504,7 @@ class _SellCarFormState extends State<SellCarForm> {
                 ),
                 TextFormField(
                     controller: _titleController,
+                    focusNode: _titleNode,
                     maxLength: 50,
                     validator: (value) {
                       return checkNullEmptyValidation(value, 'title');
@@ -482,6 +530,7 @@ class _SellCarFormState extends State<SellCarForm> {
                 ),
                 TextFormField(
                     controller: _descController,
+                    focusNode: _descNode,
                     maxLength: 50,
                     validator: (value) {
                       return checkNullEmptyValidation(
