@@ -173,7 +173,7 @@ class _UserFormReviewState extends State<UserFormReview> {
                       ],
                     ),
                     subtitle: Text(
-                      '\u{20B9} ${categoryProvider.formData['price']} lakhs/-',
+                      '\u{20B9} ${categoryProvider.formData['price']}',
                       style: TextStyle(
                         color: blackColor,
                         fontWeight: FontWeight.bold,

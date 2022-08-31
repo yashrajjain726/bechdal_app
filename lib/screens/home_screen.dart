@@ -117,6 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(children: [
             Column(
               children: [
+                CategoryWidget(),
                 FutureBuilder(
                   future: downloadBannerImageUrlList(),
                   builder: (BuildContext context,
@@ -138,6 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             CarouselSlider.builder(
                               itemCount: snapshot.data!.length,
                               options: CarouselOptions(
+                                height: 200,
                                 viewportFraction: 1,
                                 autoPlay: true,
                                 enlargeCenterPage: true,
@@ -146,7 +148,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return Image.network(
                                   snapshot.data![index],
                                   width: double.infinity,
-                                  fit: BoxFit.fill,
                                 );
                               },
                             )
@@ -156,7 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   },
                 ),
-                const CategoryWidget()
               ],
             )
           ]),

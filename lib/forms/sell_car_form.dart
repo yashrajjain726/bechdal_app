@@ -157,7 +157,8 @@ class _SellCarFormState extends State<SellCarForm> {
               'description': _descController.text,
               'images': categoryProvider.imageUploadedUrls.isEmpty
                   ? ''
-                  : categoryProvider.imageUploadedUrls
+                  : categoryProvider.imageUploadedUrls,
+              'posted_at': DateTime.now().microsecondsSinceEpoch
             });
             if (categoryProvider.imageUploadedUrls.isNotEmpty) {
               Navigator.pushNamed(context, UserFormReview.screenId);
@@ -271,7 +272,7 @@ class _SellCarFormState extends State<SellCarForm> {
                   style: TextStyle(
                     color: blackColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 28,
+                    fontSize: 25,
                   ),
                 ),
                 const SizedBox(
@@ -291,32 +292,121 @@ class _SellCarFormState extends State<SellCarForm> {
                       keyboardType: TextInputType.name,
                       enabled: false,
                       decoration: InputDecoration(
-                          labelText: 'Model Name',
-                          errorStyle:
-                              const TextStyle(color: Colors.red, fontSize: 10),
-                          labelStyle: TextStyle(
-                            color: greyColor,
-                            fontSize: 14,
-                          ),
-                          suffixIcon: Icon(
-                            Icons.arrow_drop_down_sharp,
-                            color: blackColor,
-                            size: 30,
-                          ),
-                          hintText: 'Enter your car model variant',
-                          hintStyle: TextStyle(
-                            color: greyColor,
-                            fontSize: 14,
-                          ),
-                          contentPadding: const EdgeInsets.all(15),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: disabledColor)),
-                          disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: disabledColor)))),
+                        labelText: 'Model Name',
+                        errorStyle:
+                            const TextStyle(color: Colors.red, fontSize: 10),
+                        labelStyle: TextStyle(
+                          color: greyColor,
+                          fontSize: 14,
+                        ),
+                        suffixIcon: Icon(
+                          Icons.arrow_drop_down_sharp,
+                          color: blackColor,
+                          size: 30,
+                        ),
+                        hintText: 'Enter your car model variant',
+                        hintStyle: TextStyle(
+                          color: greyColor,
+                          fontSize: 14,
+                        ),
+                        contentPadding: const EdgeInsets.all(15),
+                      )),
                 ),
                 const SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    _fuelTypeListView(context);
+                  },
+                  child: TextFormField(
+                    controller: _fuelController,
+                    focusNode: _fuelNode,
+                    enabled: false,
+                    validator: (value) {
+                      return checkNullEmptyValidation(value, 'fuel type');
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.arrow_drop_down_sharp,
+                        size: 30,
+                        color: blackColor,
+                      ),
+                      labelText: 'Fuel Type',
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
+                      labelStyle: TextStyle(
+                        color: greyColor,
+                        fontSize: 14,
+                      ),
+                      contentPadding: const EdgeInsets.all(15),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    _transmissionTypeListView(context);
+                  },
+                  child: TextFormField(
+                    controller: _transmissionController,
+                    focusNode: _transmissionNode,
+                    enabled: false,
+                    validator: (value) {
+                      return checkNullEmptyValidation(
+                          value, 'transmission type ');
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.arrow_drop_down_sharp,
+                        size: 30,
+                        color: blackColor,
+                      ),
+                      labelText: 'Transmission Type',
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
+                      labelStyle: TextStyle(
+                        color: greyColor,
+                        fontSize: 14,
+                      ),
+                      contentPadding: const EdgeInsets.all(15),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    _ownerListView(context);
+                  },
+                  child: TextFormField(
+                    controller: _ownerController,
+                    focusNode: _ownerNode,
+                    enabled: false,
+                    validator: (value) {
+                      return checkNullEmptyValidation(value, 'no. of owners ');
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.arrow_drop_down_sharp,
+                        size: 30,
+                        color: blackColor,
+                      ),
+                      labelText: 'No. Of Owners',
+                      errorStyle:
+                          const TextStyle(color: Colors.red, fontSize: 10),
+                      labelStyle: TextStyle(
+                        color: greyColor,
+                        fontSize: 14,
+                      ),
+                      contentPadding: const EdgeInsets.all(15),
+                    ),
+                  ),
+                ),
+                SizedBox(
                   height: 10,
                 ),
                 TextFormField(
@@ -350,12 +440,12 @@ class _SellCarFormState extends State<SellCarForm> {
                     controller: _priceController,
                     focusNode: _priceNode,
                     validator: (value) {
-                      return validateCarPrice(value);
+                      return validatePrice(value);
                     },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       prefix: const Text('₹ '),
-                      labelText: 'Car Price (in lakhs)',
+                      labelText: 'Car Price',
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,
@@ -367,79 +457,6 @@ class _SellCarFormState extends State<SellCarForm> {
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: disabledColor)),
                     )),
-                const SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    _fuelTypeListView(context);
-                  },
-                  child: TextFormField(
-                    controller: _fuelController,
-                    focusNode: _fuelNode,
-                    enabled: false,
-                    validator: (value) {
-                      return checkNullEmptyValidation(value, 'fuel type');
-                    },
-                    decoration: InputDecoration(
-                        suffixIcon: Icon(
-                          Icons.arrow_drop_down_sharp,
-                          size: 30,
-                          color: blackColor,
-                        ),
-                        labelText: 'Fuel Type',
-                        errorStyle:
-                            const TextStyle(color: Colors.red, fontSize: 10),
-                        labelStyle: TextStyle(
-                          color: greyColor,
-                          fontSize: 14,
-                        ),
-                        contentPadding: const EdgeInsets.all(15),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: disabledColor)),
-                        disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: disabledColor))),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    _transmissionTypeListView(context);
-                  },
-                  child: TextFormField(
-                    controller: _transmissionController,
-                    focusNode: _transmissionNode,
-                    enabled: false,
-                    validator: (value) {
-                      return checkNullEmptyValidation(
-                          value, 'transmission type ');
-                    },
-                    decoration: InputDecoration(
-                        suffixIcon: Icon(
-                          Icons.arrow_drop_down_sharp,
-                          size: 30,
-                          color: blackColor,
-                        ),
-                        labelText: 'Transmission Type',
-                        errorStyle:
-                            const TextStyle(color: Colors.red, fontSize: 10),
-                        labelStyle: TextStyle(
-                          color: greyColor,
-                          fontSize: 14,
-                        ),
-                        contentPadding: const EdgeInsets.all(15),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: disabledColor)),
-                        disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: disabledColor))),
-                  ),
-                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -464,42 +481,6 @@ class _SellCarFormState extends State<SellCarForm> {
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: disabledColor)),
                     )),
-                const SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    _ownerListView(context);
-                  },
-                  child: TextFormField(
-                    controller: _ownerController,
-                    focusNode: _ownerNode,
-                    enabled: false,
-                    validator: (value) {
-                      return checkNullEmptyValidation(value, 'no. of owners ');
-                    },
-                    decoration: InputDecoration(
-                        suffixIcon: Icon(
-                          Icons.arrow_drop_down_sharp,
-                          size: 30,
-                          color: blackColor,
-                        ),
-                        labelText: 'No. Of Owners',
-                        errorStyle:
-                            const TextStyle(color: Colors.red, fontSize: 10),
-                        labelStyle: TextStyle(
-                          color: greyColor,
-                          fontSize: 14,
-                        ),
-                        contentPadding: const EdgeInsets.all(15),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: disabledColor)),
-                        disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: disabledColor))),
-                  ),
-                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -532,15 +513,14 @@ class _SellCarFormState extends State<SellCarForm> {
                 TextFormField(
                     controller: _descController,
                     focusNode: _descNode,
-                    maxLength: 50,
+                    maxLines: 3,
                     validator: (value) {
                       return checkNullEmptyValidation(
                           value, 'car\'s description');
                     },
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      labelText: 'Description',
-                      counterText: '',
+                      labelText: 'Description*',
                       labelStyle: TextStyle(
                         color: greyColor,
                         fontSize: 14,

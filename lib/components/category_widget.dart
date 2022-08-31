@@ -1,12 +1,12 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
+import 'package:bechdal_app/screens/category/category_list_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../forms/sell_car_form.dart';
-import '../screens/category/category_list_screen.dart';
 import '../screens/category/subcategory_screen.dart';
 
 class CategoryWidget extends StatefulWidget {
@@ -38,34 +38,44 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           }
 
           return Container(
-              height: 200,
+              height: 100,
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      const Expanded(
-                          child: Text(
-                        'Categories',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, CategoryListScreen.screenId);
-                          },
-                          child: Row(
-                            children: const [
-                              Text('See All'),
-                              SizedBox(
-                                width: 2,
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () => Navigator.pushNamed(
+                        context, CategoryListScreen.screenId),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Categories',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'See All',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                color: linkColor,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 14,
-                              )
-                            ],
-                          )),
-                    ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 14,
+                              color: linkColor,
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Expanded(
                     child: ListView.builder(
