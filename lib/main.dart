@@ -1,4 +1,5 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/forms/common_form.dart';
 import 'package:bechdal_app/forms/sell_car_form.dart';
 import 'package:bechdal_app/forms/user_form_review.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
@@ -68,8 +69,9 @@ class Main extends StatelessWidget {
           AddPostScreen.screenId: (context) => const AddPostScreen(),
           MyPostScreen.screenId: (context) => const MyPostScreen(),
           ProfileScreen.screenId: (context) => const ProfileScreen(),
-          SellCarForm.screenId: (context) => SellCarForm(),
-          UserFormReview.screenId: (context) => UserFormReview()
+          SellCarForm.screenId: (context) => const SellCarForm(),
+          UserFormReview.screenId: (context) => const UserFormReview(),
+          CommonForm.screenId: (context) => const CommonForm(),
         });
   }
 }
