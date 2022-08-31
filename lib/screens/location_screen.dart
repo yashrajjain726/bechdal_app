@@ -11,13 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class LocationScreen extends StatefulWidget {
-  final String? changingLocation;
-  final bool? onlyPopScreen;
+  final bool? onlyPop;
+  final String? popToScreen;
   static const String screenId = 'location_screen';
   const LocationScreen({
+    this.popToScreen,
+    this.onlyPop,
     Key? key,
-    this.changingLocation,
-    this.onlyPopScreen,
   }) : super(key: key);
 
   @override
@@ -33,9 +33,7 @@ class _LocationScreenState extends State<LocationScreen> {
       containsAppbar: false,
       centerTitle: true,
       bottomNavigation: BottomLocationPermissionWidget(
-        changingLocation: widget.changingLocation,
-        onlyPopScreen: widget.onlyPopScreen,
-      ),
+          onlyPop: widget.onlyPop, popToScreen: widget.popToScreen ?? ''),
     );
   }
 
@@ -64,11 +62,13 @@ class _LocationScreenState extends State<LocationScreen> {
 }
 
 class BottomLocationPermissionWidget extends StatefulWidget {
-  String? changingLocation;
-  bool? onlyPopScreen;
-  BottomLocationPermissionWidget(
-      {this.changingLocation, Key? key, this.onlyPopScreen})
-      : super(key: key);
+  final bool? onlyPop;
+  final String popToScreen;
+  BottomLocationPermissionWidget({
+    required this.popToScreen,
+    this.onlyPop,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<BottomLocationPermissionWidget> createState() =>
@@ -170,14 +170,20 @@ class _BottomLocationPermissionWidgetState
                                   GeoPoint(value.latitude, value.longitude),
                               'address': _address
                             }).then((value) {
-                              Navigator.pop(context);
-                              return (widget.onlyPopScreen == true)
-                                  ? Navigator.pop(context)
-                                  : Navigator.pushReplacementNamed(
-                                      context,
-                                      (widget.changingLocation) ??
+                              return (widget.onlyPop == true)
+                                  ? (widget.popToScreen.isNotEmpty)
+                                      ? Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                              widget.popToScreen,
+                                              (route) => false)
+                                      : Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                              MainNavigationScreen.screenId,
+                                              (route) => false)
+                                  : Navigator.of(context)
+                                      .pushNamedAndRemoveUntil(
                                           MainNavigationScreen.screenId,
-                                    );
+                                          (route) => false);
                             });
                           }
                         });
@@ -252,14 +258,20 @@ class _BottomLocationPermissionWidgetState
                               'country': countryValue
                             }).then((value) {
                               print(manualAddress + 'inside manual selection');
-
-                              return (widget.onlyPopScreen == true)
-                                  ? Navigator.pop(context)
-                                  : Navigator.pushReplacementNamed(
-                                      context,
-                                      (widget.changingLocation) ??
+                              return (widget.onlyPop == true)
+                                  ? (widget.popToScreen.isNotEmpty)
+                                      ? Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                              widget.popToScreen,
+                                              (route) => false)
+                                      : Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                              MainNavigationScreen.screenId,
+                                              (route) => false)
+                                  : Navigator.of(context)
+                                      .pushNamedAndRemoveUntil(
                                           MainNavigationScreen.screenId,
-                                    );
+                                          (route) => false);
                             });
                           }
                         },

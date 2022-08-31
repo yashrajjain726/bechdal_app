@@ -64,9 +64,15 @@ class _UserFormReviewState extends State<UserFormReview> {
     _phoneNumberController = TextEditingController();
     _emailController = TextEditingController();
     _addressController = TextEditingController();
+    _nameNode = FocusNode();
+    _countryCodeNode = FocusNode();
+    _phoneNumberNode = FocusNode();
+    _emailNode = FocusNode();
+    _addressNode = FocusNode();
     firebaseUser.getUserData().then((value) {
       setState(() {
-        _nameController.text = value['contact_details']['name'] ?? '';
+        print(value);
+        _nameController.text = value['name'] ?? '';
         _phoneNumberController.text = value['contact_details']['mobile'] ?? '';
         _emailController.text = value['contact_details']['email'] ?? '';
         _addressController.text =
@@ -94,11 +100,13 @@ class _UserFormReviewState extends State<UserFormReview> {
   }
 
   Future<void> saveProductToDatabase(categoryProvider, BuildContext context) {
-    return authService.products
-        .doc(firebaseUser.user!.uid)
-        .set(categoryProvider.formData)
-        .then((value) {})
-        .catchError((error) {
+    return authService.products.add(categoryProvider.formData).then((value) {
+      categoryProvider.clearData();
+      customSnackBar(
+          context: context, content: 'We have added your product to database');
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          MainNavigationScreen.screenId, (route) => false);
+    }).catchError((error) {
       if (kDebugMode) {
         print(error);
       }
@@ -204,22 +212,15 @@ class _UserFormReviewState extends State<UserFormReview> {
                                   categoryProvider,
                                   {
                                     'contact_details': {
-                                      'name': _nameController.text,
-                                      'mobile': _phoneNumberController.text,
+                                      'mobile':
+                                          '+91${_phoneNumberController.text}',
                                       'email': _emailController.text,
-                                    }
+                                    },
+                                    'name': _nameController.text,
                                   },
                                   context)
                               .whenComplete(() {
                             print('uploaded');
-                            Navigator.pop(context);
-                            Navigator.pushReplacementNamed(
-                              context,
-                              MainNavigationScreen.screenId,
-                            );
-                            customSnackBar(
-                                context: context,
-                                content: 'Uploaded to database');
                           });
                         },
                         child: const Text(
@@ -272,9 +273,13 @@ class _UserFormReviewState extends State<UserFormReview> {
             return const Center(child: CircularProgressIndicator());
           }
           _nameController.text = snapshot.data!['name'] ?? '';
-          _phoneNumberController.text = snapshot.data!['mobile'] != null
-              ? snapshot.data!['mobile'].substring(3)
-              : '';
+          _phoneNumberController.text =
+              snapshot.data!['contact_details']['mobile'] != null
+                  ? snapshot.data!['contact_details']['mobile'].substring(3)
+                  : snapshot.data!['mobile'] != null
+                      ? snapshot.data!['mobile'].substring(3)
+                      : '';
+          print(snapshot.data!.data());
           _emailController.text = snapshot.data!['email'] ?? '';
           _addressController.text = snapshot.data!['address'] ?? '';
           return SingleChildScrollView(
@@ -411,12 +416,13 @@ class _UserFormReviewState extends State<UserFormReview> {
                     height: 20,
                   ),
                   InkWell(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => const LocationScreen(
-                                  onlyPopScreen: true,
-                                ))),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (builder) => LocationScreen(
+                                onlyPop: true,
+                                popToScreen: UserFormReview.screenId,
+                              )));
+                    },
                     child: Row(
                       children: [
                         Expanded(

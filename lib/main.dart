@@ -43,7 +43,10 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(primaryColor: blackColor, backgroundColor: whiteColor),
+        theme: ThemeData(
+            primaryColor: blackColor,
+            backgroundColor: whiteColor,
+            fontFamily: ''),
         debugShowCheckedModeBanner: false,
         initialRoute: SplashScreen.screenId,
         routes: {

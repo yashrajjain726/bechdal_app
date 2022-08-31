@@ -45,4 +45,10 @@ class CategoryProvider with ChangeNotifier {
       notifyListeners();
     });
   }
+
+  clearData() {
+    imageUploadedUrls = [];
+    formData = {};
+    notifyListeners();
+  }
 }
