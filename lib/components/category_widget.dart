@@ -40,6 +40,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           return Container(
               height: 100,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
                     height: 10,
@@ -79,6 +80,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                   ),
                   Expanded(
                     child: ListView.builder(
+                        shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: ((context, index) {

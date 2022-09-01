@@ -109,18 +109,56 @@ wrongDetailsAlertBox(String text, BuildContext context) {
 customHomeAppBar(
     {required TextEditingController controller, required FocusNode focusNode}) {
   return AppBar(
-    backgroundColor: blackColor,
+    toolbarHeight: 150,
+    elevation: 0,
+    backgroundColor: whiteColor,
     automaticallyImplyLeading: false,
-    bottom: PreferredSize(
-      preferredSize: const Size.square(65),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: TextFormField(
+    title: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Bechdal",
+              style: TextStyle(
+                color: blackColor,
+                fontSize: 34,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.notifications,
+                    color: blackColor,
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      color: blackColor,
+                    ))
+              ],
+            )
+          ],
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        TextFormField(
           controller: controller,
           focusNode: focusNode,
           decoration: InputDecoration(
               filled: true,
-              fillColor: whiteColor,
+              fillColor: Colors.grey[200],
               prefixIcon: const Icon(Icons.search),
               labelText: 'Search mobile, cars equipments and many more..',
               labelStyle: const TextStyle(
@@ -128,26 +166,10 @@ customHomeAppBar(
               ),
               contentPadding: const EdgeInsets.symmetric(horizontal: 10),
               border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(6))),
-        ),
-      ),
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
+        )
+      ],
     ),
-    title: Text("Bechdal"),
-    actions: <Widget>[
-      IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.notifications,
-          color: whiteColor,
-        ),
-      ),
-      IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.shopping_cart,
-            color: whiteColor,
-          ))
-    ],
   );
 }
 

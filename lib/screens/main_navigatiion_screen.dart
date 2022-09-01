@@ -43,7 +43,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           }),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: blackColor,
+          color: whiteColor,
           // boxShadow: [
           //   BoxShadow(
           //     blurRadius: 20,
@@ -58,12 +58,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
               gap: 8,
-              activeColor: secondaryColor,
+              activeColor: whiteColor,
               iconSize: 24,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: whiteColor,
-              color: whiteColor,
+              tabBackgroundColor: blackColor,
+              color: blackColor,
               tabs: [
                 GButton(
                   icon: Icons.home,

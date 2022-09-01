@@ -57,6 +57,8 @@ dependencies:
   galleryimage: ^1.2.0
   legacy_progress_dialog: ^0.1.2
   google_fonts: ^3.0.1
+  intl: ^0.17.0
+  cached_network_image: ^3.2.1
 
 dev_dependencies:
   flutter_test:

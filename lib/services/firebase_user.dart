@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/functions/functions.widgets.dart';
 
-class FirebaseUser{
+class FirebaseUser {
   AuthService authService = new AuthService();
   User? user = FirebaseAuth.instance.currentUser;
   Future<void> updateFirebaseUser(
@@ -19,10 +19,14 @@ class FirebaseUser{
           content: 'location cannot be updated in database due to $error');
     });
   }
-  Future<DocumentSnapshot> getUserData() async{
+
+  Future<DocumentSnapshot> getUserData() async {
     DocumentSnapshot doc = await authService.users.doc(user!.uid).get();
     return doc;
   }
 
-
+  Future<DocumentSnapshot> getSellerData(id) async {
+    DocumentSnapshot doc = await authService.users.doc(id).get();
+    return doc;
+  }
 }
