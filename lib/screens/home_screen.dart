@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:bechdal_app/components/category_widget.dart';
+import 'package:bechdal_app/components/product_listing_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.permission.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +26,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController searchController;
+  late CarouselController _controller;
+  int _current = 0;
   late FocusNode searchNode;
   Future<List<String>> downloadBannerImageUrlList() async {
     List<String> bannerUrlList = [];
@@ -46,14 +50,22 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     searchController = TextEditingController();
     searchNode = FocusNode();
+    _controller = CarouselController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    searchNode.dispose();
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          customHomeAppBar(controller: searchController, focusNode: searchNode),
+      appBar: null,
       body: homeBodyWidget(),
     );
   }
@@ -96,27 +108,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget homeBodyWidget() {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.all(10),
-          color: disabledColor,
-          width: double.infinity,
-          height: 35,
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed(LocationScreen.screenId);
-            },
-            child: Center(child: lcoationAutoFetchBar(context)),
-          ),
-        ),
-        Container(
-          color: whiteColor,
-          margin: EdgeInsets.zero,
-          padding: EdgeInsets.zero,
-          child: Column(children: [
-            Column(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          customHomeAppBar(controller: searchController, focusNode: searchNode),
+          Container(
+            color: whiteColor,
+            child: Column(
               children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  color: whiteColor,
+                  width: double.infinity,
+                  height: 35,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(LocationScreen.screenId);
+                    },
+                    child: Center(child: lcoationAutoFetchBar(context)),
+                  ),
+                ),
                 CategoryWidget(),
                 FutureBuilder(
                   future: downloadBannerImageUrlList(),
@@ -124,44 +136,40 @@ class _HomeScreenState extends State<HomeScreen> {
                       AsyncSnapshot<List<String>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container(
-                        height: 200,
+                        height: 230,
+                        child: Center(child: CircularProgressIndicator()),
                       );
                     } else {
                       if (snapshot.hasError) {
                         return const Text(
                             'Currently facing issue in banner loading');
                       } else {
-                        return Column(
-                          children: [
-                            SizedBox(
-                              height: 5,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: CarouselSlider.builder(
+                            itemCount: snapshot.data!.length,
+                            options: CarouselOptions(
+                              autoPlay: true,
+                              viewportFraction: 1.0,
                             ),
-                            CarouselSlider.builder(
-                              itemCount: snapshot.data!.length,
-                              options: CarouselOptions(
-                                height: 200,
-                                viewportFraction: 1,
-                                autoPlay: true,
-                                enlargeCenterPage: true,
-                              ),
-                              itemBuilder: (context, index, realIdx) {
-                                return Image.network(
-                                  snapshot.data![index],
-                                  width: double.infinity,
-                                );
-                              },
-                            )
-                          ],
+                            itemBuilder: (context, index, realIdx) {
+                              return CachedNetworkImage(
+                                imageUrl: snapshot.data![index],
+                                fit: BoxFit.fill,
+                              );
+                            },
+                          ),
                         );
                       }
                     }
                   },
                 ),
               ],
-            )
-          ]),
-        ),
-      ],
+            ),
+          ),
+          ProductListing()
+        ],
+      ),
     );
   }
 }
