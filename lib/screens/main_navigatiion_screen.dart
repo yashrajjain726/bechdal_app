@@ -5,9 +5,9 @@ import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/post/add_post_screen.dart';
 import 'package:bechdal_app/screens/post/my_post_screen.dart';
 import 'package:bechdal_app/screens/profile_screen.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   static const screenId = 'main_nav_screen';
@@ -30,6 +30,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: PageView.builder(
           itemCount: pages.length,
           controller: controller,
@@ -43,53 +44,93 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           }),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: whiteColor,
-          // boxShadow: [
-          //   BoxShadow(
-          //     blurRadius: 20,
-          //     color: blackColor.withOpacity(.1),
-          //   )
-          // ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-            child: GNav(
-              rippleColor: Colors.grey[300]!,
-              hoverColor: Colors.grey[100]!,
-              gap: 8,
-              activeColor: whiteColor,
-              iconSize: 24,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: blackColor,
+          boxShadow: [
+            BoxShadow(
               color: blackColor,
-              tabs: [
-                GButton(
-                  icon: Icons.home,
-                ),
-                GButton(
-                  icon: Icons.chat,
-                ),
-                GButton(
-                  icon: Icons.add,
-                ),
-                GButton(
-                  icon: CupertinoIcons.heart,
-                ),
-                GButton(
-                  icon: Icons.person,
-                ),
-              ],
-              selectedIndex: _index,
-              onTabChange: (index) {
-                setState(() {
-                  _index = index;
-                });
-                controller.jumpToPage(index);
-              },
+              offset: Offset(0, 45),
+              blurRadius: 30,
+              spreadRadius: 10,
             ),
-          ),
+          ],
+        ),
+        child: DotNavigationBar(
+          backgroundColor: Colors.transparent,
+          margin: EdgeInsets.zero,
+          paddingR: EdgeInsets.zero,
+          selectedItemColor: secondaryColor,
+          currentIndex: _index,
+          dotIndicatorColor: Colors.transparent,
+          unselectedItemColor: disabledColor,
+          enablePaddingAnimation: false,
+          enableFloatingNavBar: false,
+          onTap: (index) {
+            setState(() {
+              _index = index;
+            });
+            controller.jumpToPage(index);
+          },
+          items: [
+            DotNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                    color: _index == 0 ? whiteColor : Colors.transparent,
+                    borderRadius: BorderRadius.circular(40)),
+                child: Icon(
+                  Icons.home,
+                  color: _index == 0 ? secondaryColor : disabledColor,
+                ),
+                padding: EdgeInsets.all(10),
+              ),
+            ),
+            DotNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                    color: _index == 1 ? whiteColor : Colors.transparent,
+                    borderRadius: BorderRadius.circular(40)),
+                child: Icon(
+                  Icons.chat,
+                  color: _index == 1 ? secondaryColor : disabledColor,
+                ),
+                padding: EdgeInsets.all(10),
+              ),
+            ),
+            DotNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                    color: _index == 2 ? whiteColor : Colors.transparent,
+                    borderRadius: BorderRadius.circular(40)),
+                child: Icon(
+                  Icons.add,
+                  color: _index == 2 ? secondaryColor : disabledColor,
+                ),
+                padding: EdgeInsets.all(10),
+              ),
+            ),
+            DotNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                    color: _index == 3 ? whiteColor : Colors.transparent,
+                    borderRadius: BorderRadius.circular(40)),
+                child: Icon(
+                  CupertinoIcons.heart,
+                  color: _index == 3 ? secondaryColor : disabledColor,
+                ),
+                padding: EdgeInsets.all(10),
+              ),
+            ),
+            DotNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                    color: _index == 4 ? whiteColor : Colors.transparent,
+                    borderRadius: BorderRadius.circular(40)),
+                child: Icon(
+                  Icons.person,
+                  color: _index == 4 ? secondaryColor : disabledColor,
+                ),
+                padding: EdgeInsets.all(10),
+              ),
+            ),
+          ],
         ),
       ),
     );

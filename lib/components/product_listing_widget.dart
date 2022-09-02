@@ -34,8 +34,7 @@ class _ProductListingState extends State<ProductListing> {
               );
             }
             return Container(
-              color: secondaryColor,
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -44,7 +43,7 @@ class _ProductListingState extends State<ProductListing> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: whiteColor,
+                      color: blackColor,
                     ),
                   ),
                   GridView.builder(
