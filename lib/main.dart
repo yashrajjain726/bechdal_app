@@ -45,9 +45,10 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
-            primaryColor: blackColor,
-            backgroundColor: whiteColor,
-            fontFamily: ''),
+          primaryColor: blackColor,
+          backgroundColor: whiteColor,
+          fontFamily: 'Oswald',
+        ),
         debugShowCheckedModeBanner: false,
         initialRoute: SplashScreen.screenId,
         routes: {

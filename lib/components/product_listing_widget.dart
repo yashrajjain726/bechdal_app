@@ -2,8 +2,11 @@ import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+import 'package:like_button/like_button.dart';
 
 class ProductListing extends StatefulWidget {
   const ProductListing({Key? key}) : super(key: key);
@@ -18,59 +21,59 @@ class _ProductListingState extends State<ProductListing> {
   @override
   Widget build(BuildContext context) {
     final numberFormat = NumberFormat('##,##,##0');
-    return Container(
-      child: FutureBuilder<QuerySnapshot>(
-          future: authService.products.get(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text('Error loading products..'));
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: whiteColor,
-                ),
-              );
-            }
-            return Container(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Recommendation',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: blackColor,
-                    ),
-                  ),
-                  GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
-                        childAspectRatio: 2 / 2,
-                        mainAxisExtent: 250,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemCount: snapshot.data!.size,
-                      itemBuilder: (BuildContext context, int index) {
-                        var data = snapshot.data!.docs[index];
-                        var price = int.parse(data['price']);
-                        String formattedPrice = numberFormat.format(price);
-                        return ProductCard(
-                            data: data,
-                            formattedPrice: formattedPrice,
-                            numberFormat: numberFormat);
-                      }),
-                ],
+    return FutureBuilder<QuerySnapshot>(
+        future: authService.products.orderBy('posted_at').get(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(child: Text('Error loading products..'));
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: whiteColor,
               ),
             );
-          }),
-    );
+          }
+          return Container(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Recommendation',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: blackColor,
+                  ),
+                ),
+                GridView.builder(
+                    physics: ScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio: 2 / 2,
+                      mainAxisExtent: 300,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: snapshot.data!.size,
+                    itemBuilder: (BuildContext context, int index) {
+                      var data = snapshot.data!.docs[index];
+                      var price = int.parse(data['price']);
+                      String formattedPrice = numberFormat.format(price);
+                      return ProductCard(
+                        data: data,
+                        formattedPrice: formattedPrice,
+                        numberFormat: numberFormat,
+                      );
+                    }),
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -96,9 +99,11 @@ class _ProductCardState extends State<ProductCard> {
   @override
   void initState() {
     firebaseUser.getSellerData(widget.data['seller_uid']).then((value) {
-      setState(() {
-        address = value['address'];
-      });
+      if (mounted) {
+        setState(() {
+          address = value['address'];
+        });
+      }
     });
     super.initState();
   }
@@ -107,62 +112,87 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: whiteColor, borderRadius: BorderRadius.circular(20)),
+        color: whiteColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Padding(
         padding: const EdgeInsets.only(left: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            Container(
-                alignment: Alignment.center,
-                height: 150,
-                child: Image.network(
-                  widget.data['images'][0],
-                  fit: BoxFit.cover,
-                )),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              '\u{20B9} ${widget.formattedPrice}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              widget.data['title'],
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-            (widget.data['category'] == 'Cars')
-                ? Text(
-                    '${widget.data['year']} - ${widget.numberFormat.format(int.parse(widget.data['km_driven']))} Km')
-                : SizedBox(),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.location_pin,
-                  size: 14,
+                Container(
+                    alignment: Alignment.center,
+                    height: 150,
+                    child: Image.network(
+                      widget.data['images'][0],
+                      fit: BoxFit.cover,
+                    )),
+                const SizedBox(
+                  height: 10,
                 ),
-                SizedBox(
-                  width: 3,
-                ),
-                Flexible(
-                  child: Text(
-                    address,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                Text(
+                  '\u{20B9} ${widget.formattedPrice}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  widget.data['title'],
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                (widget.data['category'] == 'Cars')
+                    ? Text(
+                        '${widget.data['year']} - ${widget.numberFormat.format(int.parse(widget.data['km_driven']))} Km')
+                    : SizedBox(),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_pin,
+                      size: 14,
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Flexible(
+                      child: Text(
+                        address,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
+            Positioned(
+              right: 15,
+              bottom: 20,
+              child: LikeButton(
+                likeBuilder: (bool isLiked) {
+                  return Icon(
+                    isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                    color: isLiked ? secondaryColor : disabledColor,
+                    size: 20,
+                  );
+                },
+                likeCount: 0,
+                countBuilder: (int? count, bool isLiked, String text) {
+                  Widget result;
+                  result = Text('');
+                  return result;
+                },
+              ),
+            )
           ],
         ),
       ),

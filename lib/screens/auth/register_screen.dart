@@ -29,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: LargeHeadingWidget(
               heading: 'Create Account',
               subHeading: 'Enter your Name, Email and Password for sign up.',
-              anotherTaglineText: ' Already have an account ?',
+              anotherTaglineText: '\nAlready have an account ?',
               anotherTaglineColor: secondaryColor,
               subheadingTextSize: 16,
               taglineNavigation: true,
@@ -279,7 +279,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
             ),
           ),
           const SizedBox(
-            height: 30,
+            height: 10,
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -288,7 +288,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
               'By Signing up you agree to our Terms and Conditions, and Privacy Policy',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 13,
                 color: greyColor,
               ),
             ),
@@ -346,7 +346,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           ),
         ),
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
         InkWell(
           onTap: () async {

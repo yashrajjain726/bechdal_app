@@ -193,12 +193,14 @@ class _SignInFormWidgetState extends State<SignInFormWidget> {
                   },
                 text: 'Create new account',
                 style: TextStyle(
+                  fontFamily: 'Oswald',
                   fontSize: 14,
                   color: secondaryColor,
                 ),
               )
             ],
             style: TextStyle(
+              fontFamily: 'Oswald',
               fontSize: 14,
               color: greyColor,
             ),

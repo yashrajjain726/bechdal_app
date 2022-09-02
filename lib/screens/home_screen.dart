@@ -108,67 +108,68 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget homeBodyWidget() {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          customHomeAppBar(controller: searchController, focusNode: searchNode),
-          Container(
-            color: whiteColor,
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  color: whiteColor,
-                  width: double.infinity,
-                  height: 35,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(LocationScreen.screenId);
-                    },
-                    child: Center(child: lcoationAutoFetchBar(context)),
-                  ),
-                ),
-                CategoryWidget(),
-                FutureBuilder(
-                  future: downloadBannerImageUrlList(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<String>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Container(
-                        height: 230,
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    } else {
-                      if (snapshot.hasError) {
-                        return const Text(
-                            'Currently facing issue in banner loading');
-                      } else {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: CarouselSlider.builder(
-                            itemCount: snapshot.data!.length,
-                            options: CarouselOptions(
-                              autoPlay: true,
-                              viewportFraction: 1.0,
-                            ),
-                            itemBuilder: (context, index, realIdx) {
-                              return CachedNetworkImage(
-                                imageUrl: snapshot.data![index],
-                                fit: BoxFit.fill,
-                              );
-                            },
-                          ),
-                        );
-                      }
-                    }
-                  },
-                ),
-              ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            customHomeAppBar(
+                controller: searchController, focusNode: searchNode),
+            Container(
+              padding: EdgeInsets.all(10),
+              width: double.infinity,
+              height: 40,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(LocationScreen.screenId);
+                },
+                child: Center(child: lcoationAutoFetchBar(context)),
+              ),
             ),
-          ),
-          ProductListing()
-        ],
+            Container(
+              child: Column(
+                children: [
+                  CategoryWidget(),
+                  FutureBuilder(
+                    future: downloadBannerImageUrlList(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<String>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(
+                          height: 250,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      } else {
+                        if (snapshot.hasError) {
+                          return const Text(
+                              'Currently facing issue in banner loading');
+                        } else {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: CarouselSlider.builder(
+                              itemCount: snapshot.data!.length,
+                              options: CarouselOptions(
+                                autoPlay: true,
+                                viewportFraction: 1.0,
+                              ),
+                              itemBuilder: (context, index, realIdx) {
+                                return CachedNetworkImage(
+                                  imageUrl: snapshot.data![index],
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+            ProductListing()
+          ],
+        ),
       ),
     );
   }
@@ -188,6 +189,9 @@ class locationTextWidget extends StatelessWidget {
         const Icon(
           Icons.pin_drop,
           size: 18,
+        ),
+        SizedBox(
+          width: 10,
         ),
         Text(
           location ?? '',

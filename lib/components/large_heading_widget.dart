@@ -51,15 +51,13 @@ class _LargeHeadingWidgetState extends State<LargeHeadingWidget> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(
-              height: 5,
-            ),
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: RichText(
                 text: TextSpan(
                     text: widget.subHeading,
                     style: TextStyle(
+                      fontFamily: 'Oswald',
                       color: widget.subheadingTextColor ?? greyColor,
                       fontSize: widget.subheadingTextSize ?? 25,
                     ),

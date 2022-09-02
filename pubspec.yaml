@@ -32,33 +32,56 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
+  # Icons
   cupertino_icons: ^1.0.5
+  # Splash Screen
   flutter_native_splash: ^2.2.8
+
+  # Firebase
   firebase_core: ^1.21.1
   firebase_auth: ^3.7.0
-  otp_text_field: ^1.1.3
-  flutter_secure_storage: ^6.0.0
   cloud_firestore: ^3.4.6
-  lottie: ^1.4.2
-  geolocator: ^9.0.1
-  geocoding: ^2.0.5
-  google_sign_in: ^5.4.1
-  email_validator: ^2.1.17
-  open_mail_app: ^0.4.5
-  csc_picker: ^0.2.6
-  permission_handler: 10.0.0
-  animated_text_kit: ^4.2.2
-  carousel_slider: ^4.1.1
-  provider: ^6.0.3
-  image_picker: ^0.8.5+3
   firebase_storage: ^10.3.7
   firebase_app_check: ^0.0.7
+  # OTP Field Design
+  otp_text_field: ^1.1.3
+  # Local Storage
+  flutter_secure_storage: ^6.0.0
+
+  # Json Lottie Files
+  lottie: ^1.4.2
+  # Loction
+  geolocator: ^9.0.1
+  geocoding: ^2.0.5
+  # Log In
+  google_sign_in: ^5.4.1
+  # Email Validate
+  email_validator: ^2.1.17
+  # Email Opener (Verify Email Case)
+  open_mail_app: ^0.4.5
+  # Country Picker (Location)
+  csc_picker: ^0.2.6
+  # Permission Handler (Location, Files)
+  permission_handler: 10.0.0
+  # Caraousel
+  carousel_slider: ^4.1.1
+  # State Management
+  provider: ^6.0.3
+  # Image Packages
+  image_picker: ^0.8.5+3
   galleryimage: ^1.2.0
-  legacy_progress_dialog: ^0.1.2
-  google_fonts: ^3.0.1
-  intl: ^0.17.0
   cached_network_image: ^3.2.1
+  # Loader
+  legacy_progress_dialog: ^0.1.2
+  # Fonts
+  google_fonts: ^3.0.1
+  # String Formatter
+  intl: ^0.17.0
+  # Bottom Nav Bar
   dot_navigation_bar: ^1.0.1+4
+  # Favourite Button
+  like_button: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -98,17 +121,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Oswald
+      fonts:
+        - asset: fonts/Oswald-VariableFont_wght.ttf
+          weight: 300
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -12,6 +12,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final storage = const FlutterSecureStorage();
+  User? currentUser = FirebaseAuth.instance.currentUser;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference categories =
       FirebaseFirestore.instance.collection('categories');
@@ -230,13 +231,15 @@ class AuthService {
   void registerWithEmail(BuildContext context, String email, String password,
       String firstName, String lastName) async {
     try {
+      print('inside 233');
       loadingDialogBox(context, 'Validating details');
+      print('inside 235');
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-
+      print('inside 241');
       if (credential.user!.uid != null) {
         return users.doc(credential.user!.uid).set({
           'uid': credential.user!.uid,

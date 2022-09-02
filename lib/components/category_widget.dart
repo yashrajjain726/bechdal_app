@@ -38,7 +38,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           }
 
           return Container(
-              height: 100,
+              height: 120,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -119,8 +119,9 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                                       doc['category_name'],
                                       textAlign: TextAlign.center,
                                       maxLines: 2,
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 10,
+                                        color: blackColor,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),

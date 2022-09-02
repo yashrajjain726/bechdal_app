@@ -90,7 +90,7 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Column(children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Padding(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
               child: Lottie.asset(

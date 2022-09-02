@@ -43,13 +43,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             return pages[position];
           }),
       bottomNavigationBar: Container(
+        padding: EdgeInsets.zero,
+        margin: EdgeInsets.zero,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
               color: blackColor,
-              offset: Offset(0, 45),
-              blurRadius: 30,
-              spreadRadius: 10,
+              offset: Offset(0, 50),
+              blurRadius: 40,
+              spreadRadius: 15,
             ),
           ],
         ),
@@ -112,7 +114,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                     color: _index == 3 ? whiteColor : Colors.transparent,
                     borderRadius: BorderRadius.circular(40)),
                 child: Icon(
-                  CupertinoIcons.heart,
+                  _index == 3
+                      ? CupertinoIcons.heart_fill
+                      : CupertinoIcons.heart,
                   color: _index == 3 ? secondaryColor : disabledColor,
                 ),
                 padding: EdgeInsets.all(10),

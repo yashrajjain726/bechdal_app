@@ -108,69 +108,67 @@ wrongDetailsAlertBox(String text, BuildContext context) {
 
 customHomeAppBar(
     {required TextEditingController controller, required FocusNode focusNode}) {
-  return AppBar(
-    toolbarHeight: 150,
-    elevation: 0,
-    backgroundColor: whiteColor,
-    automaticallyImplyLeading: false,
-    title: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Bechdal",
-              style: TextStyle(
-                color: blackColor,
-                fontSize: 34,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.notifications,
-                    color: blackColor,
-                  ),
+  return Builder(builder: (context) {
+    return Container(
+      height: 150,
+      color: Colors.transparent,
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Bechdal",
+                style: TextStyle(
+                  color: blackColor,
+                  fontSize: 34,
                 ),
-                IconButton(
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
                     onPressed: () {},
                     icon: Icon(
-                      Icons.shopping_cart,
+                      Icons.notifications,
                       color: blackColor,
-                    ))
-              ],
-            )
-          ],
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        TextFormField(
-          controller: controller,
-          focusNode: focusNode,
-          decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.grey[200],
-              prefixIcon: const Icon(Icons.search),
-              labelText: 'Search mobile, cars equipments and many more..',
-              labelStyle: const TextStyle(
-                fontSize: 14,
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
-        )
-      ],
-    ),
-  );
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.shopping_cart,
+                        color: blackColor,
+                      ))
+                ],
+              )
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+            controller: controller,
+            focusNode: focusNode,
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                prefixIcon: const Icon(Icons.search),
+                labelText: 'Search mobile, cars equipments and many more..',
+                labelStyle: const TextStyle(
+                  fontSize: 14,
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50))),
+          )
+        ],
+      ),
+    );
+  });
 }
 
 openBottomSheet(
