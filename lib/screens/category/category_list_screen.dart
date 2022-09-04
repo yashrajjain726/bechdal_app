@@ -1,6 +1,7 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/forms/sell_car_form.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
+import 'package:bechdal_app/screens/category/product_by_category_screen.dart';
 import 'package:bechdal_app/screens/category/subcategory_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,8 @@ class CategoryListScreen extends StatelessWidget {
                         categoryProvider.setCategory(doc!['category_name']);
                         categoryProvider.setCategorySnapshot(doc);
                         if (doc['subcategory'] == null) {
-                          Navigator.of(context).pushNamed(SellCarForm.screenId);
+                          Navigator.of(context)
+                              .pushNamed(ProductByCategory.screenId);
                         } else {
                           Navigator.pushNamed(
                               context, SubCategoryScreen.screenId,

@@ -666,74 +666,76 @@ class _ProductDetailState extends State<ProductDetail> {
           ),
         ),
       ),
-      bottomSheet: BottomAppBar(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Row(children: [
-            Expanded(
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(secondaryColor)),
-                  onPressed: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.chat_bubble,
-                          size: 16,
-                          color: whiteColor,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Chat',
-                        )
-                      ],
-                    ),
-                  )),
+      bottomSheet: _loading
+          ? SizedBox()
+          : BottomAppBar(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Row(children: [
+                  Expanded(
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(secondaryColor)),
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.chat_bubble,
+                                size: 16,
+                                color: whiteColor,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Chat',
+                              )
+                            ],
+                          ),
+                        )),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(secondaryColor)),
+                        onPressed: () async {
+                          var phoneNo = Uri.parse(
+                              'tel:${productProvider.sellerDetails!['mobile']}');
+                          await _callLauncher(phoneNo);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.call,
+                                size: 16,
+                                color: whiteColor,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Call',
+                              )
+                            ],
+                          ),
+                        )),
+                  )
+                ]),
+              ),
             ),
-            SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(secondaryColor)),
-                  onPressed: () async {
-                    var phoneNo = Uri.parse(
-                        'tel:${productProvider.sellerDetails!['mobile']}');
-                    await _callLauncher(phoneNo);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.call,
-                          size: 16,
-                          color: whiteColor,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Call',
-                        )
-                      ],
-                    ),
-                  )),
-            )
-          ]),
-        ),
-      ),
     );
   }
 }

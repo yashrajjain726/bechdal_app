@@ -5,6 +5,7 @@ import 'package:bechdal_app/components/product_listing_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.permission.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -13,6 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String screenId = 'home_screen';
@@ -29,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late CarouselController _controller;
   int _current = 0;
   late FocusNode searchNode;
+
   Future<List<String>> downloadBannerImageUrlList() async {
     List<String> bannerUrlList = [];
     final ListResult storageRef =
@@ -64,6 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var categoryProvider = Provider.of<CategoryProvider>(context);
+
     return Scaffold(
       appBar: null,
       body: homeBodyWidget(),
