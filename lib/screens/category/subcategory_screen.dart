@@ -1,6 +1,7 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/forms/common_form.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
+import 'package:bechdal_app/screens/category/product_by_category_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -55,9 +56,10 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                     child: ListTile(
                       onTap: () {
                         categoryProvider.setSubCategory(data[index]);
+
                         Navigator.pushNamed(
                           context,
-                          CommonForm.screenId,
+                          ProductByCategory.screenId,
                         );
                       },
                       title: Text(

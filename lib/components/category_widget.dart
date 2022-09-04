@@ -1,6 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/category/category_list_screen.dart';
+import 'package:bechdal_app/screens/category/product_by_category_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                               categoryProvider.setCategorySnapshot(doc);
                               if (doc['subcategory'] == null) {
                                 Navigator.of(context)
-                                    .pushNamed(SellCarForm.screenId);
+                                    .pushNamed(ProductByCategory.screenId);
                               } else {
                                 Navigator.pushNamed(
                                     context, SubCategoryScreen.screenId,

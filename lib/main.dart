@@ -9,6 +9,7 @@ import 'package:bechdal_app/screens/auth/login_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:bechdal_app/screens/auth/register_screen.dart';
 import 'package:bechdal_app/screens/auth/reset_password_screen.dart';
+import 'package:bechdal_app/screens/category/product_by_category_screen.dart';
 import 'package:bechdal_app/screens/category/subcategory_screen.dart';
 import 'package:bechdal_app/screens/chat_screen.dart';
 import 'package:bechdal_app/screens/home_screen.dart';
@@ -78,7 +79,8 @@ class Main extends StatelessWidget {
           SellCarForm.screenId: (context) => const SellCarForm(),
           UserFormReview.screenId: (context) => const UserFormReview(),
           CommonForm.screenId: (context) => const CommonForm(),
-          ProductDetail.screenId: (context) => ProductDetail(),
+          ProductDetail.screenId: (context) => const ProductDetail(),
+          ProductByCategory.screenId: (context) => const ProductByCategory(),
         });
   }
 }
