@@ -49,9 +49,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           boxShadow: [
             BoxShadow(
               color: blackColor,
-              offset: Offset(0, 50),
-              blurRadius: 40,
-              spreadRadius: 15,
+              offset: Offset(0, 0),
+              blurRadius: 0,
+              spreadRadius: 0,
             ),
           ],
         ),

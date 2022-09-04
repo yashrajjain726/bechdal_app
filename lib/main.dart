@@ -3,6 +3,7 @@ import 'package:bechdal_app/forms/common_form.dart';
 import 'package:bechdal_app/forms/sell_car_form.dart';
 import 'package:bechdal_app/forms/user_form_review.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
+import 'package:bechdal_app/provider/product_provider.dart';
 import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/login_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
@@ -15,6 +16,7 @@ import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/screens/post/add_post_screen.dart';
 import 'package:bechdal_app/screens/post/my_post_screen.dart';
+import 'package:bechdal_app/screens/product_details_screen.dart';
 import 'package:bechdal_app/screens/profile_screen.dart';
 import 'package:bechdal_app/screens/splash_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
@@ -35,6 +37,9 @@ void main() async {
     ChangeNotifierProvider(
       create: (_) => CategoryProvider(),
     ),
+    ChangeNotifierProvider(
+      create: (_) => ProductProvider(),
+    )
   ], child: const Main()));
 }
 
@@ -73,6 +78,7 @@ class Main extends StatelessWidget {
           SellCarForm.screenId: (context) => const SellCarForm(),
           UserFormReview.screenId: (context) => const UserFormReview(),
           CommonForm.screenId: (context) => const CommonForm(),
+          ProductDetail.screenId: (context) => ProductDetail(),
         });
   }
 }

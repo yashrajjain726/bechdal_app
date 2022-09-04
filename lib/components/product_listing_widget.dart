@@ -1,4 +1,6 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/provider/product_provider.dart';
+import 'package:bechdal_app/screens/product_details_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
 
 class ProductListing extends StatefulWidget {
   const ProductListing({Key? key}) : super(key: key);
@@ -20,6 +23,7 @@ class _ProductListingState extends State<ProductListing> {
 
   @override
   Widget build(BuildContext context) {
+    var productProvider = Provider.of<ProductProvider>(context);
     final numberFormat = NumberFormat('##,##,##0');
     return FutureBuilder<QuerySnapshot>(
         future: authService.products.orderBy('posted_at').get(),
@@ -96,104 +100,114 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   FirebaseUser firebaseUser = FirebaseUser();
   String address = '';
+  DocumentSnapshot? sellerDetails;
   @override
   void initState() {
     firebaseUser.getSellerData(widget.data['seller_uid']).then((value) {
-      if (mounted) {
-        setState(() {
-          address = value['address'];
-        });
-      }
+      setState(() {
+        address = value['address'];
+        sellerDetails = value;
+      });
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    alignment: Alignment.center,
-                    height: 150,
-                    child: Image.network(
-                      widget.data['images'][0],
-                      fit: BoxFit.cover,
-                    )),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '\u{20B9} ${widget.formattedPrice}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+    var productProvider = Provider.of<ProductProvider>(context);
+    return InkWell(
+      onTap: () {
+        productProvider.setSellerDetails(sellerDetails);
+        productProvider.setProductDetails(widget.data);
+        Navigator.pushNamed(context, ProductDetail.screenId);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      alignment: Alignment.center,
+                      height: 150,
+                      child: Image.network(
+                        widget.data['images'][0],
+                        fit: BoxFit.cover,
+                      )),
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  widget.data['title'],
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                (widget.data['category'] == 'Cars')
-                    ? Text(
-                        '${widget.data['year']} - ${widget.numberFormat.format(int.parse(widget.data['km_driven']))} Km')
-                    : SizedBox(),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_pin,
-                      size: 14,
+                  Text(
+                    '\u{20B9} ${widget.formattedPrice}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    Flexible(
-                      child: Text(
-                        address,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    widget.data['title'],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  (widget.data['category'] == 'Cars')
+                      ? Text(
+                          '${widget.data['year']} - ${widget.numberFormat.format(int.parse(widget.data['km_driven']))} Km')
+                      : SizedBox(),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_pin,
+                        size: 14,
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Positioned(
-              right: 15,
-              bottom: 20,
-              child: LikeButton(
-                likeBuilder: (bool isLiked) {
-                  return Icon(
-                    isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                    color: isLiked ? secondaryColor : disabledColor,
-                    size: 20,
-                  );
-                },
-                likeCount: 0,
-                countBuilder: (int? count, bool isLiked, String text) {
-                  Widget result;
-                  result = Text('');
-                  return result;
-                },
+                      SizedBox(
+                        width: 3,
+                      ),
+                      Flexible(
+                        child: Text(
+                          address,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            )
-          ],
+              Positioned(
+                right: 15,
+                bottom: 20,
+                child: LikeButton(
+                  likeBuilder: (bool isLiked) {
+                    return Icon(
+                      isLiked
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      color: isLiked ? secondaryColor : blackColor,
+                      size: 20,
+                    );
+                  },
+                  likeCount: 0,
+                  countBuilder: (int? count, bool isLiked, String text) {
+                    Widget result;
+                    result = Text('');
+                    return result;
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

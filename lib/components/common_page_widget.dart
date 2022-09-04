@@ -9,17 +9,15 @@ class CommonPageWidget extends StatelessWidget {
   final bool centerTitle;
   final Widget? bottomNavigation;
   final double? appBarHeight;
-  final Widget? myAppBar;
-  const CommonPageWidget(
-      {Key? key,
-      required this.text,
-      required this.body,
-      required this.containsAppbar,
-      required this.centerTitle,
-      this.bottomNavigation,
-      this.appBarHeight,
-      this.myAppBar})
-      : super(key: key);
+  const CommonPageWidget({
+    Key? key,
+    required this.text,
+    required this.body,
+    required this.containsAppbar,
+    required this.centerTitle,
+    this.bottomNavigation,
+    this.appBarHeight,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class CommonPageWidget extends StatelessWidget {
       appBar: containsAppbar
           ? PreferredSize(
               preferredSize: Size.fromHeight(appBarHeight ?? 50),
-              child: myAppBar ?? CommonAppBar(bodyText: text),
+              child: CommonAppBar(bodyText: text),
             )
           : null,
       body: SafeArea(

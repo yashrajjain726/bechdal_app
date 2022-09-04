@@ -128,6 +128,7 @@ class _CommonFormState extends State<CommonForm> {
               'bedroom': _bedroomController.text,
               'bathroom': _bathroomController.text,
               'furnishing': _furnishController.text,
+              'floors': _floorsController.text,
               'construction_status': _constructionController.text,
               'sqft': _sqftController.text,
               'title': _titleController.text,
