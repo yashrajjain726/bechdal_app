@@ -106,6 +106,7 @@ class _ProductCardState extends State<ProductCard> {
     firebaseUser.getSellerData(widget.data['seller_uid']).then((value) {
       setState(() {
         address = value['address'];
+
         sellerDetails = value;
       });
     });

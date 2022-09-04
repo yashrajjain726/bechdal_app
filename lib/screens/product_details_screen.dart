@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
-import 'package:photo_view/photo_view.dart';
+import 'package:map_launcher/map_launcher.dart' as launcher;
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetail extends StatefulWidget {
   static const screenId = 'product_details_screen';
@@ -19,6 +22,7 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  late GoogleMapController _mapController;
   bool _loading = true;
   int _index = 0;
   @override
@@ -31,6 +35,20 @@ class _ProductDetailState extends State<ProductDetail> {
     super.initState();
   }
 
+  _mapLauncher(location) async {
+    final availableMaps = await launcher.MapLauncher.installedMaps;
+    await availableMaps.first.showMarker(
+      coords: launcher.Coords(location.latitude, location.longitude),
+      title: "Seller Location is here..",
+    );
+  }
+
+  Future<void> _callLauncher(number) async {
+    if (!await launchUrl(number)) {
+      throw 'Could not launch $number';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var productProvider = Provider.of<ProductProvider>(context);
@@ -40,6 +58,7 @@ class _ProductDetailState extends State<ProductDetail> {
     var formattedPrice = numberFormat.format(_price);
     var date = DateTime.fromMicrosecondsSinceEpoch(data['posted_at']);
     var formattedDate = DateFormat.yMMMd().format(date);
+    GeoPoint _location = productProvider.sellerDetails!['location'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: whiteColor,
@@ -165,7 +184,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                             data['title'].toUpperCase(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18,
+                                              fontSize: 20,
                                             ),
                                           ),
                                           SizedBox(
@@ -176,12 +195,12 @@ class _ProductDetailState extends State<ProductDetail> {
                                         ],
                                       ),
                                       SizedBox(
-                                        height: 5,
+                                        height: 2,
                                       ),
                                       Text(
                                         '\u{20b9} ${formattedPrice}',
                                         style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 17,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -550,10 +569,62 @@ class _ProductDetailState extends State<ProductDetail> {
                                       Container(
                                         height: 200,
                                         color: disabledColor.withOpacity(0.3),
-                                        child: Center(
-                                            child: Text(
-                                          'Seller Location',
-                                        )),
+                                        child: Stack(
+                                          children: [
+                                            Center(
+                                              child: GoogleMap(
+                                                initialCameraPosition:
+                                                    CameraPosition(
+                                                  zoom: 15,
+                                                  target: LatLng(
+                                                    _location.latitude,
+                                                    _location.longitude,
+                                                  ),
+                                                ),
+                                                mapType: MapType.normal,
+                                                onMapCreated:
+                                                    (GoogleMapController
+                                                        controller) {
+                                                  setState(() {
+                                                    _mapController = controller;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            Center(
+                                                child: Icon(
+                                              Icons.location_pin,
+                                              color: Colors.red,
+                                              size: 35,
+                                            )),
+                                            Center(
+                                              child: CircleAvatar(
+                                                radius: 60,
+                                                backgroundColor:
+                                                    blackColor.withOpacity(0.1),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              child: Material(
+                                                elevation: 4,
+                                                shape: Border.all(
+                                                    color: disabledColor
+                                                        .withOpacity(0.2)),
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                    Icons.alt_route_outlined,
+                                                  ),
+                                                  onPressed: () async {
+                                                    await _mapLauncher(
+                                                        _location);
+                                                  },
+                                                ),
+                                              ),
+                                              right: 4,
+                                              top: 4,
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         height: 10,
@@ -634,7 +705,11 @@ class _ProductDetailState extends State<ProductDetail> {
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(secondaryColor)),
-                  onPressed: () {},
+                  onPressed: () async {
+                    var phoneNo = Uri.parse(
+                        'tel:${productProvider.sellerDetails!['mobile']}');
+                    await _callLauncher(phoneNo);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Row(

@@ -55,6 +55,8 @@ dependencies:
   # Loction
   geolocator: ^9.0.1
   geocoding: ^2.0.5
+  google_maps_flutter: ^2.2.0
+  map_launcher: ^2.3.0+1
   # Log In
   google_sign_in: ^5.4.1
   # Email Validate
@@ -83,6 +85,7 @@ dependencies:
   dot_navigation_bar: ^1.0.1+4
   # Favourite Button
   like_button: ^2.0.4
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:
