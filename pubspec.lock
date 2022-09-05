@@ -835,6 +835,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.5"
+  search_page:
+    dependency: "direct main"
+    description:
+      name: search_page
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+1"
   sky_engine:
     dependency: transitive
     description: flutter

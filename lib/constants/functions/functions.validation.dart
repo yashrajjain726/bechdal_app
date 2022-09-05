@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 String? validateEmail(value, isValid) {
   if (value == null || value.isEmpty) {
     return 'Please enter your email';
@@ -68,4 +70,17 @@ String? checkNullEmptyValidation(value, title) {
     return 'Please enter your $title ';
   }
   return null;
+}
+
+intToStringFormatter(value) {
+  NumberFormat numberFormat = NumberFormat("##,##,##0");
+  var parse = int.parse(value);
+  var formattedValue = numberFormat.format(parse);
+  return formattedValue;
+}
+
+formattedTime(value) {
+  var date = DateTime.fromMicrosecondsSinceEpoch(value);
+  var formattedDate = DateFormat.yMMMd().format(date);
+  return formattedDate;
 }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bechdal_app/components/category_widget.dart';
+import 'package:bechdal_app/components/main_appbar_with_search.dart';
 import 'package:bechdal_app/components/product_listing_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.permission.dart';
@@ -119,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            customHomeAppBar(
+            MainAppBarWithSearch(
                 controller: searchController, focusNode: searchNode),
             Container(
               padding: EdgeInsets.all(10),

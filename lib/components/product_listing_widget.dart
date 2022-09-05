@@ -30,17 +30,21 @@ class _ProductListingState extends State<ProductListing> {
     var categoryProvider = Provider.of<CategoryProvider>(context);
     final numberFormat = NumberFormat('##,##,##0');
     return FutureBuilder<QuerySnapshot>(
-        future: categoryProvider.selectedCategory == 'Cars'
-            ? authService.products
-                .orderBy('posted_at')
-                .where('category', isEqualTo: categoryProvider.selectedCategory)
-                .get()
-            : authService.products
-                .orderBy('posted_at')
-                .where('category', isEqualTo: categoryProvider.selectedCategory)
-                .where('subcategory',
-                    isEqualTo: categoryProvider.selectedSubCategory)
-                .get(),
+        future: (widget.isProductByCategory == true)
+            ? categoryProvider.selectedCategory == 'Cars'
+                ? authService.products
+                    .orderBy('posted_at')
+                    .where('category',
+                        isEqualTo: categoryProvider.selectedCategory)
+                    .get()
+                : authService.products
+                    .orderBy('posted_at')
+                    .where('category',
+                        isEqualTo: categoryProvider.selectedCategory)
+                    .where('subcategory',
+                        isEqualTo: categoryProvider.selectedSubCategory)
+                    .get()
+            : authService.products.orderBy('posted_at').get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return const Center(child: Text('Error loading products..'));

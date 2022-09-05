@@ -86,6 +86,7 @@ dependencies:
   # Favourite Button
   like_button: ^2.0.4
   url_launcher: ^6.1.5
+  search_page: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:

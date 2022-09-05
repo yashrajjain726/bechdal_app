@@ -406,92 +406,100 @@ class _ProductDetailState extends State<ProductDetail> {
                                                     color: disabledColor
                                                         .withOpacity(0.3),
                                                     child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          if (data['subcategory'] ==
-                                                                  'Mobile Phones' ||
-                                                              data['subcategory'] ==
-                                                                  null)
-                                                            Text(
-                                                              'Brand: ${data['brand']}',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    blackColor,
-                                                              ),
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        if (data['subcategory'] ==
+                                                                'Mobile Phones' ||
+                                                            data['subcategory'] ==
+                                                                null)
+                                                          Text(
+                                                            'Brand: ${data['brand']}',
+                                                            style: TextStyle(
+                                                              color: blackColor,
                                                             ),
-                                                          (data[
-                                                                          'subcategory'] ==
-                                                                      'Accessories' ||
-                                                                  data['subcategory'] ==
-                                                                      'Tablets' ||
-                                                                  data['subcategory'] ==
-                                                                      'For Sale: House & Apartments' ||
-                                                                  data['subcategory'] ==
-                                                                      'For Rent: House & Apartments')
-                                                              ? Text(
-                                                                  'Type: ${data['type']}',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color:
-                                                                        blackColor,
+                                                          ),
+                                                        (data['subcategory'] ==
+                                                                    'Accessories' ||
+                                                                data['subcategory'] ==
+                                                                    'Tablets' ||
+                                                                data['subcategory'] ==
+                                                                    'For Sale: House & Apartments' ||
+                                                                data['subcategory'] ==
+                                                                    'For Rent: House & Apartments')
+                                                            ? Text(
+                                                                'Type: ${data['type']}',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color:
+                                                                      blackColor,
+                                                                ),
+                                                              )
+                                                            : SizedBox(),
+                                                        (data['subcategory'] ==
+                                                                    'For Sale: House & Apartments' ||
+                                                                data['subcategory'] ==
+                                                                    'For Rent: House & Apartments')
+                                                            ? Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    'Bedrooms: ${data['bedroom']}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color:
+                                                                          blackColor,
+                                                                    ),
                                                                   ),
-                                                                )
-                                                              : SizedBox(),
-                                                          (data['subcategory'] ==
-                                                                      'For Sale: House & Apartments' ||
-                                                                  data['subcategory'] ==
-                                                                      'For Rent: House & Apartments')
-                                                              ? Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      'Bedrooms: ${data['bedroom']}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
+                                                                  Text(
+                                                                    'Bathrooms: ${data['bathroom']}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color:
+                                                                          blackColor,
                                                                     ),
-                                                                    Text(
-                                                                      'Bathrooms: ${data['bathroom']}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
+                                                                  ),
+                                                                  Text(
+                                                                    'Furnished Type: ${data['furnishing']}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color:
+                                                                          blackColor,
                                                                     ),
-                                                                    Text(
-                                                                      'Furnished Type: ${data['furnishing']}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
+                                                                  ),
+                                                                  Text(
+                                                                    'Construction Status: ${data['construction_status']}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color:
+                                                                          blackColor,
                                                                     ),
-                                                                    Text(
-                                                                      'Construction Status: ${data['construction_status']}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
+                                                                  ),
+                                                                  Text(
+                                                                    'Floors: ${data['floors']}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color:
+                                                                          blackColor,
                                                                     ),
-                                                                    Text(
-                                                                      'Floors: ${data['floors']}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                )
-                                                              : SizedBox(),
-                                                        ]),
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          20),
+                                                                ],
+                                                              )
+                                                            : SizedBox(),
+                                                        Text(
+                                                          'Posted At: ${formattedDate}',
+                                                          style: TextStyle(
+                                                            color: blackColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   )
                                                 ],
                                               ),
