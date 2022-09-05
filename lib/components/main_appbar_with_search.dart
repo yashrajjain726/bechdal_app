@@ -57,53 +57,49 @@ class _MainAppBarWithSearchState extends State<MainAppBarWithSearch> {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ProductProvider>(context);
-    return Container(
-      height: 150,
-      color: Colors.transparent,
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Bechdal",
-                style: TextStyle(
-                  color: blackColor,
-                  fontSize: 34,
+    return SafeArea(
+      child: Container(
+        height: 70,
+        color: Colors.transparent,
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Bechdal",
+                  style: TextStyle(
+                    color: blackColor,
+                    fontSize: 34,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            onTap: () {
-              searchService.search(
-                  context: context,
-                  products: products,
-                  address: address,
-                  sellerDetails: sellerDetails,
-                  provider: provider);
-            },
-            controller: widget.controller,
-            focusNode: widget.focusNode,
-            decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[200],
-                prefixIcon: const Icon(Icons.search),
-                labelText: 'Search mobile, cars equipments and many more..',
-                labelStyle: const TextStyle(
-                  fontSize: 14,
-                ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50))),
-          )
-        ],
+                InkWell(
+                  onTap: () {
+                    searchService.search(
+                        context: context,
+                        products: products,
+                        address: address,
+                        sellerDetails: sellerDetails,
+                        provider: provider);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: disabledColor.withOpacity(0.3),
+                    ),
+                    child: Icon(
+                      Icons.search,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

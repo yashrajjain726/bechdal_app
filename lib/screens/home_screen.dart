@@ -71,7 +71,11 @@ class _HomeScreenState extends State<HomeScreen> {
     var categoryProvider = Provider.of<CategoryProvider>(context);
 
     return Scaffold(
-      appBar: null,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: MainAppBarWithSearch(
+            controller: searchController, focusNode: searchNode),
+      ),
       body: homeBodyWidget(),
     );
   }
@@ -114,68 +118,64 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget homeBodyWidget() {
-    return SafeArea(
-      child: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            MainAppBarWithSearch(
-                controller: searchController, focusNode: searchNode),
-            Container(
-              padding: EdgeInsets.all(10),
-              width: double.infinity,
-              height: 40,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed(LocationScreen.screenId);
-                },
-                child: Center(child: lcoationAutoFetchBar(context)),
-              ),
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            width: double.infinity,
+            height: 40,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(LocationScreen.screenId);
+              },
+              child: Center(child: lcoationAutoFetchBar(context)),
             ),
-            Container(
-              child: Column(
-                children: [
-                  CategoryWidget(),
-                  FutureBuilder(
-                    future: downloadBannerImageUrlList(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<String>> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(
-                          height: 250,
-                          child: Center(child: CircularProgressIndicator()),
-                        );
+          ),
+          Container(
+            child: Column(
+              children: [
+                CategoryWidget(),
+                FutureBuilder(
+                  future: downloadBannerImageUrlList(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<String>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        height: 250,
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    } else {
+                      if (snapshot.hasError) {
+                        return const Text(
+                            'Currently facing issue in banner loading');
                       } else {
-                        if (snapshot.hasError) {
-                          return const Text(
-                              'Currently facing issue in banner loading');
-                        } else {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: CarouselSlider.builder(
-                              itemCount: snapshot.data!.length,
-                              options: CarouselOptions(
-                                autoPlay: true,
-                                viewportFraction: 1.0,
-                              ),
-                              itemBuilder: (context, index, realIdx) {
-                                return CachedNetworkImage(
-                                  imageUrl: snapshot.data![index],
-                                );
-                              },
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: CarouselSlider.builder(
+                            itemCount: snapshot.data!.length,
+                            options: CarouselOptions(
+                              autoPlay: true,
+                              viewportFraction: 1.0,
                             ),
-                          );
-                        }
+                            itemBuilder: (context, index, realIdx) {
+                              return CachedNetworkImage(
+                                imageUrl: snapshot.data![index],
+                              );
+                            },
+                          ),
+                        );
                       }
-                    },
-                  ),
-                ],
-              ),
+                    }
+                  },
+                ),
+              ],
             ),
-            ProductListing()
-          ],
-        ),
+          ),
+          ProductListing()
+        ],
       ),
     );
   }

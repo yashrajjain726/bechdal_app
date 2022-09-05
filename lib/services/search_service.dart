@@ -1,4 +1,5 @@
 import 'package:bechdal_app/components/product_listing_widget.dart';
+import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
 import 'package:bechdal_app/screens/product_details_screen.dart';
@@ -17,11 +18,18 @@ class SearchService {
     showSearch(
       context: context,
       delegate: SearchPage<Products>(
+          barTheme: ThemeData(
+              appBarTheme: AppBarTheme(
+                  backgroundColor: whiteColor,
+                  elevation: 0,
+                  surfaceTintColor: primaryColor,
+                  iconTheme: IconThemeData(color: blackColor),
+                  actionsIconTheme: IconThemeData(color: blackColor))),
           onQueryUpdate: (s) => print(s),
           items: products,
           searchLabel: 'Search cars, mobiles, properties...',
-          suggestion: SingleChildScrollView(child: ProductListing()),
-          failure: Center(
+          suggestion: const SingleChildScrollView(child: ProductListing()),
+          failure: const Center(
             child: Text('No product found, Please check and try again..'),
           ),
           filter: (product) => [
