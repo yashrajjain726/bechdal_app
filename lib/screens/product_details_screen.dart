@@ -1,8 +1,11 @@
 import 'dart:async';
 
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
+import 'package:bechdal_app/screens/chat_screen.dart';
+import 'package:bechdal_app/screens/user_chat_screen.dart';
+import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +26,7 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   late GoogleMapController _mapController;
+  FirebaseUser firebaseUser = FirebaseUser();
   bool _loading = true;
   int _index = 0;
   @override
@@ -47,6 +51,35 @@ class _ProductDetailState extends State<ProductDetail> {
     if (!await launchUrl(number)) {
       throw 'Could not launch $number';
     }
+  }
+
+  _createChatRoom(ProductProvider productProvider) {
+    Map product = {
+      'product_id': productProvider.productData!.id,
+      'product_img': productProvider.productData!['images'][0],
+      'price': productProvider.productData!['price'],
+      'title': productProvider.productData!['title'],
+    };
+    List<String> users = [
+      productProvider.sellerDetails!['uid'],
+      firebaseUser.user!.uid,
+    ];
+    String chatroomId =
+        '${productProvider.sellerDetails!['uid']}.${firebaseUser.user!.uid}${productProvider.productData!.id}';
+    Map<String, dynamic> chatData = {
+      'users': users,
+      'chatroomId': chatroomId,
+      'product': product,
+      'lastChat': null,
+      'lastChatTime': DateTime.now().microsecondsSinceEpoch,
+    };
+    firebaseUser.createChatRoom(data: chatData);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (builder) => UserChatScreen(
+                  chatroomId: chatroomId,
+                )));
   }
 
   @override
@@ -679,13 +712,48 @@ class _ProductDetailState extends State<ProductDetail> {
           : BottomAppBar(
               child: Padding(
                 padding: EdgeInsets.all(16),
-                child: Row(children: [
+                child:
+                    //(productProvider.productData!['seller_uid'] ==
+                    //         firebaseUser.user!.uid)
+                    //     ? Row(children: [
+                    //         Expanded(
+                    //           child: ElevatedButton(
+                    //               style: ButtonStyle(
+                    //                   backgroundColor: MaterialStateProperty.all(
+                    //                       secondaryColor)),
+                    //               onPressed: () {},
+                    //               child: Padding(
+                    //                 padding: const EdgeInsets.all(10),
+                    //                 child: Row(
+                    //                   mainAxisSize: MainAxisSize.min,
+                    //                   mainAxisAlignment: MainAxisAlignment.center,
+                    //                   children: [
+                    //                     Icon(
+                    //                       Icons.edit,
+                    //                       size: 16,
+                    //                       color: whiteColor,
+                    //                     ),
+                    //                     SizedBox(
+                    //                       width: 10,
+                    //                     ),
+                    //                     Text(
+                    //                       'Edit',
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //               )),
+                    //         ),
+                    //       ])
+                    //     :
+                    Row(children: [
                   Expanded(
                     child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(secondaryColor)),
-                        onPressed: () {},
+                        onPressed: () {
+                          _createChatRoom(productProvider);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Row(

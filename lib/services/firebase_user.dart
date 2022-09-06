@@ -29,4 +29,30 @@ class FirebaseUser {
     DocumentSnapshot doc = await authService.users.doc(id).get();
     return doc;
   }
+
+  createChatRoom({required Map<String, dynamic> data}) {
+    authService.messages.doc(data['chatroomId']).set(data).catchError((error) {
+      print(error.toString());
+    });
+  }
+
+  createChat({String? chatroomId, required Map<String, dynamic> message}) {
+    authService.messages
+        .doc(chatroomId)
+        .collection('chats')
+        .add(message)
+        .catchError((error) {
+      print(error.toString());
+    });
+    authService.messages.doc(chatroomId).update(
+        {'lastChat': message['message'], 'lastChatTime': message['time']});
+  }
+
+  getChatDetails({String? chatroomId}) async {
+    return authService.messages
+        .doc(chatroomId)
+        .collection('chats')
+        .orderBy('time')
+        .snapshots();
+  }
 }

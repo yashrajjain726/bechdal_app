@@ -18,6 +18,8 @@ class AuthService {
       FirebaseFirestore.instance.collection('categories');
   CollectionReference products =
       FirebaseFirestore.instance.collection('products');
+  CollectionReference messages =
+      FirebaseFirestore.instance.collection('messages');
 
   Future<void> getAdminCredentialPhoneNumber(BuildContext context, user) async {
     final QuerySnapshot userDataQuery =

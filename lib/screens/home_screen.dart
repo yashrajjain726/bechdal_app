@@ -120,62 +120,65 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget homeBodyWidget() {
     return SingleChildScrollView(
       physics: ScrollPhysics(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            width: double.infinity,
-            height: 40,
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).pushNamed(LocationScreen.screenId);
-              },
-              child: Center(child: lcoationAutoFetchBar(context)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              width: double.infinity,
+              height: 40,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(LocationScreen.screenId);
+                },
+                child: Center(child: lcoationAutoFetchBar(context)),
+              ),
             ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                CategoryWidget(),
-                FutureBuilder(
-                  future: downloadBannerImageUrlList(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<String>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Container(
-                        height: 250,
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    } else {
-                      if (snapshot.hasError) {
-                        return const Text(
-                            'Currently facing issue in banner loading');
-                      } else {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: CarouselSlider.builder(
-                            itemCount: snapshot.data!.length,
-                            options: CarouselOptions(
-                              autoPlay: true,
-                              viewportFraction: 1.0,
-                            ),
-                            itemBuilder: (context, index, realIdx) {
-                              return CachedNetworkImage(
-                                imageUrl: snapshot.data![index],
-                              );
-                            },
-                          ),
+            Container(
+              child: Column(
+                children: [
+                  CategoryWidget(),
+                  FutureBuilder(
+                    future: downloadBannerImageUrlList(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<String>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(
+                          height: 250,
+                          child: Center(child: CircularProgressIndicator()),
                         );
+                      } else {
+                        if (snapshot.hasError) {
+                          return const Text(
+                              'Currently facing issue in banner loading');
+                        } else {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: CarouselSlider.builder(
+                              itemCount: snapshot.data!.length,
+                              options: CarouselOptions(
+                                autoPlay: true,
+                                viewportFraction: 1.0,
+                              ),
+                              itemBuilder: (context, index, realIdx) {
+                                return CachedNetworkImage(
+                                  imageUrl: snapshot.data![index],
+                                );
+                              },
+                            ),
+                          );
+                        }
                       }
-                    }
-                  },
-                ),
-              ],
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          ProductListing()
-        ],
+            ProductListing()
+          ],
+        ),
       ),
     );
   }

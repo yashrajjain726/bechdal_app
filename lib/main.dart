@@ -20,6 +20,7 @@ import 'package:bechdal_app/screens/post/my_post_screen.dart';
 import 'package:bechdal_app/screens/product_details_screen.dart';
 import 'package:bechdal_app/screens/profile_screen.dart';
 import 'package:bechdal_app/screens/splash_screen.dart';
+import 'package:bechdal_app/screens/user_chat_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -81,6 +82,7 @@ class Main extends StatelessWidget {
           CommonForm.screenId: (context) => const CommonForm(),
           ProductDetail.screenId: (context) => const ProductDetail(),
           ProductByCategory.screenId: (context) => const ProductByCategory(),
+          UserChatScreen.screenId: (context) => UserChatScreen(),
         });
   }
 }
