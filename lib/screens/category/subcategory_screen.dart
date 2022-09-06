@@ -10,8 +10,11 @@ import 'package:provider/provider.dart';
 import '../../constants/colors.constants.dart';
 
 class SubCategoryScreen extends StatefulWidget {
+  final DocumentSnapshot? doc;
+  final bool? isForForm;
   static const String screenId = 'subcategory_screen';
-  const SubCategoryScreen({Key? key}) : super(key: key);
+  const SubCategoryScreen({Key? key, this.doc, this.isForForm})
+      : super(key: key);
 
   @override
   State<SubCategoryScreen> createState() => _SubCategoryScreenState();
@@ -21,16 +24,17 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
-    final DocumentSnapshot? args = ModalRoute.of(context)!.settings.arguments
-        as DocumentSnapshot<Object?>?;
+
     return CommonPageWidget(
-        text: args!['category_name'],
-        body: subCategoryBodyWidget(args, categoryProvider),
+        text: widget.doc!['category_name'] ?? '',
+        body: subCategoryBodyWidget(
+            widget.doc, categoryProvider, widget.isForForm),
         containsAppbar: true,
         centerTitle: false);
   }
 
-  subCategoryBodyWidget(args, CategoryProvider categoryProvider) {
+  subCategoryBodyWidget(
+      args, CategoryProvider categoryProvider, bool? isForForm) {
     AuthService authService = AuthService();
     return FutureBuilder<DocumentSnapshot>(
         future: authService.categories.doc(args.id).get(),
@@ -57,10 +61,14 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                       onTap: () {
                         categoryProvider.setSubCategory(data[index]);
 
-                        Navigator.pushNamed(
-                          context,
-                          ProductByCategory.screenId,
-                        );
+                        if (isForForm == true) {
+                          Navigator.pushNamed(context, CommonForm.screenId);
+                        } else {
+                          Navigator.pushNamed(
+                            context,
+                            ProductByCategory.screenId,
+                          );
+                        }
                       },
                       title: Text(
                         data[index],

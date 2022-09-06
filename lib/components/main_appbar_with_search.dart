@@ -78,7 +78,7 @@ class _MainAppBarWithSearchState extends State<MainAppBarWithSearch> {
                 ),
                 InkWell(
                   onTap: () {
-                    searchService.search(
+                    searchService.searchQueryPage(
                         context: context,
                         products: products,
                         address: address,

@@ -1,5 +1,6 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/main.dart';
+import 'package:bechdal_app/screens/category/category_list_screen.dart';
 import 'package:bechdal_app/screens/chat_screen.dart';
 import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/post/add_post_screen.dart';
@@ -21,7 +22,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   List pages = [
     HomeScreen(),
     ChatScreen(),
-    AddPostScreen(),
+    CategoryListScreen(
+      isForForm: true,
+    ),
     MyPostScreen(),
     ProfileScreen(),
   ];

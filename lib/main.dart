@@ -35,14 +35,19 @@ void main() async {
   await FirebaseAppCheck.instance.activate(
     webRecaptchaSiteKey: 'recaptcha-v3-site-key',
   );
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (_) => CategoryProvider(),
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => CategoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(),
+        )
+      ],
+      child: const Main(),
     ),
-    ChangeNotifierProvider(
-      create: (_) => ProductProvider(),
-    )
-  ], child: const Main()));
+  );
 }
 
 class Main extends StatelessWidget {
@@ -82,7 +87,7 @@ class Main extends StatelessWidget {
           CommonForm.screenId: (context) => const CommonForm(),
           ProductDetail.screenId: (context) => const ProductDetail(),
           ProductByCategory.screenId: (context) => const ProductByCategory(),
-          UserChatScreen.screenId: (context) => UserChatScreen(),
+          UserChatScreen.screenId: (context) => const UserChatScreen(),
         });
   }
 }

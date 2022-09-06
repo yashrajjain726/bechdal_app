@@ -6,8 +6,6 @@ import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../forms/sell_car_form.dart';
 import '../screens/category/subcategory_screen.dart';
 
 class CategoryWidget extends StatefulWidget {
@@ -95,9 +93,11 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                                 Navigator.of(context)
                                     .pushNamed(ProductByCategory.screenId);
                               } else {
-                                Navigator.pushNamed(
-                                    context, SubCategoryScreen.screenId,
-                                    arguments: doc);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (builder) =>
+                                            SubCategoryScreen(doc: doc)));
                               }
                             },
                             child: Container(

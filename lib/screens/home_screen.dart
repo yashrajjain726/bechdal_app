@@ -42,11 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
       final String fileUrl = await image.getDownloadURL();
       bannerUrlList.add(fileUrl);
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      for (var imageUrl in bannerUrlList) {
-        precacheImage(NetworkImage(imageUrl), context);
-      }
-    });
     return bannerUrlList;
   }
 

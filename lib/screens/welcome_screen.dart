@@ -66,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
           width: double.infinity,
           height: 200,
           child: Padding(
-            padding: EdgeInsets.only(top: 80, left: 25),
+            padding: const EdgeInsets.only(top: 80, left: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -92,7 +92,7 @@ class WelcomeScreen extends StatelessWidget {
         Expanded(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
               child: Lottie.asset(
                 'assets/lottie/welcome_lottie.json',
                 width: double.infinity,

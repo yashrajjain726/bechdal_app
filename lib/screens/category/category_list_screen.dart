@@ -1,4 +1,5 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
+import 'package:bechdal_app/forms/common_form.dart';
 import 'package:bechdal_app/forms/sell_car_form.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/category/product_by_category_screen.dart';
@@ -11,14 +12,15 @@ import '../../constants/colors.constants.dart';
 import '../../services/auth_service.dart';
 
 class CategoryListScreen extends StatelessWidget {
+  final bool? isForForm;
   static const String screenId = 'category_list_screen';
-  const CategoryListScreen({Key? key}) : super(key: key);
+  const CategoryListScreen({Key? key, this.isForForm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
     return CommonPageWidget(
-      text: 'Categories',
+      text: isForForm == true ? 'Select Category' : 'Categories',
       body: categoryListWidget(categoryProvider),
       containsAppbar: true,
       centerTitle: false,
@@ -53,13 +55,29 @@ class CategoryListScreen extends StatelessWidget {
                       onTap: () {
                         categoryProvider.setCategory(doc!['category_name']);
                         categoryProvider.setCategorySnapshot(doc);
-                        if (doc['subcategory'] == null) {
-                          Navigator.of(context)
-                              .pushNamed(ProductByCategory.screenId);
+                        if (isForForm == true) {
+                          if (doc['subcategory'] == null) {
+                            Navigator.of(context)
+                                .pushNamed(SellCarForm.screenId);
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => SubCategoryScreen(
+                                        doc: doc, isForForm: true)));
+                          }
                         } else {
-                          Navigator.pushNamed(
-                              context, SubCategoryScreen.screenId,
-                              arguments: doc);
+                          if (doc['subcategory'] == null) {
+                            Navigator.of(context)
+                                .pushNamed(ProductByCategory.screenId);
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => SubCategoryScreen(
+                                          doc: doc,
+                                        )));
+                          }
                         }
                       },
                       leading: Image.network(doc!['img']),

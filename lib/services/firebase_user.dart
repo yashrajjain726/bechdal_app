@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import '../constants/functions/functions.widgets.dart';
 
 class FirebaseUser {
-  AuthService authService = new AuthService();
+  AuthService authService = AuthService();
   User? user = FirebaseAuth.instance.currentUser;
+
   Future<void> updateFirebaseUser(
       BuildContext context, Map<String, dynamic> data) {
     User? user = FirebaseAuth.instance.currentUser;
