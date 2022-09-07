@@ -8,26 +8,25 @@ import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/login_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:bechdal_app/screens/auth/register_screen.dart';
-import 'package:bechdal_app/screens/auth/reset_password_screen.dart';
 import 'package:bechdal_app/screens/category/product_by_category_screen.dart';
 import 'package:bechdal_app/screens/category/subcategory_screen.dart';
-import 'package:bechdal_app/screens/chat_screen.dart';
+import 'package:bechdal_app/screens/chat/user_chat_screen.dart';
 import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
-import 'package:bechdal_app/screens/post/add_post_screen.dart';
 import 'package:bechdal_app/screens/post/my_post_screen.dart';
 import 'package:bechdal_app/screens/product_details_screen.dart';
 import 'package:bechdal_app/screens/profile_screen.dart';
 import 'package:bechdal_app/screens/splash_screen.dart';
-import 'package:bechdal_app/screens/user_chat_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/auth/reset_password_screen.dart';
 import 'screens/category/category_list_screen.dart';
+import 'screens/chat/chat_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,7 +78,6 @@ class Main extends StatelessWidget {
           MainNavigationScreen.screenId: (context) =>
               const MainNavigationScreen(),
           ChatScreen.screenId: (context) => const ChatScreen(),
-          AddPostScreen.screenId: (context) => const AddPostScreen(),
           MyPostScreen.screenId: (context) => const MyPostScreen(),
           ProfileScreen.screenId: (context) => const ProfileScreen(),
           SellCarForm.screenId: (context) => const SellCarForm(),

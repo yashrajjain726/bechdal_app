@@ -1,3 +1,4 @@
+import 'package:bechdal_app/screens/chat/chat_stream.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
 import 'package:bechdal_app/services/firebase_user.dart';
@@ -15,22 +16,10 @@ class UserChatScreen extends StatefulWidget {
 }
 
 class _UserChatScreenState extends State<UserChatScreen> {
-  Stream<QuerySnapshot>? changeMessageStream;
-  late TextEditingController msgController;
+  TextEditingController msgController = TextEditingController();
   FirebaseUser firebaseUser = FirebaseUser();
 
   bool send = false;
-
-  @override
-  void initState() {
-    super.initState();
-    firebaseUser.getChatDetails(chatroomId: widget.chatroomId).then((value) {
-      setState(() {
-        changeMessageStream = value;
-      });
-    });
-    msgController = TextEditingController();
-  }
 
   @override
   void dispose() {
@@ -40,6 +29,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
 
   sendMessage() {
     if (msgController.text.isNotEmpty) {
+      FocusScope.of(context).unfocus();
       Map<String, dynamic> message = {
         'message': msgController.text,
         'sent_by': firebaseUser.user!.uid,
@@ -60,48 +50,25 @@ class _UserChatScreenState extends State<UserChatScreen> {
           elevation: 0,
           iconTheme: IconThemeData(color: blackColor),
           title: Text(
-            '${productProvider.sellerDetails!['name']} (${productProvider.productData!['title']})',
+            'Chat Details',
             style: TextStyle(color: blackColor),
           ),
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.call)),
+            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_sharp))
+          ],
         ),
         body: Container(
           child: Stack(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: changeMessageStream,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text('Fetching error..'),
-                        );
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child:
-                              CircularProgressIndicator(color: secondaryColor),
-                        );
-                      }
-                      return snapshot.hasData
-                          ? ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Text(
-                                  snapshot.data!.docs[index]['message'],
-                                  style: TextStyle(
-                                    color: blackColor,
-                                  ),
-                                );
-                              })
-                          : Container();
-                    }),
+              ChatStream(
+                chatroomId: widget.chatroomId,
               ),
               Container(
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: BoxDecoration(
+                    color: whiteColor,
                     border: Border(
                       top: BorderSide(
                         color: disabledColor.withOpacity(0.2),
@@ -125,9 +92,15 @@ class _UserChatScreenState extends State<UserChatScreen> {
                                 });
                               }
                             },
+                            onSubmitted: (value) {
+                              /// Pressing Enter and Sending Message Case
+                              if (value.length > 0) {
+                                sendMessage();
+                              }
+                            },
                             controller: msgController,
                             style: TextStyle(
-                              color: secondaryColor,
+                              color: blackColor,
                             ),
                             decoration: InputDecoration(
                               hintText: 'Enter you message...',

@@ -31,6 +31,11 @@ class FirebaseUser {
     return doc;
   }
 
+  Future<DocumentSnapshot> getProductDetails(id) async {
+    DocumentSnapshot doc = await authService.products.doc(id).get();
+    return doc;
+  }
+
   createChatRoom({required Map<String, dynamic> data}) {
     authService.messages.doc(data['chatroomId']).set(data).catchError((error) {
       print(error.toString());
@@ -45,8 +50,11 @@ class FirebaseUser {
         .catchError((error) {
       print(error.toString());
     });
-    authService.messages.doc(chatroomId).update(
-        {'lastChat': message['message'], 'lastChatTime': message['time']});
+    authService.messages.doc(chatroomId).update({
+      'lastChat': message['message'],
+      'lastChatTime': message['time'],
+      'read': false,
+    });
   }
 
   getChatDetails({String? chatroomId}) async {
