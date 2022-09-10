@@ -1,4 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/models/popup_menu_model.dart';
+import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 
 loadingDialogBox(BuildContext context, String loadingMessage) {
@@ -173,4 +176,80 @@ openBottomSheet(
           ),
         );
       });
+}
+
+customPopUpMenu({
+  required BuildContext context,
+  required String? chatroomId,
+}) {
+  CustomPopupMenuController controller = CustomPopupMenuController();
+  FirebaseUser firebaseUser = FirebaseUser();
+  List<PopUpMenuModel> menuItems = [
+    PopUpMenuModel('Delete', Icons.delete),
+    PopUpMenuModel('Mark Sold', Icons.done),
+  ];
+  return CustomPopupMenu(
+    menuBuilder: () => ClipRRect(
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        color: whiteColor,
+        child: IntrinsicWidth(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: menuItems
+                .map(
+                  (item) => GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      if (menuItems.indexOf(item) == 0) {
+                        firebaseUser.deleteChat(chatroomId: chatroomId);
+                        customSnackBar(
+                            context: context,
+                            content: 'Chat successfully deleted..');
+                      } else {
+                        print('Mark Sold');
+                      }
+                      controller.hideMenu();
+                    },
+                    child: Container(
+                      height: 40,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            item.icon,
+                            size: 15,
+                            color: blackColor,
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                item.title,
+                                style: TextStyle(
+                                  color: blackColor,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ),
+    ),
+    pressType: PressType.singleClick,
+    verticalMargin: -10,
+    controller: controller,
+    child: Container(
+      padding: const EdgeInsets.all(20),
+      child: Icon(Icons.more_vert_sharp, color: blackColor),
+    ),
+  );
 }

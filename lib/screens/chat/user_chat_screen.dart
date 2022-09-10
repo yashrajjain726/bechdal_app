@@ -1,8 +1,10 @@
+import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/models/popup_menu_model.dart';
 import 'package:bechdal_app/screens/chat/chat_stream.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
 import 'package:bechdal_app/services/firebase_user.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +44,11 @@ class _UserChatScreenState extends State<UserChatScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var productProvider = Provider.of<ProductProvider>(context);
     return Scaffold(
@@ -55,7 +62,10 @@ class _UserChatScreenState extends State<UserChatScreen> {
           ),
           actions: [
             IconButton(onPressed: () {}, icon: Icon(Icons.call)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_sharp))
+            customPopUpMenu(
+              context: context,
+              chatroomId: widget.chatroomId,
+            ),
           ],
         ),
         body: Container(

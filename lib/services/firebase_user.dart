@@ -1,5 +1,8 @@
+import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/models/popup_menu_model.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -63,5 +66,9 @@ class FirebaseUser {
         .collection('chats')
         .orderBy('time')
         .snapshots();
+  }
+
+  deleteChat({String? chatroomId}) async {
+    return authService.messages.doc(chatroomId).delete();
   }
 }

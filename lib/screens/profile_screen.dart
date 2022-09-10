@@ -1,6 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';
+import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  FirebaseUser firebaseUser = FirebaseUser();
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -88,6 +88,7 @@ dependencies:
   url_launcher: ^6.1.5
   search_page: ^2.0.0+1
   flutter_chat_bubble: ^2.0.0
+  custom_pop_up_menu: ^1.2.4
 
 dev_dependencies:
   flutter_test:

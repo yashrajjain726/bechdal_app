@@ -59,6 +59,7 @@ class _ProductDetailState extends State<ProductDetail> {
       'product_img': productProvider.productData!['images'][0],
       'price': productProvider.productData!['price'],
       'title': productProvider.productData!['title'],
+      'seller': productProvider.productData!['seller_uid'],
     };
     List<String> users = [
       productProvider.sellerDetails!['uid'],
@@ -713,104 +714,102 @@ class _ProductDetailState extends State<ProductDetail> {
           : BottomAppBar(
               child: Padding(
                 padding: EdgeInsets.all(16),
-                child:
-                    //(productProvider.productData!['seller_uid'] ==
-                    //         firebaseUser.user!.uid)
-                    //     ? Row(children: [
-                    //         Expanded(
-                    //           child: ElevatedButton(
-                    //               style: ButtonStyle(
-                    //                   backgroundColor: MaterialStateProperty.all(
-                    //                       secondaryColor)),
-                    //               onPressed: () {},
-                    //               child: Padding(
-                    //                 padding: const EdgeInsets.all(10),
-                    //                 child: Row(
-                    //                   mainAxisSize: MainAxisSize.min,
-                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                    //                   children: [
-                    //                     Icon(
-                    //                       Icons.edit,
-                    //                       size: 16,
-                    //                       color: whiteColor,
-                    //                     ),
-                    //                     SizedBox(
-                    //                       width: 10,
-                    //                     ),
-                    //                     Text(
-                    //                       'Edit',
-                    //                     )
-                    //                   ],
-                    //                 ),
-                    //               )),
-                    //         ),
-                    //       ])
-                    //     :
-                    Row(children: [
-                  Expanded(
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(secondaryColor)),
-                        onPressed: () {
-                          _createChatRoom(productProvider);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.chat_bubble,
-                                size: 16,
-                                color: whiteColor,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Chat',
-                              )
-                            ],
-                          ),
-                        )),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(secondaryColor)),
-                        onPressed: () async {
-                          var phoneNo = Uri.parse(
-                              'tel:${productProvider.sellerDetails!['mobile']}');
-                          await _callLauncher(phoneNo);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.call,
-                                size: 16,
-                                color: whiteColor,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Call',
-                              )
-                            ],
-                          ),
-                        )),
-                  )
-                ]),
+                child: (productProvider.productData!['seller_uid'] ==
+                        firebaseUser.user!.uid)
+                    ? Row(children: [
+                        Expanded(
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      secondaryColor)),
+                              onPressed: () {},
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.edit,
+                                      size: 16,
+                                      color: whiteColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Edit',
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ])
+                    : Row(children: [
+                        Expanded(
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      secondaryColor)),
+                              onPressed: () {
+                                _createChatRoom(productProvider);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.chat_bubble,
+                                      size: 16,
+                                      color: whiteColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Chat',
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      secondaryColor)),
+                              onPressed: () async {
+                                var phoneNo = Uri.parse(
+                                    'tel:${productProvider.sellerDetails!['mobile']}');
+                                await _callLauncher(phoneNo);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.call,
+                                      size: 16,
+                                      color: whiteColor,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Call',
+                                    )
+                                  ],
+                                ),
+                              )),
+                        )
+                      ]),
               ),
             ),
     );
