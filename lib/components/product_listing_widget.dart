@@ -93,7 +93,7 @@ class _ProductListingState extends State<ProductListing> {
                               const SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 200,
                             childAspectRatio: 2 / 2,
-                            mainAxisExtent: 300,
+                            mainAxisExtent: 250,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 10,
                           ),
@@ -156,11 +156,8 @@ class _ProductCardState extends State<ProductCard> {
         productProvider.setProductDetails(widget.data);
         Navigator.pushNamed(context, ProductDetail.screenId);
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
+      child: Card(
+        elevation: 5,
         child: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Stack(
@@ -171,7 +168,7 @@ class _ProductCardState extends State<ProductCard> {
                 children: [
                   Container(
                       alignment: Alignment.center,
-                      height: 150,
+                      height: 120,
                       child: Image.network(
                         widget.data['images'][0],
                         fit: BoxFit.cover,

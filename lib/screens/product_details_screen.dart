@@ -713,38 +713,13 @@ class _ProductDetailState extends State<ProductDetail> {
           ? SizedBox()
           : BottomAppBar(
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: (productProvider.productData!['seller_uid'] ==
+                        firebaseUser.user!.uid)
+                    ? EdgeInsets.zero
+                    : EdgeInsets.all(16),
                 child: (productProvider.productData!['seller_uid'] ==
                         firebaseUser.user!.uid)
-                    ? Row(children: [
-                        Expanded(
-                          child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      secondaryColor)),
-                              onPressed: () {},
-                              child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.edit,
-                                      size: 16,
-                                      color: whiteColor,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      'Edit',
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ),
-                      ])
+                    ? null
                     : Row(children: [
                         Expanded(
                           child: ElevatedButton(

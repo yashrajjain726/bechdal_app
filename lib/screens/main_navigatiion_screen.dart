@@ -48,7 +48,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         padding: EdgeInsets.zero,
         margin: EdgeInsets.zero,
         child: DotNavigationBar(
-          backgroundColor: whiteColor,
+          backgroundColor: blackColor,
           margin: EdgeInsets.zero,
           paddingR: EdgeInsets.zero,
           selectedItemColor: secondaryColor,
@@ -56,7 +56,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           dotIndicatorColor: Colors.transparent,
           unselectedItemColor: disabledColor,
           enablePaddingAnimation: true,
-          enableFloatingNavBar: true,
+          enableFloatingNavBar: false,
           onTap: (index) {
             setState(() {
               _index = index;
@@ -73,7 +73,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   Icons.home,
                   color: _index == 0 ? secondaryColor : disabledColor,
                 ),
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.all(10),
               ),
             ),
             DotNavigationBarItem(
@@ -85,7 +85,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   Icons.chat,
                   color: _index == 1 ? secondaryColor : disabledColor,
                 ),
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.all(10),
               ),
             ),
             DotNavigationBarItem(
@@ -97,7 +97,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   Icons.add,
                   color: _index == 2 ? secondaryColor : disabledColor,
                 ),
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.all(10),
               ),
             ),
             DotNavigationBarItem(
@@ -111,7 +111,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       : CupertinoIcons.heart,
                   color: _index == 3 ? secondaryColor : disabledColor,
                 ),
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.all(10),
               ),
             ),
             DotNavigationBarItem(
@@ -123,7 +123,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   Icons.person,
                   color: _index == 4 ? secondaryColor : disabledColor,
                 ),
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.all(10),
               ),
             ),
           ],

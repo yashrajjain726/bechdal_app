@@ -59,6 +59,7 @@ class Main extends StatelessWidget {
           primaryColor: blackColor,
           backgroundColor: whiteColor,
           fontFamily: 'Oswald',
+          scaffoldBackgroundColor: whiteColor,
         ),
         debugShowCheckedModeBanner: false,
         initialRoute: SplashScreen.screenId,

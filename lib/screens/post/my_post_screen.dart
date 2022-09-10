@@ -86,7 +86,7 @@ bodyWidget(
                                 const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 200,
                               childAspectRatio: 2 / 2,
-                              mainAxisExtent: 300,
+                              mainAxisExtent: 250,
                               crossAxisSpacing: 8,
                               mainAxisSpacing: 10,
                             ),
