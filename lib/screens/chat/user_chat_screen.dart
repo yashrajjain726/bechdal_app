@@ -3,7 +3,7 @@ import 'package:bechdal_app/models/popup_menu_model.dart';
 import 'package:bechdal_app/screens/chat/chat_stream.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class UserChatScreen extends StatefulWidget {
 
 class _UserChatScreenState extends State<UserChatScreen> {
   TextEditingController msgController = TextEditingController();
-  FirebaseUser firebaseUser = FirebaseUser();
+  UserService firebaseUser = UserService();
 
   bool send = false;
 

@@ -2,7 +2,7 @@ import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/forms/common_form.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/category/product_by_category_screen.dart';
-import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +35,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
 
   subCategoryBodyWidget(
       args, CategoryProvider categoryProvider, bool? isForForm) {
-    AuthService authService = AuthService();
+    Auth authService = Auth();
     return FutureBuilder<DocumentSnapshot>(
         future: authService.categories.doc(args.id).get(),
         builder:

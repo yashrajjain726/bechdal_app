@@ -1,4 +1,5 @@
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,7 +12,9 @@ LocationPermission? permission;
 Future<String?> getLocationAndAddress(context) async {
   Position? position =
       await getCurrentLocation(context, serviceEnabled, permission);
-  print('positions are $position');
+  if (kDebugMode) {
+    print('positions are $position');
+  }
   selectedLocation = await getFetchedAddress(context, position);
   if (selectedLocation != null) {
     return selectedLocation;
@@ -24,7 +27,9 @@ Future<String?> getFetchedAddress(
   List<Placemark> placemarks =
       await placemarkFromCoordinates(position!.latitude, position.longitude);
   Placemark place = placemarks[0];
-  print(place);
+  if (kDebugMode) {
+    print(place);
+  }
   return '${place.locality}, ${place.postalCode}';
 }
 

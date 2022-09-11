@@ -3,7 +3,7 @@ import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/auth/login_screen.dart';
-import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class ResetFormWidget extends StatefulWidget {
 }
 
 class _ResetFormWidgetState extends State<ResetFormWidget> {
-  AuthService authService = AuthService();
+  Auth authService = Auth();
   late final TextEditingController _emailController;
   late final FocusNode _emailNode;
   final _formKey = GlobalKey<FormState>();

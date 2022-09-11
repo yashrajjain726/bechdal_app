@@ -1,9 +1,9 @@
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CategoryProvider with ChangeNotifier {
-  final FirebaseUser _firebaseUser = FirebaseUser();
+  final UserService _firebaseUser = UserService();
   DocumentSnapshot? doc;
   DocumentSnapshot<Map<String, dynamic>>? userDetails;
 

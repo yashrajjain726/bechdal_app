@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_otp_screen.dart';
@@ -9,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthService {
+class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final storage = const FlutterSecureStorage();
   User? currentUser = FirebaseAuth.instance.currentUser;
@@ -44,17 +46,23 @@ class AuthService {
       'name': '',
       'address': ''
     }).then((value) {
-      print('user added successfully');
+      if (kDebugMode) {
+        print('user added successfully');
+      }
+      // ignore: invalid_return_type_for_catch_error, avoid_print
     }).catchError((error) => print("Failed to add user: $error"));
   }
 
   Future<void> verifyPhoneNumber(BuildContext context, number) async {
     loadingDialogBox(context, 'Please wait');
+
+    // ignore: prefer_function_declarations_over_variables
     final PhoneVerificationCompleted verificationCompleted =
         (phoneAuthCredential) async {
       await _firebaseAuth.signInWithCredential(phoneAuthCredential);
     };
 
+    // ignore: prefer_function_declarations_over_variables
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException e) {
       if (e.code == 'invalid-phone-number') {
@@ -89,7 +97,9 @@ class AuthService {
             print(verificationId);
           });
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 
@@ -130,7 +140,9 @@ class AuthService {
 
         user = userCredential.user;
       } catch (e) {
-        print(e);
+        if (kDebugMode) {
+          print(e);
+        }
       }
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -183,14 +195,16 @@ class AuthService {
       String? lastName,
       required String password,
       required bool isLoginUser}) async {
-    DocumentSnapshot _result = await users.doc(email).get();
-    print(_result);
+    DocumentSnapshot result = await users.doc(email).get();
+    if (kDebugMode) {
+      print(result);
+    }
     try {
       if (isLoginUser) {
         print('loggin user');
         signInWithEmail(context, email, password);
       } else {
-        if (_result.exists) {
+        if (result.exists) {
           customSnackBar(
               context: context,
               content: 'An account already exists with this email');
@@ -201,7 +215,7 @@ class AuthService {
     } catch (e) {
       customSnackBar(context: context, content: e.toString());
     }
-    return _result;
+    return result;
   }
 
   signInWithEmail(BuildContext context, String email, String password) async {
@@ -209,7 +223,9 @@ class AuthService {
       loadingDialogBox(context, 'Validating details');
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print(credential);
+      if (kDebugMode) {
+        print(credential);
+      }
       Navigator.pop(context);
       if (credential.user!.uid != null) {
         Navigator.pushReplacementNamed(context, LocationScreen.screenId);
@@ -233,36 +249,35 @@ class AuthService {
   void registerWithEmail(BuildContext context, String email, String password,
       String firstName, String lastName) async {
     try {
-      print('inside 233');
       loadingDialogBox(context, 'Validating details');
-      print('inside 235');
+
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print('inside 241');
-      if (credential.user!.uid != null) {
-        return users.doc(credential.user!.uid).set({
-          'uid': credential.user!.uid,
-          'name': "$firstName $lastName",
-          'email': email,
-          'mobile': '',
-          'address': ''
-        }).then((value) async {
-          await credential.user!.sendEmailVerification().then((value) {
-            Navigator.pushReplacementNamed(context, EmailVerifyScreen.screenId);
-          });
 
-          customSnackBar(context: context, content: 'Registered successfully');
-        }).catchError((onError) {
-          print(onError);
-          customSnackBar(
-              context: context,
-              content:
-                  'Failed to add user to database, please try again $onError');
+      return users.doc(credential.user!.uid).set({
+        'uid': credential.user!.uid,
+        'name': "$firstName $lastName",
+        'email': email,
+        'mobile': '',
+        'address': ''
+      }).then((value) async {
+        await credential.user!.sendEmailVerification().then((value) {
+          Navigator.pushReplacementNamed(context, EmailVerifyScreen.screenId);
         });
-      }
+
+        customSnackBar(context: context, content: 'Registered successfully');
+      }).catchError((onError) {
+        if (kDebugMode) {
+          print(onError);
+        }
+        customSnackBar(
+            context: context,
+            content:
+                'Failed to add user to database, please try again $onError');
+      });
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       if (e.code == 'weak-password') {
@@ -274,7 +289,9 @@ class AuthService {
             content: 'The account already exists for that email.');
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       customSnackBar(
           context: context, content: 'Error occured: ${e.toString()}');
     }

@@ -3,8 +3,8 @@ import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
 import 'package:bechdal_app/screens/product/product_card.dart';
 import 'package:bechdal_app/screens/product/product_details_screen.dart';
-import 'package:bechdal_app/services/auth_service.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/auth.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class ProductListing extends StatefulWidget {
 }
 
 class _ProductListingState extends State<ProductListing> {
-  AuthService authService = AuthService();
+  Auth authService = Auth();
 
   @override
   Widget build(BuildContext context) {

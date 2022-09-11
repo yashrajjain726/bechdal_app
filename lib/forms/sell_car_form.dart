@@ -4,7 +4,7 @@ import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/forms/user_form_review.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryimage/galleryimage.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +22,7 @@ class SellCarForm extends StatefulWidget {
 }
 
 class _SellCarFormState extends State<SellCarForm> {
-  FirebaseUser firebaseUser = FirebaseUser();
+  UserService firebaseUser = UserService();
   late TextEditingController _carModelNameController;
   late TextEditingController _yearController;
   late TextEditingController _priceController;

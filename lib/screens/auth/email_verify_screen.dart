@@ -3,7 +3,7 @@ import 'package:bechdal_app/components/custom_icon_button.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
-import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -21,7 +21,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   bool isPinEntered = false;
   String smsCode = "";
 
-  AuthService authService = AuthService();
+  Auth authService = Auth();
 
   @override
   Widget build(BuildContext context) {

@@ -2,8 +2,8 @@ import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/components/product_listing_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/product/product_card.dart';
-import 'package:bechdal_app/services/auth_service.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/auth.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,8 +17,8 @@ class MyPostScreen extends StatefulWidget {
 }
 
 class _MyPostScreenState extends State<MyPostScreen> {
-  AuthService authService = AuthService();
-  FirebaseUser firebaseUser = FirebaseUser();
+  Auth authService = Auth();
+  UserService firebaseUser = UserService();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -53,8 +53,7 @@ class _MyPostScreenState extends State<MyPostScreen> {
   }
 }
 
-bodyWidget(
-    {required AuthService authService, required FirebaseUser firebaseUser}) {
+bodyWidget({required Auth authService, required UserService firebaseUser}) {
   final numberFormat = NumberFormat('##,##,##0');
   return TabBarView(children: [
     FutureBuilder<QuerySnapshot>(

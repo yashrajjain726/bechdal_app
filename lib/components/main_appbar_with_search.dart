@@ -1,8 +1,9 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/models/product_model.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
-import 'package:bechdal_app/services/auth_service.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
-import 'package:bechdal_app/services/search_service.dart';
+import 'package:bechdal_app/services/auth.dart';
+import 'package:bechdal_app/services/user.dart';
+import 'package:bechdal_app/services/search.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,10 +23,10 @@ class MainAppBarWithSearch extends StatefulWidget {
 
 class _MainAppBarWithSearchState extends State<MainAppBarWithSearch> {
   static List<Products> products = [];
-  AuthService authService = AuthService();
-  SearchService searchService = SearchService();
+  Auth authService = Auth();
+  Search searchService = Search();
   String address = '';
-  FirebaseUser firebaseUser = FirebaseUser();
+  UserService firebaseUser = UserService();
   DocumentSnapshot? sellerDetails;
   @override
   void initState() {

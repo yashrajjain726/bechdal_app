@@ -1,7 +1,7 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.validation.dart';
-import 'package:bechdal_app/services/auth_service.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/auth.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
@@ -20,8 +20,8 @@ class ChatStream extends StatefulWidget {
 class _ChatStreamState extends State<ChatStream> {
   Stream<QuerySnapshot>? changeMessageStream;
   DocumentSnapshot? chatDocument;
-  AuthService authService = AuthService();
-  FirebaseUser firebaseUser = FirebaseUser();
+  Auth authService = Auth();
+  UserService firebaseUser = UserService();
   @override
   void initState() {
     super.initState();

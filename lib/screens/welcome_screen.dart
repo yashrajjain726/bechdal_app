@@ -12,49 +12,9 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonPageWidget(
-      text: '',
+    return Scaffold(
+      appBar: null,
       body: welcomeBodyWidget(context),
-      containsAppbar: false,
-      centerTitle: false,
-    );
-  }
-
-  Widget welcomeBottomNavigationWidget(context) {
-    return Container(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: roundedButton(
-                context: context,
-                bgColor: whiteColor,
-                borderColor: blackColor,
-                textColor: blackColor,
-                text: 'Log In',
-                onPressed: () {
-                  Navigator.pushNamed(context, LoginScreen.screenId);
-                }),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: roundedButton(
-                context: context,
-                bgColor: secondaryColor,
-                text: 'Sign Up',
-                textColor: whiteColor,
-                onPressed: () {
-                  Navigator.pushNamed(context, RegisterScreen.screenId);
-                }),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-        ],
-      ),
     );
   }
 
@@ -62,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: double.infinity,
           height: 200,
           child: Padding(
@@ -101,7 +61,43 @@ class WelcomeScreen extends StatelessWidget {
             )
           ]),
         ),
-        welcomeBottomNavigationWidget(context),
+        _bottomNavigationBar(context),
+      ],
+    );
+  }
+
+  Widget _bottomNavigationBar(context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: roundedButton(
+              context: context,
+              bgColor: whiteColor,
+              borderColor: blackColor,
+              textColor: blackColor,
+              text: 'Log In',
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.screenId);
+              }),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: roundedButton(
+              context: context,
+              bgColor: secondaryColor,
+              text: 'Sign Up',
+              textColor: whiteColor,
+              onPressed: () {
+                Navigator.pushNamed(context, RegisterScreen.screenId);
+              }),
+        ),
+        const SizedBox(
+          height: 25,
+        ),
       ],
     );
   }

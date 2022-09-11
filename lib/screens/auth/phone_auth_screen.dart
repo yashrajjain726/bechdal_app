@@ -1,7 +1,7 @@
 import 'package:bechdal_app/components/bottom_nav_widget.dart';
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
@@ -19,7 +19,7 @@ class PhoneAuthScreen extends StatefulWidget {
 }
 
 class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
-  AuthService authService = AuthService();
+  Auth authService = Auth();
   late final TextEditingController _countryCodeController;
   late final TextEditingController _phoneNumberController;
   late final FocusNode _countryCodeNode;

@@ -6,7 +6,7 @@ import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/forms/user_form_review.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryimage/galleryimage.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class CommonForm extends StatefulWidget {
 }
 
 class _CommonFormState extends State<CommonForm> {
-  FirebaseUser firebaseUser = FirebaseUser();
+  UserService firebaseUser = UserService();
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _brandController;
   late FocusNode _brandNode;

@@ -4,7 +4,7 @@ import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
-import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +53,7 @@ class RegisterFormWidget extends StatefulWidget {
 
 class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   bool obsecure = true;
-  AuthService authService = AuthService();
+  Auth authService = Auth();
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
   late final TextEditingController _emailController;
@@ -323,7 +323,7 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
-  AuthService authService = AuthService();
+  Auth authService = Auth();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -350,7 +350,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         ),
         InkWell(
           onTap: () async {
-            User? user = await AuthService.signInWithGoogle(context: context);
+            User? user = await Auth.signInWithGoogle(context: context);
             if (user != null) {
               authService.getAdminCredentialPhoneNumber(context, user);
             }

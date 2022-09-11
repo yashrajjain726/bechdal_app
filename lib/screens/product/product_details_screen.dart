@@ -4,8 +4,8 @@ import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
 import 'package:bechdal_app/screens/chat/chat_screen.dart';
 import 'package:bechdal_app/screens/chat/user_chat_screen.dart';
-import 'package:bechdal_app/services/auth_service.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/auth.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +26,8 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   late GoogleMapController _mapController;
-  AuthService authService = AuthService();
-  FirebaseUser firebaseUser = FirebaseUser();
+  Auth authService = Auth();
+  UserService firebaseUser = UserService();
   bool _loading = true;
   int _index = 0;
   bool isLiked = false;

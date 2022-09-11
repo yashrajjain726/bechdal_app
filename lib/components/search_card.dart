@@ -1,62 +1,11 @@
-import 'package:bechdal_app/components/product_listing_widget.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.validation.dart';
-import 'package:bechdal_app/provider/product_provider.dart';
-import 'package:bechdal_app/screens/product/product_details_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bechdal_app/models/product_model.dart';
 import 'package:flutter/material.dart';
-import 'package:search_page/search_page.dart';
 
-class SearchService {
-  searchQueryPage(
-      {required BuildContext context,
-      required List<Products> products,
-      required String address,
-      DocumentSnapshot? sellerDetails,
-      required ProductProvider provider}) {
-    showSearch(
-      context: context,
-      delegate: SearchPage<Products>(
-          barTheme: ThemeData(
-              appBarTheme: AppBarTheme(
-                  backgroundColor: whiteColor,
-                  elevation: 0,
-                  surfaceTintColor: primaryColor,
-                  iconTheme: IconThemeData(color: blackColor),
-                  actionsIconTheme: IconThemeData(color: blackColor))),
-          onQueryUpdate: (s) => print(s),
-          items: products,
-          searchLabel: 'Search cars, mobiles, properties...',
-          suggestion: const SingleChildScrollView(child: ProductListing()),
-          failure: const Center(
-            child: Text('No product found, Please check and try again..'),
-          ),
-          filter: (product) => [
-                product.title,
-                product.description,
-                product.category,
-                product.subcategory,
-              ],
-          builder: (product) {
-            return InkWell(
-                onTap: () {
-                  provider.setProductDetails(product.document);
-                  provider.setSellerDetails(sellerDetails);
-                  Navigator.pushNamed(context, ProductDetail.screenId);
-                },
-                child: SearchCardWidget(
-                  product: product,
-                  address: address,
-                ));
-          }),
-    );
-  }
-}
-
-class SearchCardWidget extends StatelessWidget {
+class SearchCard extends StatelessWidget {
   final String address;
   final Products product;
-  const SearchCardWidget({
+  const SearchCard({
     required this.address,
     required this.product,
     Key? key,
@@ -66,20 +15,20 @@ class SearchCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 140,
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       width: MediaQuery.of(context).size.width,
       child: Card(
         elevation: 4,
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
-              Container(
+              SizedBox(
                 width: 120,
                 height: 120,
                 child: Image.network(product.document!['images'][0]),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -92,7 +41,7 @@ class SearchCardWidget extends StatelessWidget {
                         Text(
                           product.title ?? '',
                           maxLines: 1,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             overflow: TextOverflow.ellipsis,
@@ -101,7 +50,7 @@ class SearchCardWidget extends StatelessWidget {
                         Text(
                           '\u{20b9} ${product.price != null ? intToStringFormatter(product.price) : ''}',
                           maxLines: 1,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
                             overflow: TextOverflow.ellipsis,
@@ -112,12 +61,12 @@ class SearchCardWidget extends StatelessWidget {
                     Text(
                       product.description ?? '',
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Column(
@@ -128,7 +77,7 @@ class SearchCardWidget extends StatelessWidget {
                             : ''),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.location_pin,
                               size: 15,
                             ),
@@ -150,22 +99,4 @@ class SearchCardWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-class Products {
-  String? title;
-  String? description;
-  String? category;
-  String? subcategory;
-  String? price;
-  num? postDate;
-  DocumentSnapshot? document;
-  Products(
-      {this.title,
-      this.description,
-      this.category,
-      this.subcategory,
-      this.price,
-      this.postDate,
-      this.document});
 }

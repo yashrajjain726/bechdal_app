@@ -2,8 +2,8 @@ import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/screens/category/category_list_screen.dart';
 import 'package:bechdal_app/screens/chat/chat_card.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
-import 'package:bechdal_app/services/auth_service.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/auth.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +16,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  AuthService authService = AuthService();
-  FirebaseUser firebaseUser = FirebaseUser();
+  Auth authService = Auth();
+  UserService firebaseUser = UserService();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

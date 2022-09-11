@@ -1,12 +1,12 @@
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/components/large_heading_widget.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.permission.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -27,17 +27,14 @@ class LocationScreen extends StatefulWidget {
 class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
-    return CommonPageWidget(
-      text: '',
-      body: bodyLocationWidget(context),
-      containsAppbar: false,
-      centerTitle: true,
-      bottomNavigation: BottomLocationPermissionWidget(
-          onlyPop: widget.onlyPop, popToScreen: widget.popToScreen ?? ''),
-    );
+    return Scaffold(
+        appBar: null,
+        body: _body(context),
+        bottomNavigationBar: BottomLocationPermissionWidget(
+            onlyPop: widget.onlyPop, popToScreen: widget.popToScreen ?? ''));
   }
 
-  Widget bodyLocationWidget(context) {
+  Widget _body(context) {
     return Column(
       children: [
         const LargeHeadingWidget(
@@ -50,11 +47,11 @@ class _LocationScreenState extends State<LocationScreen> {
           height: 20,
         ),
         SizedBox(
+          height: 300,
+          width: 300,
           child: Lottie.asset(
             'assets/lottie/location_lottie.json',
           ),
-          height: 300,
-          width: 300,
         ),
       ],
     );
@@ -64,7 +61,7 @@ class _LocationScreenState extends State<LocationScreen> {
 class BottomLocationPermissionWidget extends StatefulWidget {
   final bool? onlyPop;
   final String popToScreen;
-  BottomLocationPermissionWidget({
+  const BottomLocationPermissionWidget({
     required this.popToScreen,
     this.onlyPop,
     Key? key,
@@ -77,7 +74,7 @@ class BottomLocationPermissionWidget extends StatefulWidget {
 
 class _BottomLocationPermissionWidgetState
     extends State<BottomLocationPermissionWidget> {
-  FirebaseUser firebaseUser = FirebaseUser();
+  UserService firebaseUser = UserService();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -97,14 +94,14 @@ class _BottomLocationPermissionWidgetState
     String countryValue = '';
     String stateValue = '';
     String cityValue = '';
-    String _address = '';
+    String address = '';
     String manualAddress = '';
     loadingDialogBox(context, 'Fetching details..');
     getLocationAndAddress(context).then((location) {
       if (location != null) {
         Navigator.pop(context);
         setState(() {
-          _address = location;
+          address = location;
         });
         showModalBottomSheet(
             isScrollControlled: true,
@@ -168,7 +165,7 @@ class _BottomLocationPermissionWidgetState
                             firebaseUser.updateFirebaseUser(context, {
                               'location':
                                   GeoPoint(value.latitude, value.longitude),
-                              'address': _address
+                              'address': address
                             }).then((value) {
                               return (widget.onlyPop == true)
                                   ? (widget.popToScreen.isNotEmpty)
@@ -201,7 +198,7 @@ class _BottomLocationPermissionWidgetState
                         ),
                       ),
                       subtitle: Text(
-                        _address == '' ? 'Fetch current Location' : _address,
+                        address == '' ? 'Fetch current Location' : address,
                         style: TextStyle(
                           color: greyColor,
                           fontSize: 10,
@@ -257,7 +254,10 @@ class _BottomLocationPermissionWidgetState
                               'city': cityValue,
                               'country': countryValue
                             }).then((value) {
-                              print(manualAddress + 'inside manual selection');
+                              if (kDebugMode) {
+                                print(
+                                    manualAddress + 'inside manual selection');
+                              }
                               return (widget.onlyPop == true)
                                   ? (widget.popToScreen.isNotEmpty)
                                       ? Navigator.of(context)

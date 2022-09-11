@@ -2,7 +2,7 @@ import 'package:bechdal_app/components/bottom_nav_widget.dart';
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
-import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_text_field.dart';
@@ -24,7 +24,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
   bool isPinEntered = false;
   String smsCode = "";
 
-  AuthService authService = AuthService();
+  Auth authService = Auth();
 
   @override
   Widget build(BuildContext context) {

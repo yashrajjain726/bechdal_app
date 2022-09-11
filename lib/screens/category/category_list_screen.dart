@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/colors.constants.dart';
-import '../../services/auth_service.dart';
+import '../../services/auth.dart';
 
 class CategoryListScreen extends StatelessWidget {
   final bool? isForForm;
@@ -28,7 +28,7 @@ class CategoryListScreen extends StatelessWidget {
   }
 
   categoryListWidget(categoryProvider) {
-    AuthService authService = AuthService();
+    Auth authService = Auth();
 
     return FutureBuilder<QuerySnapshot>(
         future: authService.categories.get(),

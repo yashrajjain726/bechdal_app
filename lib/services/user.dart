@@ -1,15 +1,13 @@
-import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/models/popup_menu_model.dart';
-import 'package:bechdal_app/services/auth_service.dart';
+import 'package:bechdal_app/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/functions/functions.widgets.dart';
 
-class FirebaseUser {
-  AuthService authService = AuthService();
+class UserService {
+  Auth authService = Auth();
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> updateFirebaseUser(
@@ -41,7 +39,9 @@ class FirebaseUser {
 
   createChatRoom({required Map<String, dynamic> data}) {
     authService.messages.doc(data['chatroomId']).set(data).catchError((error) {
-      print(error.toString());
+      if (kDebugMode) {
+        print(error.toString());
+      }
     });
   }
 
@@ -51,7 +51,9 @@ class FirebaseUser {
         .collection('chats')
         .add(message)
         .catchError((error) {
-      print(error.toString());
+      if (kDebugMode) {
+        print(error.toString());
+      }
     });
     authService.messages.doc(chatroomId).update({
       'lastChat': message['message'],

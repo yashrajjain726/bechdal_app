@@ -4,8 +4,8 @@ import 'package:bechdal_app/constants/functions/functions.validation.dart';
 import 'package:bechdal_app/constants/functions/functions.widgets.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
-import 'package:bechdal_app/services/auth_service.dart';
-import 'package:bechdal_app/services/firebase_user.dart';
+import 'package:bechdal_app/services/auth.dart';
+import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,8 +27,8 @@ class UserFormReview extends StatefulWidget {
 }
 
 class _UserFormReviewState extends State<UserFormReview> {
-  FirebaseUser firebaseUser = FirebaseUser();
-  AuthService authService = AuthService();
+  UserService firebaseUser = UserService();
+  Auth authService = Auth();
 
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
