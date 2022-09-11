@@ -11,7 +11,7 @@ loadingDialogBox(BuildContext context, String loadingMessage) {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(greyColor!),
+            color: secondaryColor,
           ),
           const SizedBox(
             width: 30,

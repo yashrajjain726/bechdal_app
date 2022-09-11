@@ -158,7 +158,8 @@ class _SellCarFormState extends State<SellCarForm> {
               'images': categoryProvider.imageUploadedUrls.isEmpty
                   ? ''
                   : categoryProvider.imageUploadedUrls,
-              'posted_at': DateTime.now().microsecondsSinceEpoch
+              'posted_at': DateTime.now().microsecondsSinceEpoch,
+              'favourites': [],
             });
             if (categoryProvider.imageUploadedUrls.isNotEmpty) {
               Navigator.pushNamed(context, UserFormReview.screenId);

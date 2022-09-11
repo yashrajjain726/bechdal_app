@@ -81,13 +81,13 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: snapshot.data?.docs.length,
+                        itemCount: snapshot.data!.docs.length,
                         itemBuilder: ((context, index) {
-                          var doc = snapshot.data?.docs[index];
+                          var doc = snapshot.data!.docs[index];
                           return InkWell(
                             onTap: () {
                               categoryProvider
-                                  .setCategory(doc!['category_name']);
+                                  .setCategory(doc['category_name']);
                               categoryProvider.setCategorySnapshot(doc);
                               if (doc['subcategory'] == null) {
                                 Navigator.of(context)
@@ -108,7 +108,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Image.network(
-                                    doc!['img'],
+                                    doc['img'],
                                     height: 50,
                                     width: 50,
                                   ),

@@ -26,9 +26,12 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   late GoogleMapController _mapController;
+  AuthService authService = AuthService();
   FirebaseUser firebaseUser = FirebaseUser();
   bool _loading = true;
   int _index = 0;
+  bool isLiked = false;
+  List fav = [];
   @override
   void initState() {
     Timer(Duration(seconds: 2), () {
@@ -37,6 +40,39 @@ class _ProductDetailState extends State<ProductDetail> {
       });
     });
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    var productProvider = Provider.of<ProductProvider>(context);
+    getFavourites(productProvider: productProvider);
+    super.didChangeDependencies();
+  }
+
+  getFavourites({required ProductProvider productProvider}) {
+    authService.products
+        .doc(productProvider.productData!.id)
+        .get()
+        .then((value) {
+      if (mounted) {
+        setState(() {
+          fav = value['favourites'];
+        });
+      }
+      if (fav.contains(firebaseUser.user!.uid)) {
+        if (mounted) {
+          setState(() {
+            isLiked = true;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            isLiked = false;
+          });
+        }
+      }
+    });
   }
 
   _mapLauncher(location) async {
@@ -111,21 +147,21 @@ class _ProductDetailState extends State<ProductDetail> {
             ),
             onPressed: () {},
           ),
-          LikeButton(
-            likeBuilder: (bool isLiked) {
-              return Icon(
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  isLiked = !isLiked;
+                });
+                firebaseUser.updateFavourite(
+                  context: context,
+                  isLiked: isLiked,
+                  productId: data.id,
+                );
+              },
+              color: isLiked ? secondaryColor : disabledColor,
+              icon: Icon(
                 isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
-                color: isLiked ? secondaryColor : blackColor,
-                size: 20,
-              );
-            },
-            likeCount: 0,
-            countBuilder: (int? count, bool isLiked, String text) {
-              Widget result;
-              result = Text('');
-              return result;
-            },
-          ),
+              ))
         ],
       ),
       body: SingleChildScrollView(

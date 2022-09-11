@@ -1,7 +1,8 @@
 import 'package:bechdal_app/constants/colors.constants.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
-import 'package:bechdal_app/screens/product_details_screen.dart';
+import 'package:bechdal_app/screens/product/product_card.dart';
+import 'package:bechdal_app/screens/product/product_details_screen.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 
 class ProductListing extends StatefulWidget {
@@ -52,7 +52,7 @@ class _ProductListingState extends State<ProductListing> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(
-                color: whiteColor,
+                color: secondaryColor,
               ),
             );
           }
@@ -70,20 +70,22 @@ class _ProductListingState extends State<ProductListing> {
                     children: [
                       (widget.isProductByCategory != null)
                           ? const SizedBox()
-                          : Column(
-                              children: [
-                                Text(
-                                  'Recommendation',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: blackColor,
+                          : Container(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Recommendation',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: blackColor,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
                             ),
                       GridView.builder(
                           physics: ScrollPhysics(),
@@ -92,7 +94,7 @@ class _ProductListingState extends State<ProductListing> {
                           gridDelegate:
                               const SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 200,
-                            childAspectRatio: 2 / 2,
+                            childAspectRatio: 2 / 2.8,
                             mainAxisExtent: 250,
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 10,
@@ -112,136 +114,5 @@ class _ProductListingState extends State<ProductListing> {
                   ),
                 );
         });
-  }
-}
-
-class ProductCard extends StatefulWidget {
-  const ProductCard({
-    Key? key,
-    required this.data,
-    required this.formattedPrice,
-    required this.numberFormat,
-  }) : super(key: key);
-
-  final QueryDocumentSnapshot<Object?> data;
-  final String formattedPrice;
-  final NumberFormat numberFormat;
-
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-  FirebaseUser firebaseUser = FirebaseUser();
-  String address = '';
-  DocumentSnapshot? sellerDetails;
-  @override
-  void initState() {
-    firebaseUser.getSellerData(widget.data['seller_uid']).then((value) {
-      setState(() {
-        address = value['address'];
-
-        sellerDetails = value;
-      });
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var productProvider = Provider.of<ProductProvider>(context);
-    return InkWell(
-      onTap: () {
-        productProvider.setSellerDetails(sellerDetails);
-        productProvider.setProductDetails(widget.data);
-        Navigator.pushNamed(context, ProductDetail.screenId);
-      },
-      child: Card(
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                      alignment: Alignment.center,
-                      height: 120,
-                      child: Image.network(
-                        widget.data['images'][0],
-                        fit: BoxFit.cover,
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '\u{20B9} ${widget.formattedPrice}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    widget.data['title'],
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                  (widget.data['category'] == 'Cars')
-                      ? Text(
-                          '${widget.data['year']} - ${widget.numberFormat.format(int.parse(widget.data['km_driven']))} Km')
-                      : SizedBox(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_pin,
-                        size: 14,
-                      ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Flexible(
-                        child: Text(
-                          address,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Positioned(
-                right: 15,
-                bottom: 20,
-                child: LikeButton(
-                  likeBuilder: (bool isLiked) {
-                    return Icon(
-                      isLiked
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: isLiked ? secondaryColor : blackColor,
-                      size: 20,
-                    );
-                  },
-                  likeCount: 0,
-                  countBuilder: (int? count, bool isLiked, String text) {
-                    Widget result;
-                    result = Text('');
-                    return result;
-                  },
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

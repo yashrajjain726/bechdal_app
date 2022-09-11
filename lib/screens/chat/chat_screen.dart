@@ -42,13 +42,13 @@ class _ChatScreenState extends State<ChatScreen> {
               labelColor: blackColor,
               indicatorColor: secondaryColor,
               tabs: [
-                Tab(
+                const Tab(
                   text: 'All',
                 ),
-                Tab(
+                const Tab(
                   text: 'Buying',
                 ),
-                Tab(
+                const Tab(
                   text: 'Selling',
                 )
               ]),
@@ -63,20 +63,20 @@ class _ChatScreenState extends State<ChatScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
-                      return Center(child: const Text('Error loading chats..'));
+                      return const Center(child: Text('Error loading chats..'));
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: CircularProgressIndicator(color: secondaryColor),
                       );
                     }
-                    if (snapshot.data!.docs.length == 0)
+                    if (snapshot.data!.docs.length == 0) {
                       return Center(
                           child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Ahhh! Start Selling/Buying...'),
-                          SizedBox(
+                          const Text('Ahhh! Start Selling/Buying...'),
+                          const SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
@@ -87,11 +87,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                   .pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (c) =>
-                                              MainNavigationScreen()),
+                                              const MainNavigationScreen()),
                                       (route) => false),
-                              child: Text('Recommended Products'))
+                              child: const Text('Recommended Products'))
                         ],
                       ));
+                    }
                     return ListView(
                       children:
                           snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -112,20 +113,21 @@ class _ChatScreenState extends State<ChatScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
-                      return Center(child: const Text('Error loading chats..'));
+                      return const Center(child: Text('Error loading chats..'));
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: CircularProgressIndicator(color: secondaryColor),
                       );
                     }
-                    if (snapshot.data!.docs.length == 0)
+                    if (snapshot.data!.docs.length == 0) {
                       return Center(
                           child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Wanna buy great products, here are some...'),
-                          SizedBox(
+                          const Text(
+                              'Wanna buy great products, here are some...'),
+                          const SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
@@ -136,11 +138,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                   .pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (c) =>
-                                              MainNavigationScreen()),
+                                              const MainNavigationScreen()),
                                       (route) => false),
-                              child: Text('See Latest Products'))
+                              child: const Text('See Latest Products'))
                         ],
                       ));
+                    }
                     return ListView(
                       children:
                           snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -161,20 +164,20 @@ class _ChatScreenState extends State<ChatScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
-                      return Center(child: const Text('Error loading chats..'));
+                      return const Center(child: Text('Error loading chats..'));
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: CircularProgressIndicator(color: secondaryColor),
                       );
                     }
-                    if (snapshot.data!.docs.length == 0)
+                    if (snapshot.data!.docs.length == 0) {
                       return Center(
                           child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('No chats yet ? Start Now !'),
-                          SizedBox(
+                          const Text('No chats yet ? Start Now !'),
+                          const SizedBox(
                             height: 10,
                           ),
                           ElevatedButton(
@@ -184,12 +187,14 @@ class _ChatScreenState extends State<ChatScreen> {
                               onPressed: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (builder) => CategoryListScreen(
+                                      builder: (builder) =>
+                                          const CategoryListScreen(
                                             isForForm: true,
                                           ))),
-                              child: Text('Add Products'))
+                              child: const Text('Add Products'))
                         ],
                       ));
+                    }
                     return ListView(
                       children:
                           snapshot.data!.docs.map((DocumentSnapshot document) {

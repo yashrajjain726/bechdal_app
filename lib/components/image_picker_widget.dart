@@ -57,12 +57,15 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            CircularProgressIndicator(),
-                            SizedBox(
+                          children: [
+                            CircularProgressIndicator(
+                              color: secondaryColor,
+                            ),
+                            const SizedBox(
                               height: 15,
                             ),
-                            Text('Uploading your image to the database ...')
+                            const Text(
+                                'Uploading your image to the database ...')
                           ],
                         )
                       : Image.file(_image!),

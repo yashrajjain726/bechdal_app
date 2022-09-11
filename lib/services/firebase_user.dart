@@ -71,4 +71,21 @@ class FirebaseUser {
   deleteChat({String? chatroomId}) async {
     return authService.messages.doc(chatroomId).delete();
   }
+
+  updateFavourite(
+      {required BuildContext context,
+      required bool isLiked,
+      required String productId}) {
+    if (isLiked) {
+      authService.products.doc(productId).update({
+        'favourites': FieldValue.arrayUnion([user!.uid])
+      });
+      customSnackBar(context: context, content: 'Added to favourites');
+    } else {
+      authService.products.doc(productId).update({
+        'favourites': FieldValue.arrayRemove([user!.uid])
+      });
+      customSnackBar(context: context, content: 'Removed from favourites');
+    }
+  }
 }

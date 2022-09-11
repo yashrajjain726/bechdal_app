@@ -137,7 +137,8 @@ class _CommonFormState extends State<CommonForm> {
               'images': categoryProvider.imageUploadedUrls.isEmpty
                   ? ''
                   : categoryProvider.imageUploadedUrls,
-              'posted_at': DateTime.now().microsecondsSinceEpoch
+              'posted_at': DateTime.now().microsecondsSinceEpoch,
+              'favourites': [],
             });
             if (categoryProvider.imageUploadedUrls.isNotEmpty) {
               Navigator.pushNamed(context, UserFormReview.screenId);

@@ -15,7 +15,7 @@ import 'package:bechdal_app/screens/home_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/screens/post/my_post_screen.dart';
-import 'package:bechdal_app/screens/product_details_screen.dart';
+import 'package:bechdal_app/screens/product/product_details_screen.dart';
 import 'package:bechdal_app/screens/profile_screen.dart';
 import 'package:bechdal_app/screens/splash_screen.dart';
 import 'package:bechdal_app/screens/welcome_screen.dart';

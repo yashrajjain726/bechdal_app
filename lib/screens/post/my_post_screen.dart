@@ -1,6 +1,7 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/components/product_listing_widget.dart';
 import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/screens/product/product_card.dart';
 import 'package:bechdal_app/services/auth_service.dart';
 import 'package:bechdal_app/services/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -72,46 +73,102 @@ bodyWidget(
               ),
             );
           }
-
-          return (snapshot.data!.size > 0)
-              ? Container(
-                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: GridView.builder(
-                            scrollDirection: Axis.vertical,
-                            gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200,
-                              childAspectRatio: 2 / 2,
-                              mainAxisExtent: 250,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 10,
-                            ),
-                            itemCount: snapshot.data!.size,
-                            itemBuilder: (BuildContext context, int index) {
-                              var data = snapshot.data!.docs[index];
-                              var price = int.parse(data['price']);
-                              String formattedPrice =
-                                  numberFormat.format(price);
-                              return ProductCard(
-                                data: data,
-                                formattedPrice: formattedPrice,
-                                numberFormat: numberFormat,
-                              );
-                            }),
+          if (snapshot.data!.docs.length == 0) {
+            return Container(
+              height: MediaQuery.of(context).size.height - 50,
+              child: const Center(
+                child: Text('No Posts Added by you...'),
+              ),
+            );
+          }
+          return Container(
+            padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 2 / 2,
+                        mainAxisExtent: 250,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 10,
                       ),
-                    ],
-                  ),
-                )
-              : Container(
-                  child: Center(
-                      child: Text(
-                          'Please Post some Post, to see your Post Here !')),
-                );
+                      itemCount: snapshot.data!.size,
+                      itemBuilder: (BuildContext context, int index) {
+                        var data = snapshot.data!.docs[index];
+                        var price = int.parse(data['price']);
+                        String formattedPrice = numberFormat.format(price);
+                        return ProductCard(
+                          data: data,
+                          formattedPrice: formattedPrice,
+                          numberFormat: numberFormat,
+                        );
+                      }),
+                ),
+              ],
+            ),
+          );
         }),
-    Center(child: Text('My Favourites'))
+    StreamBuilder<QuerySnapshot>(
+        stream: authService.products
+            .where('favourites', arrayContains: firebaseUser.user!.uid)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(child: Text('Error loading products..'));
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: secondaryColor,
+              ),
+            );
+          }
+          if (snapshot.data!.docs.length == 0) {
+            return Center(
+              child: Text(
+                'No Favourites...',
+                style: TextStyle(
+                  color: blackColor,
+                ),
+              ),
+            );
+          }
+          return Container(
+            padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 2 / 2,
+                        mainAxisExtent: 250,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemCount: snapshot.data!.size,
+                      itemBuilder: (BuildContext context, int index) {
+                        var data = snapshot.data!.docs[index];
+                        var price = int.parse(data['price']);
+                        String formattedPrice = numberFormat.format(price);
+                        return ProductCard(
+                          data: data,
+                          formattedPrice: formattedPrice,
+                          numberFormat: numberFormat,
+                        );
+                      }),
+                ),
+              ],
+            ),
+          );
+        }),
   ]);
 }

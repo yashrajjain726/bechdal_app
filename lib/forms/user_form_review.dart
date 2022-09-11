@@ -270,7 +270,10 @@ class _UserFormReviewState extends State<UserFormReview> {
             return Text('Document does not ecist');
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: secondaryColor,
+            ));
           }
           _nameController.text = snapshot.data!['name'] ?? '';
           _phoneNumberController.text =

@@ -47,7 +47,7 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(
-                color: blackColor,
+                color: secondaryColor,
               ),
             );
           }
