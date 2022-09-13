@@ -1,13 +1,13 @@
 import 'dart:ui';
 
-import 'package:bechdal_app/components/category_widget.dart';
+import 'package:bechdal_app/screens/category/category_widget.dart';
 import 'package:bechdal_app/components/main_appbar_with_search.dart';
 import 'package:bechdal_app/components/product_listing_widget.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions/functions.permission.dart';
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/constants/colors.dart';
+import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
+import 'package:bechdal_app/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
