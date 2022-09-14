@@ -1,4 +1,3 @@
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/forms/common_form.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/screens/category/product_by_category_screen.dart';
@@ -26,8 +25,12 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
     var categoryProvider = Provider.of<CategoryProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(color: blackColor),
+        backgroundColor: whiteColor,
         title: Text(
           widget.doc!['category_name'] ?? '',
+          style: TextStyle(color: blackColor),
         ),
       ),
       body: _body(widget.doc, categoryProvider, widget.isForForm),

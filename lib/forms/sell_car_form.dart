@@ -1,5 +1,4 @@
 import 'package:bechdal_app/components/bottom_nav_widget.dart';
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/forms/user_form_review.dart';
@@ -132,12 +131,17 @@ class _SellCarFormState extends State<SellCarForm> {
   @override
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
-    return CommonPageWidget(
-      text: 'Add Car Details',
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: whiteColor,
+          elevation: 0,
+          iconTheme: IconThemeData(color: blackColor),
+          title: Text(
+            'Add Car Details',
+            style: TextStyle(color: blackColor),
+          )),
       body: sellCarFormWidget(categoryProvider),
-      containsAppbar: true,
-      centerTitle: false,
-      bottomNavigation: BottomNavigationWidget(
+      bottomNavigationBar: BottomNavigationWidget(
         buttonText: 'Next',
         validator: true,
         onPressed: () async {

@@ -1,4 +1,3 @@
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/screens/auth/login_screen.dart';

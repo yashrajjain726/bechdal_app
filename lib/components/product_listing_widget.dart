@@ -56,10 +56,10 @@ class _ProductListingState extends State<ProductListing> {
               ),
             );
           }
-          return (snapshot.data!.docs.length == 0)
-              ? Container(
+          return (snapshot.data!.docs.isEmpty)
+              ? SizedBox(
                   height: MediaQuery.of(context).size.height - 50,
-                  child: Center(
+                  child: const Center(
                     child: Text('No Products Found.'),
                   ),
                 )
@@ -81,14 +81,14 @@ class _ProductListingState extends State<ProductListing> {
                                       color: blackColor,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                 ],
                               ),
                             ),
                       GridView.builder(
-                          physics: ScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           gridDelegate:

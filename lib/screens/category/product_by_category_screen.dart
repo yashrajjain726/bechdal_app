@@ -27,11 +27,9 @@ class ProductByCategory extends StatelessWidget {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-            child: Container(
-          child: ProductListing(
-            isProductByCategory: true,
-          ),
+        body: const SingleChildScrollView(
+            child: ProductListing(
+          isProductByCategory: true,
         )));
   }
 }

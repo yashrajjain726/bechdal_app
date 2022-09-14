@@ -1,5 +1,6 @@
+// ignore_for_file: void_checks
+
 import 'package:bechdal_app/components/bottom_nav_widget.dart';
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/components/image_picker_widget.dart';
 import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/constants/validators.dart';
@@ -7,6 +8,7 @@ import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/forms/user_form_review.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/services/user.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryimage/galleryimage.dart';
 import 'package:provider/provider.dart';
@@ -109,12 +111,17 @@ class _CommonFormState extends State<CommonForm> {
   @override
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
-    return CommonPageWidget(
-      text: '${categoryProvider.selectedCategory} Details',
+    return Scaffold(
+      appBar: AppBar(
+          elevation: 0,
+          iconTheme: IconThemeData(color: blackColor),
+          backgroundColor: whiteColor,
+          title: Text(
+            '${categoryProvider.selectedCategory} Details',
+            style: TextStyle(color: blackColor),
+          )),
       body: formBodyWidget(context, categoryProvider),
-      containsAppbar: true,
-      centerTitle: false,
-      bottomNavigation: BottomNavigationWidget(
+      bottomNavigationBar: BottomNavigationWidget(
         buttonText: 'Next',
         validator: true,
         onPressed: () async {
@@ -332,6 +339,7 @@ class _CommonFormState extends State<CommonForm> {
                         children: [
                           InkWell(
                             onTap: () {
+                              // ignore: void_checks
                               return commonBottomsheet(
                                   context, bedroomList, _bedroomController);
                             },
@@ -367,11 +375,12 @@ class _CommonFormState extends State<CommonForm> {
                                   contentPadding: const EdgeInsets.all(15),
                                 )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           InkWell(
                             onTap: () {
+                              // ignore: void_checks
                               return commonBottomsheet(
                                   context, bathroomList, _bathroomController);
                             },
@@ -407,7 +416,7 @@ class _CommonFormState extends State<CommonForm> {
                                   contentPadding: const EdgeInsets.all(15),
                                 )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           InkWell(
@@ -447,7 +456,7 @@ class _CommonFormState extends State<CommonForm> {
                                   contentPadding: const EdgeInsets.all(15),
                                 )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           InkWell(
@@ -487,7 +496,7 @@ class _CommonFormState extends State<CommonForm> {
                                   contentPadding: const EdgeInsets.all(15),
                                 )),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           TextFormField(
                               controller: _sqftController,
                               focusNode: _sqftNode,
@@ -509,7 +518,7 @@ class _CommonFormState extends State<CommonForm> {
                                     borderSide:
                                         BorderSide(color: disabledColor)),
                               )),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
@@ -619,7 +628,9 @@ class _CommonFormState extends State<CommonForm> {
                 ),
                 InkWell(
                   onTap: () async {
-                    print(categoryProvider.imageUploadedUrls.length);
+                    if (kDebugMode) {
+                      print(categoryProvider.imageUploadedUrls.length);
+                    }
                     return openBottomSheet(
                         context: context, child: const ImagePickerWidget());
                   },

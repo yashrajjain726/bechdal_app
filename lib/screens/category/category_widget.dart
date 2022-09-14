@@ -36,12 +36,12 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             return Container();
           }
 
-          return Container(
+          return SizedBox(
               height: 120,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   InkWell(
@@ -50,9 +50,9 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Categories',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Row(
                           children: [
@@ -74,7 +74,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Expanded(
@@ -102,7 +102,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                             },
                             child: Container(
                               padding: const EdgeInsets.all(0),
-                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              margin: const EdgeInsets.symmetric(horizontal: 5),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,

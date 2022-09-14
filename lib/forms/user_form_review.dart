@@ -1,4 +1,3 @@
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/constants/validators.dart';
 import 'package:bechdal_app/constants/widgets.dart';
@@ -239,12 +238,17 @@ class _UserFormReviewState extends State<UserFormReview> {
   @override
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
-    return CommonPageWidget(
-      text: 'Review details',
+    return Scaffold(
+      appBar: AppBar(
+          elevation: 0,
+          iconTheme: IconThemeData(color: blackColor),
+          backgroundColor: whiteColor,
+          title: Text(
+            'Review details',
+            style: TextStyle(color: blackColor),
+          )),
       body: userFormReviewBody(),
-      containsAppbar: true,
-      centerTitle: false,
-      bottomNavigation: BottomNavigationWidget(
+      bottomNavigationBar: BottomNavigationWidget(
         validator: true,
         buttonText: 'Confirm',
         onPressed: () async {

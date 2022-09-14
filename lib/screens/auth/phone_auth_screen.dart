@@ -1,8 +1,8 @@
 import 'package:bechdal_app/components/bottom_nav_widget.dart';
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/services/auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
 
@@ -55,12 +55,17 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
       loadingText: 'Verifying details',
       progressIndicatorColor: blackColor,
     );
-    return CommonPageWidget(
-      text: widget.isFromLogin ? 'Login' : 'Signup',
-      body: loginViaPhoneWidget(context),
-      containsAppbar: true,
-      centerTitle: true,
-      bottomNavigation: BottomNavigationWidget(
+    return Scaffold(
+      appBar: AppBar(
+          elevation: 0,
+          backgroundColor: whiteColor,
+          iconTheme: IconThemeData(color: blackColor),
+          title: Text(
+            widget.isFromLogin ? 'Login' : 'Signup',
+            style: TextStyle(color: blackColor),
+          )),
+      body: _body(context),
+      bottomNavigationBar: BottomNavigationWidget(
         validator: validate,
         buttonText: 'Next',
         progressDialog: progressDialog,
@@ -73,11 +78,13 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
     String number =
         '${_countryCodeController.text}${_phoneNumberController.text}';
 
-    print(number);
+    if (kDebugMode) {
+      print(number);
+    }
     authService.verifyPhoneNumber(context, number);
   }
 
-  Widget loginViaPhoneWidget(BuildContext context) {
+  Widget _body(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(

@@ -43,7 +43,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
           : _provider.imageUploadedUrls.isNotEmpty
               ? 320
               : 320,
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       width: double.infinity,
       child: Column(
         children: [
@@ -94,20 +94,20 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                             onPressed: getImage,
                             style: ButtonStyle(
                                 padding: MaterialStateProperty.all(
-                                    EdgeInsets.symmetric(
+                                    const EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 20)),
                                 backgroundColor:
                                     MaterialStateProperty.all(secondaryColor)),
                             child: const Text('Select Image')),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       )
                     ],
                   ),
                 )
               : (isUploading)
-                  ? SizedBox()
+                  ? const SizedBox()
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -129,13 +129,13 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                               },
                               style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
-                                      EdgeInsets.symmetric(
+                                      const EdgeInsets.symmetric(
                                           vertical: 20, horizontal: 20)),
                                   backgroundColor:
                                       MaterialStateProperty.all(blackColor)),
                               child: const Text('Upload Image')),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Expanded(
@@ -147,7 +147,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                                 },
                                 style: ButtonStyle(
                                     padding: MaterialStateProperty.all(
-                                        EdgeInsets.symmetric(
+                                        const EdgeInsets.symmetric(
                                             vertical: 20, horizontal: 20)),
                                     backgroundColor:
                                         MaterialStateProperty.all(blackColor)),

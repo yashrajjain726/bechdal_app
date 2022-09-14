@@ -87,12 +87,12 @@ class _MainAppBarWithSearchState extends State<MainAppBarWithSearch> {
                         provider: provider);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       color: disabledColor.withOpacity(0.3),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.search,
                     ),
                   ),

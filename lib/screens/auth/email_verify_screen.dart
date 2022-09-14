@@ -1,4 +1,3 @@
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/components/custom_icon_button.dart';
 import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/constants/widgets.dart';
@@ -25,11 +24,9 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonPageWidget(
-      text: '',
-      body: otpBodyWidget(context),
-      containsAppbar: false,
-      centerTitle: true,
+    return Scaffold(
+      appBar: null,
+      body: _body(context),
     );
   }
 
@@ -39,7 +36,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
     }
   }
 
-  Widget otpBodyWidget(BuildContext context) {
+  Widget _body(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

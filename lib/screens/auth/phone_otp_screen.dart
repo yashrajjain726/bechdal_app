@@ -1,9 +1,8 @@
 import 'package:bechdal_app/components/bottom_nav_widget.dart';
-import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/constants/colors.dart';
-import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/services/auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -28,12 +27,17 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CommonPageWidget(
-      text: 'Verify Otp',
-      body: otpBodyWidget(context),
-      containsAppbar: true,
-      centerTitle: true,
-      bottomNavigation: BottomNavigationWidget(
+    return Scaffold(
+      appBar: AppBar(
+          iconTheme: IconThemeData(color: blackColor),
+          backgroundColor: whiteColor,
+          elevation: 0,
+          title: Text(
+            'Verify Otp',
+            style: TextStyle(color: blackColor),
+          )),
+      body: _body(context),
+      bottomNavigationBar: BottomNavigationWidget(
         buttonText: 'Next',
         onPressed: validateOTP,
         validator: isPinEntered,
@@ -42,12 +46,14 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
   }
 
   Future<void> validateOTP() async {
-    print('sms code is : $smsCode');
+    if (kDebugMode) {
+      print('sms code is : $smsCode');
+    }
     await authService.signInwithPhoneNumber(
         widget.verificationIdFinal, smsCode, context);
   }
 
-  Widget otpBodyWidget(BuildContext context) {
+  Widget _body(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
