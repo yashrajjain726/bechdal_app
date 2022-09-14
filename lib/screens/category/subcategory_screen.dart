@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/colors.constants.dart';
+import '../../constants/colors.dart';
 
 class SubCategoryScreen extends StatefulWidget {
   final DocumentSnapshot? doc;
@@ -24,17 +24,17 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
-
-    return CommonPageWidget(
-        text: widget.doc!['category_name'] ?? '',
-        body: subCategoryBodyWidget(
-            widget.doc, categoryProvider, widget.isForForm),
-        containsAppbar: true,
-        centerTitle: false);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          widget.doc!['category_name'] ?? '',
+        ),
+      ),
+      body: _body(widget.doc, categoryProvider, widget.isForForm),
+    );
   }
 
-  subCategoryBodyWidget(
-      args, CategoryProvider categoryProvider, bool? isForForm) {
+  _body(args, CategoryProvider categoryProvider, bool? isForForm) {
     Auth authService = Auth();
     return FutureBuilder<DocumentSnapshot>(
         future: authService.categories.doc(args.id).get(),

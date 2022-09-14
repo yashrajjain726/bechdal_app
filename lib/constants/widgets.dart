@@ -1,4 +1,4 @@
-import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/models/popup_menu_model.dart';
 import 'package:bechdal_app/services/user.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';

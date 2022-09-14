@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/screens/auth/email_verify_screen.dart';
 import 'package:bechdal_app/screens/auth/phone_otp_screen.dart';
 import 'package:bechdal_app/screens/location_screen.dart';

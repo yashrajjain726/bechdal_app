@@ -1,8 +1,8 @@
 import 'package:bechdal_app/components/custom_icon_button.dart';
 import 'package:bechdal_app/components/large_heading_widget.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions/functions.validation.dart';
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/constants/colors.dart';
+import 'package:bechdal_app/constants/validators.dart';
+import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/screens/auth/phone_auth_screen.dart';
 import 'package:bechdal_app/screens/auth/reset_password_screen.dart';
 import 'package:bechdal_app/screens/auth/register_screen.dart';

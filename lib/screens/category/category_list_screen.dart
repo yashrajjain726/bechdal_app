@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/colors.constants.dart';
+import '../../constants/colors.dart';
 import '../../services/auth.dart';
 
 class CategoryListScreen extends StatelessWidget {
@@ -19,15 +19,15 @@ class CategoryListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var categoryProvider = Provider.of<CategoryProvider>(context);
-    return CommonPageWidget(
-      text: isForForm == true ? 'Select Category' : 'Categories',
-      body: categoryListWidget(categoryProvider),
-      containsAppbar: true,
-      centerTitle: false,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(isForForm == true ? 'Select Category' : 'Categories'),
+      ),
+      body: _body(categoryProvider),
     );
   }
 
-  categoryListWidget(categoryProvider) {
+  _body(categoryProvider) {
     Auth authService = Auth();
 
     return FutureBuilder<QuerySnapshot>(

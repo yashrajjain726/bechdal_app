@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/functions/functions.widgets.dart';
+import '../constants/widgets.dart';
 
 class UserService {
   Auth authService = Auth();

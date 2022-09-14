@@ -1,7 +1,7 @@
 import 'package:bechdal_app/components/common_page_widget.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions/functions.validation.dart';
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/constants/colors.dart';
+import 'package:bechdal_app/constants/validators.dart';
+import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/screens/location_screen.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
 import 'package:bechdal_app/services/auth.dart';

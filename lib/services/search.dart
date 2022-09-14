@@ -1,6 +1,6 @@
 import 'package:bechdal_app/components/product_listing_widget.dart';
 import 'package:bechdal_app/components/search_card.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/models/product_model.dart';
 import 'package:bechdal_app/provider/product_provider.dart';
 import 'package:bechdal_app/screens/product/product_details_screen.dart';

@@ -1,9 +1,9 @@
 import 'package:bechdal_app/components/large_heading_widget.dart';
 import 'package:bechdal_app/screens/main_navigatiion_screen.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions/functions.permission.dart';
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/constants/colors.dart';
+import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/services/user.dart';
+import 'package:bechdal_app/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/foundation.dart';

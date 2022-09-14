@@ -1,5 +1,5 @@
 import 'package:bechdal_app/components/common_app_bar.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class CommonPageWidget extends StatelessWidget {

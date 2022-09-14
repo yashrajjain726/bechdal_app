@@ -1,5 +1,5 @@
-import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions/functions.validation.dart';
+import 'package:bechdal_app/constants/colors.dart';
+import 'package:bechdal_app/constants/validators.dart';
 import 'package:bechdal_app/services/auth.dart';
 import 'package:bechdal_app/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legacy_progress_dialog/legacy_progress_dialog.dart';
 
-import '../constants/colors.constants.dart';
+import '../constants/colors.dart';
 
 class BottomNavigationWidget extends StatelessWidget {
   final bool validator;

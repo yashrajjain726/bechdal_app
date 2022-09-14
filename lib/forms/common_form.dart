@@ -1,9 +1,9 @@
 import 'package:bechdal_app/components/bottom_nav_widget.dart';
 import 'package:bechdal_app/components/common_page_widget.dart';
 import 'package:bechdal_app/components/image_picker_widget.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions/functions.validation.dart';
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/constants/colors.dart';
+import 'package:bechdal_app/constants/validators.dart';
+import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/forms/user_form_review.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/services/user.dart';

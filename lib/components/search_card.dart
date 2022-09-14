@@ -1,4 +1,4 @@
-import 'package:bechdal_app/constants/functions/functions.validation.dart';
+import 'package:bechdal_app/constants/validators.dart';
 import 'package:bechdal_app/models/product_model.dart';
 import 'package:flutter/material.dart';
 

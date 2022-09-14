@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:bechdal_app/utils.dart';
 import 'package:flutter/cupertino.dart';

@@ -1,5 +1,5 @@
-import 'package:bechdal_app/constants/colors.constants.dart';
-import 'package:bechdal_app/constants/functions/functions.widgets.dart';
+import 'package:bechdal_app/constants/colors.dart';
+import 'package:bechdal_app/constants/widgets.dart';
 import 'package:bechdal_app/models/popup_menu_model.dart';
 import 'package:bechdal_app/screens/chat/user_chat_screen.dart';
 import 'package:bechdal_app/services/auth.dart';

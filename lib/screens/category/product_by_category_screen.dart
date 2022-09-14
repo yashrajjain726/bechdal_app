@@ -1,5 +1,5 @@
 import 'package:bechdal_app/components/product_listing_widget.dart';
-import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/provider/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

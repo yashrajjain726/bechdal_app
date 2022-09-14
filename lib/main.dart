@@ -1,4 +1,4 @@
-import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/colors.dart';
 import 'package:bechdal_app/forms/common_form.dart';
 import 'package:bechdal_app/forms/sell_car_form.dart';
 import 'package:bechdal_app/forms/user_form_review.dart';

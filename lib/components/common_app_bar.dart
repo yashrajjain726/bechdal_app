@@ -1,4 +1,4 @@
-import 'package:bechdal_app/constants/colors.constants.dart';
+import 'package:bechdal_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class CommonAppBar extends StatelessWidget {
