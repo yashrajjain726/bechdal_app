@@ -43,7 +43,7 @@ dependencies:
   firebase_auth: ^3.7.0
   cloud_firestore: ^3.4.6
   firebase_storage: ^10.3.7
-  firebase_app_check: ^0.0.7
+  firebase_app_check: ^0.0.8
   firebase_performance: ^0.8.2+4
   # OTP Field Design
   otp_text_field: ^1.1.3
