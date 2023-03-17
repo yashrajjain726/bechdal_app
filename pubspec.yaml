@@ -40,7 +40,7 @@ dependencies:
 
   # Firebase
   firebase_core: ^1.21.1
-  firebase_auth: ^3.7.0
+  firebase_auth: ^4.0.0
   cloud_firestore: ^3.4.6
   firebase_storage: ^10.3.7
   firebase_app_check: ^0.0.8
